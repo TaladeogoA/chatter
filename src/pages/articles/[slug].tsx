@@ -4,33 +4,28 @@ import Image from "next/image";
 import HeroImg from "@/assets/images/laptops-hero.jpg";
 import { AiOutlineTwitter } from "react-icons/ai";
 import { BiLogoFacebookCircle, BiSolidShareAlt } from "react-icons/bi";
-import { ChatterContext } from "@/context/ChatterContext";
-import React, { useContext, useEffect, useState } from "react";
 import { Article } from "@/types";
-import { timestampToDaysSince } from "@/utils/dateUtils";
-import ReactHtmlParser from "react-html-parser";
+import { daysSinceDate } from "@/utils/dateUtils";
 import Navbar from "@/components/navbar/Navbar";
-import ReactMarkdown from "react-markdown";
+import { useGetIndividualPost } from "@/services/posts";
+import { buildImageUrl } from "@/services/sanityImageBuilder";
+import { PortableText } from "@portabletext/react";
 
 const SingleArticle = () => {
   const router = useRouter();
-  const { id } = router.query;
-  const { articles } = useContext(ChatterContext);
-  const [article, setArticle] = useState<Article | null>(null);
+  const { slug } = router.query;
+  const { data, error, isLoading } = useGetIndividualPost(slug as string);
+  console.log(data);
 
-  useEffect(() => {
-    if (!articles) return;
-
-    const selectedArticle = articles.find((article) => article.id === id);
-    setArticle(selectedArticle || null);
-  }, [articles, id]);
-
-  if (!article) {
+  if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  const { title, bannerImage, author, category, postedOn, body } = article;
-  const bodyLines = body?.replace(/\\n/g, "\n").split("\n");
+  const postData: Article | null = data;
+  if (!postData || error) {
+    return <p>Post not found</p>;
+  }
+  const { title, body, author, category, image, _createdAt } = postData;
 
   return (
     <Box>
@@ -42,7 +37,7 @@ const SingleArticle = () => {
 
         <Box h="70vh" mx="auto">
           <Image
-            src={bannerImage || HeroImg}
+            src={buildImageUrl(image).url() || HeroImg}
             alt="hero"
             width={100}
             height={100}
@@ -58,10 +53,10 @@ const SingleArticle = () => {
         <Flex mt="1rem" justifyContent="space-between">
           <Flex gap="1rem">
             <Text fontSize="sm" fontWeight="light">
-              Published by {author}
+              Published by {author?.name}
             </Text>
             <Text fontSize="sm" fontWeight="light">
-              {timestampToDaysSince(postedOn)} days ago | {category}
+              {daysSinceDate(_createdAt)} | {category?.title}
             </Text>
           </Flex>
 
@@ -72,11 +67,7 @@ const SingleArticle = () => {
           </Flex>
         </Flex>
 
-        <Box mt="1rem" className="article-body">
-          {bodyLines.map((line, index) => (
-            <ReactMarkdown key={index}>{line}</ReactMarkdown>
-          ))}
-        </Box>
+        <PortableText value={body} />
       </Box>
     </Box>
   );

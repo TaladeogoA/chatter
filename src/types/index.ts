@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import type { ReactNode } from "react";
 import { User as FirebaseAuthUser } from "firebase/auth";
-import { ImageAsset, Slug } from "@sanity/types";
+import { ImageAsset, Slug, TypedObject } from "@sanity/types";
 
 type Children = {
   children: ReactNode;
@@ -42,6 +42,22 @@ interface Article {
   category: {
     title: string;
   };
+  body: TypedObject | TypedObject[];
+  _createdAt: string;
+}
+
+interface CategoryContentProps {
+  _id: string;
+  slug: Slug;
+  title: string;
+  category: {
+    title: string;
+    description: string;
+  };
+  author: {
+    name: string;
+  };
+  _createdAt: string;
 }
 
 interface ChatterContextProps {
@@ -76,6 +92,7 @@ export type {
   Children,
   User,
   Article,
+  CategoryContentProps,
   ChatterContextProps,
   Category,
   AuthContextType,

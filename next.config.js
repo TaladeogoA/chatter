@@ -7,6 +7,10 @@ module.exports = {
     includePaths: ["styles"],
   },
   images: {
-    domains: ["images.unsplash.com", "lh3.googleusercontent.com"],
+    domains: [
+      "images.unsplash.com",
+      "lh3.googleusercontent.com",
+      "cdn.sanity.io",
+    ],
   },
 };

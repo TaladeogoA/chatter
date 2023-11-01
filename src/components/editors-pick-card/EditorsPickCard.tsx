@@ -43,13 +43,13 @@ const EditorsPickCard: React.FC<EditorsPickCardProps> = ({ article }) => {
                   </Text>
                 </Link>
                 <>&#8226;</>
-                <Text whiteSpace="nowrap" ml=".5rem">
+                <Text whiteSpace="nowrap" mx=".5rem">
                   6 mins read
                 </Text>
                 <>&#8226;</>
 
                 <Link href={`/categories/`}>
-                  <Text whiteSpace="nowrap" mr=".5rem">
+                  <Text whiteSpace="nowrap" mx=".5rem">
                     {category?.title}
                   </Text>
                 </Link>

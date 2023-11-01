@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from "date-fns";
 import { Timestamp } from "firebase/firestore";
 
 export const formatPostedOn = (postedOn: Timestamp) => {
@@ -17,3 +18,8 @@ export const timestampToDaysSince = (timestamp: Timestamp): number => {
   const daysSince = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
   return Math.abs(daysSince);
 };
+
+export function daysSinceDate(dateString: string) {
+  const date = new Date(dateString);
+  return formatDistanceToNow(date, { addSuffix: true });
+}

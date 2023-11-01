@@ -11,7 +11,6 @@ import { useGetEditorsPicks } from "@/services/posts";
 const EditorsPick = () => {
   const splideRef = useRef(null);
   const { data, error, isLoading } = useGetEditorsPicks();
-  console.log(data);
 
   const nextSlide = () => {
     if (splideRef.current) {
@@ -27,7 +26,9 @@ const EditorsPick = () => {
     }
   };
 
-  if (!data) return <PropagateLoader color="#000" />;
+  if (isLoading) return <PropagateLoader color="#000" />;
+
+  if (error) return <div>failed to load</div>;
 
   return (
     <Box mx="6rem" my="4rem">
@@ -39,6 +40,7 @@ const EditorsPick = () => {
           mt="2rem"
           mb="1rem"
           className="toledo"
+          color="black"
         >
           Editor&apos;s Pick
         </Text>
