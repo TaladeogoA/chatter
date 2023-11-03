@@ -34,14 +34,17 @@ const Banner = () => {
         </Heading>
 
         <Flex gap="1rem" pr="2rem" mt="3rem">
-          <Input placeholder="Search for articles" borderRadius="full" />
-          <Button
-            borderRadius="full"
-            px="2rem"
-            bgColor="black"
-            color="white"
-            className="toledo"
-          >
+          <Input
+            placeholder="Search for articles"
+            border="none"
+            borderBottom="1px solid black"
+            borderRadius="none"
+            focusBorderColor="none"
+            _hover={{
+              borderBottom: "1px solid black",
+            }}
+          />
+          <Button px="2rem" bgColor="black" color="white" className="toledo">
             Search
           </Button>
         </Flex>

@@ -12,15 +12,16 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import ChatterLogo from "@/assets/icons/ChatterLogoBlack";
-import React, { useContext } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { AuthContext } from "@/context/AuthContext";
-import LoginPopup from "../login-popup/LoginPopup";
+import AuthPopup from "../auth-popup/AuthPopup";
 import { CiEdit } from "react-icons/ci";
 import { GoChevronDown } from "react-icons/go";
 
 const Navbar = () => {
-  const { showLoginPopup, openLoginPopup, closeLoginPopup, user, signOutUser } =
+  const [isLogin, setIsLogin] = useState(false);
+  const { showAuthPopup, openAuthPopup, closeAuthPopup, user, signOutUser } =
     useContext(AuthContext);
 
   const handleSignOut = async () => {
@@ -69,7 +70,10 @@ const Navbar = () => {
           <Text fontSize="md">Start Writing</Text>
 
           <Button
-            onClick={openLoginPopup}
+            onClick={() => {
+              setIsLogin(true);
+              openAuthPopup();
+            }}
             fontSize="md"
             bg="transparent"
             fontWeight="normal"
@@ -84,7 +88,6 @@ const Navbar = () => {
           <Button
             bg="black"
             color="white"
-            borderRadius="full"
             px="1rem"
             py=".2rem"
             fontSize="md"
@@ -92,21 +95,27 @@ const Navbar = () => {
               cursor: "pointer",
             }}
             className="toledo"
+            onClick={() => {
+              setIsLogin(false);
+              openAuthPopup();
+            }}
           >
             Sign Up
           </Button>
         </Flex>
 
-        {showLoginPopup && (
-          <LoginPopup
-            isOpen={showLoginPopup}
-            onClose={closeLoginPopup}
-            isLoginClicked
+        {showAuthPopup && (
+          <AuthPopup
+            isOpen={showAuthPopup}
+            isLogin={isLogin}
+            onClose={closeAuthPopup}
+            setIsLogin={setIsLogin}
           />
         )}
       </Flex>
     );
   }
+  console.log(user);
 
   return (
     <Flex

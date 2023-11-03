@@ -4,69 +4,71 @@ import {
   User,
   UserCredential,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { auth, provider, db } from "@/utils/firebase";
+import { auth, provider } from "@/utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { createUser } from "@/services/users";
 
 interface AuthContextProps {
   children: React.ReactNode;
 }
 
 const AuthContext = createContext<AuthContextType>({
-  showLoginPopup: false,
-  openLoginPopup: () => {},
-  closeLoginPopup: () => {},
+  showAuthPopup: false,
+  openAuthPopup: () => {},
+  closeAuthPopup: () => {},
   signInWithGoogle: () => {},
+  SignUpWithEmailAndPassword: () => {},
+  SignInWithEmailAndPassword: () => {},
   signOutUser: () => {},
   user: null,
   loading: false,
 });
 
 const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showAuthPopup, setShowLoginPopup] = useState(false);
 
-  const openLoginPopup = () => {
+  // functions to be exported
+  const openAuthPopup = () => {
     setShowLoginPopup(true);
   };
 
-  const closeLoginPopup = () => {
+  const closeAuthPopup = () => {
     setShowLoginPopup(false);
   };
 
   const SignUpWithEmailAndPassword = async (
     email: string,
-    password: string,
-    displayName: string
+    password: string
   ): Promise<void> => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(res.user);
 
-      if (user) {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (!userDocSnap.exists()) {
-          await setDoc(userDocRef, {
-            displayName: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-            createdAt: new Date(),
-            uid: user.uid,
-          });
-        } else {
-          console.log("User already exists");
-        }
+      if (res) {
+        await createUser({
+          email,
+          uid: res.user.uid,
+          displayName: res.user.displayName ? res.user.displayName : undefined,
+        });
       }
     } catch (error) {
       console.error("Error signing up with email and password:", error);
+    }
+  };
+
+  const SignInWithEmailAndPassword = async (
+    email: string,
+    password: string
+  ): Promise<void> => {
+    try {
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      console.log(res);
+    } catch (error) {
+      console.error("Error signing in with email and password:", error);
     }
   };
 
@@ -96,10 +98,12 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        showLoginPopup,
-        openLoginPopup,
-        closeLoginPopup,
+        showAuthPopup,
+        openAuthPopup,
+        closeAuthPopup,
         signInWithGoogle,
+        SignUpWithEmailAndPassword,
+        SignInWithEmailAndPassword,
         signOutUser,
         user: currentUser,
         loading,

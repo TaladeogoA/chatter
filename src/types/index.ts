@@ -66,10 +66,12 @@ interface ChatterContextProps {
 }
 
 interface AuthContextType {
-  showLoginPopup: boolean;
-  openLoginPopup: () => void;
-  closeLoginPopup: () => void;
+  showAuthPopup: boolean;
+  openAuthPopup: () => void;
+  closeAuthPopup: () => void;
   signInWithGoogle: () => void;
+  SignUpWithEmailAndPassword: (email: string, password: string) => void;
+  SignInWithEmailAndPassword: (email: string, password: string) => void;
   signOutUser: () => void;
   user: FirebaseAuthUser | null;
   loading: boolean;
