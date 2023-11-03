@@ -9,14 +9,10 @@ interface ChatterProviderProps {
 
 const ChatterContext = createContext<ChatterContextProps>({
   users: [],
-  articles: [],
-  articlesLoaded: false,
 });
 
 const ChatterProvider: React.FC<ChatterProviderProps> = ({ children }) => {
   const [users, setUsers] = useState<User[]>([]);
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [articlesLoaded, setArticlesLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,25 +27,11 @@ const ChatterProvider: React.FC<ChatterProviderProps> = ({ children }) => {
       setUsers(fetchedUsers);
     };
 
-    const fetchArticles = async () => {
-      const querySnapshot = await getDocs(collection(db, "articles"));
-      const fetchedArticles = querySnapshot.docs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        } as Article;
-      });
-
-      setArticles(fetchedArticles);
-      setArticlesLoaded(true);
-    };
-
     fetchUsers();
-    fetchArticles();
   }, []);
 
   return (
-    <ChatterContext.Provider value={{ users, articles, articlesLoaded }}>
+    <ChatterContext.Provider value={{ users }}>
       {children}
     </ChatterContext.Provider>
   );

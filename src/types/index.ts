@@ -58,12 +58,11 @@ interface CategoryContentProps {
     name: string;
   };
   _createdAt: string;
+  image: ImageAsset;
 }
 
 interface ChatterContextProps {
   users: User[];
-  articles: Article[];
-  articlesLoaded: boolean;
 }
 
 interface AuthContextType {

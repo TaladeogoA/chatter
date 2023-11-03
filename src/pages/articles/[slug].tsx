@@ -10,16 +10,14 @@ import Navbar from "@/components/navbar/Navbar";
 import { useGetIndividualPost } from "@/services/posts";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { PortableText } from "@portabletext/react";
+import { PropagateLoader } from "react-spinners";
 
 const SingleArticle = () => {
   const router = useRouter();
   const { slug } = router.query;
   const { data, error, isLoading } = useGetIndividualPost(slug as string);
-  console.log(data);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  if (isLoading) return <PropagateLoader color="#000" />;
 
   const postData: Article | null = data;
   if (!postData || error) {

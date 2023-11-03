@@ -5,8 +5,6 @@ import "../styles/carousel.scss";
 import "../styles/scrollbar.scss";
 import theme from "../utils/themes";
 import { ChatterProvider } from "@/context/ChatterContext";
-import { TopArticlesProvider } from "@/context/TopArticlesContext";
-import { CategoriesProvider } from "@/context/CategoriesContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -17,13 +15,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <ChatterProvider>
-          <TopArticlesProvider>
-            <CategoriesProvider>
-              <AuthProvider>
-                <Component {...pageProps} />
-              </AuthProvider>
-            </CategoriesProvider>
-          </TopArticlesProvider>
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
         </ChatterProvider>
       </QueryClientProvider>
     </ChakraProvider>

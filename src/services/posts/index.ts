@@ -67,3 +67,18 @@ export const useGetIndividualPost = (slug: string) => {
 
   return { data, error, isLoading };
 };
+
+export const useGetTrendingPosts = () => {
+  const { data, error, isLoading } = useQuery("trending-posts", async () => {
+    const res = await client.fetch(
+      `*[_type == "post"] | order(relevanceScore desc)[0...2]{title, author->{name}, _id, _createdAt, slug, image, category->{title}}`
+    );
+    return res;
+  });
+
+  if (error) {
+    throw new Error("Failed to fetch trending posts. Please try again later.");
+  }
+
+  return { data, error, isLoading };
+};

@@ -1,11 +1,16 @@
-import { Box, Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { TrendingArticleCard } from "../trending-article-card/TrendingArticleCard";
 import { Scrollbar } from "react-scrollbars-custom";
-import React, { useContext } from "react";
-import { TopArticlesContext } from "@/context/TopArticlesContext";
+import { useGetTrendingPosts } from "@/services/posts";
+import { CategoryContentProps } from "@/types";
+import { PropagateLoader } from "react-spinners";
 
 const Banner = () => {
-  const topArticles = useContext(TopArticlesContext);
+  const { data: topArticles, isLoading, error } = useGetTrendingPosts();
+
+  if (isLoading) return <PropagateLoader color="#000" />;
+
+  if (error) return <div>failed to load</div>;
 
   return (
     <Flex
@@ -30,7 +35,13 @@ const Banner = () => {
 
         <Flex gap="1rem" pr="2rem" mt="3rem">
           <Input placeholder="Search for articles" borderRadius="full" />
-          <Button borderRadius="full" px="2rem" bgColor="black" color="white">
+          <Button
+            borderRadius="full"
+            px="2rem"
+            bgColor="black"
+            color="white"
+            className="toledo"
+          >
             Search
           </Button>
         </Flex>
@@ -55,8 +66,8 @@ const Banner = () => {
           }}
         >
           <Flex flexDir="column" h="100%" gap="2rem">
-            {topArticles?.map((article) => (
-              <TrendingArticleCard key={article.id} article={article} />
+            {topArticles?.map((article: CategoryContentProps) => (
+              <TrendingArticleCard key={article._id} article={article} />
             ))}
           </Flex>
         </Scrollbar>

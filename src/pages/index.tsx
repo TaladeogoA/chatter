@@ -4,17 +4,9 @@ import Banner from "@/components/banner/Banner";
 import Categories from "@/components/categories/Categories";
 import EditorsPick from "@/components/editors-pick/EditorsPick";
 import Footer from "@/components/footer/Footer";
-import { useContext } from "react";
-import { ChatterContext } from "@/context/ChatterContext";
 import Loader from "../../loading";
 
 const Home = () => {
-  const { articlesLoaded } = useContext(ChatterContext);
-
-  if (!articlesLoaded) {
-    return <Loader />;
-  }
-
   return (
     <>
       <Box
