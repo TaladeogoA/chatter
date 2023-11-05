@@ -47,3 +47,22 @@ export const useCategoryArticles = (categoryId: string) => {
 
   return { data, error, isLoading };
 };
+
+export const useGetSingleCategory = (categoryId: string) => {
+  const { data, error, isLoading } = useQuery(
+    ["single-category", categoryId],
+    async () => {
+      const res =
+        await client.fetch(`*[_type == "category" && _id == "${categoryId}"]{
+        title, description, _id
+      }`);
+      return res;
+    }
+  );
+
+  if (error) {
+    throw new Error("Failed to fetch category. Please try again later.");
+  }
+
+  return { data, error, isLoading };
+};

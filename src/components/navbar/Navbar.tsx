@@ -18,8 +18,15 @@ import { AuthContext } from "@/context/AuthContext";
 import AuthPopup from "../auth-popup/AuthPopup";
 import { CiEdit } from "react-icons/ci";
 import { GoChevronDown } from "react-icons/go";
+import { useRouter } from "next/router";
 
-const Navbar = () => {
+const Navbar = ({
+  setIsPublishModalOpen,
+}: {
+  setIsPublishModalOpen?: (arg0: boolean) => void;
+}) => {
+  const router = useRouter();
+  const isNewStory = router.pathname === "/new-story" ? true : false;
   const [isLogin, setIsLogin] = useState(false);
   const { showAuthPopup, openAuthPopup, closeAuthPopup, user, signOutUser } =
     useContext(AuthContext);
@@ -115,7 +122,7 @@ const Navbar = () => {
       </Flex>
     );
   }
-  console.log(user);
+  // console.log(user);
 
   return (
     <Flex
@@ -124,8 +131,8 @@ const Navbar = () => {
       py=".5rem"
       w="100%"
       justifyContent="space-between"
-      gap="2rem"
       alignItems="center"
+      gap="2rem"
       bg="transparent"
     >
       <Link href="/">
@@ -136,17 +143,33 @@ const Navbar = () => {
 
       <Input placeholder="Search" w="40%" h="2rem" />
 
-      <Flex gap="2rem">
-        <Flex
-          gap=".5rem"
-          alignItems="center"
-          _hover={{
-            cursor: "pointer",
-          }}
-        >
-          <Icon h="100%" w="1.5rem" as={CiEdit} />
-          <Text fontSize="sm">Compose</Text>
-        </Flex>
+      <Flex gap="2rem" alignItems="center">
+        {isNewStory ? (
+          <Button
+            bg="black"
+            color="white"
+            onClick={
+              setIsPublishModalOpen
+                ? () => setIsPublishModalOpen(true)
+                : undefined
+            }
+          >
+            Publish
+          </Button>
+        ) : (
+          <Link href="/new-story">
+            <Flex
+              gap=".5rem"
+              alignItems="center"
+              _hover={{
+                cursor: "pointer",
+              }}
+            >
+              <Icon h="100%" w="1.5rem" as={CiEdit} />
+              <Text fontSize="sm">Compose</Text>
+            </Flex>
+          </Link>
+        )}
 
         <Menu>
           <MenuButton
@@ -164,7 +187,7 @@ const Navbar = () => {
           >
             <Avatar
               name={user?.displayName || ""}
-              src={user?.photoURL || "/images/user.png"}
+              src={user?.photoURL || ""}
               size="sm"
             />
           </MenuButton>

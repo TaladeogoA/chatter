@@ -44,7 +44,7 @@ const Banner = () => {
               borderBottom: "1px solid black",
             }}
           />
-          <Button px="2rem" bgColor="black" color="white" className="toledo">
+          <Button px="2rem" bgColor="black" color="white">
             Search
           </Button>
         </Flex>

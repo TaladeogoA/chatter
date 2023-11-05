@@ -16,7 +16,7 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { TbChevronsLeft } from "react-icons/tb";

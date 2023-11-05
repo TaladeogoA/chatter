@@ -14,7 +14,9 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@portabletext/react": "^3.0.11",
+    "@sanity/block-tools": "^3.19.1",
     "@sanity/image-url": "^1.0.2",
+    "@sanity/schema": "^3.19.1",
     "@sanity/types": "^3.19.0",
     "@splidejs/react-splide": "^0.7.12",
     "@types/firebase": "^3.2.1",
@@ -37,7 +39,9 @@
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.10.1",
     "react-query": "^3.39.3",
+    "react-quill": "^2.0.0",
     "react-scrollbars-custom": "^4.1.1",
+    "react-select-async-paginate": "^0.7.3",
     "react-spinners": "^0.13.8",
     "typescript": "5.0.4"
   }

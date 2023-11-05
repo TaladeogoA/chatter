@@ -1,22 +1,27 @@
 import Navbar from "@/components/navbar/Navbar";
-import { CategoriesContext } from "@/context/CategoriesContext";
-import { ChatterContext } from "@/context/ChatterContext";
+import { useCategoryArticles, useGetSingleCategory } from "@/services/category";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import Loader from "../../../loading";
 
 const SingleCategory = () => {
   const router = useRouter();
   const { category } = router.query;
-  const { articles } = useContext(ChatterContext);
-  const categories = useContext(CategoriesContext);
+  const {
+    data: singleCategory,
+    isLoading: categoryLoading,
+    error: categoryError,
+  } = useGetSingleCategory(category as string);
+  const {
+    data: categoryArticles,
+    isLoading: categoryArticlesLoading,
+    error: categoryArticlesError,
+  } = useCategoryArticles(category as string);
 
-  const selectedCategory = categories?.find((cat) => cat.name === category);
-  const categoryArticles = articles.filter(
-    (article) => article.category === category
-  );
-  console.log("Category articles: ", categoryArticles);
-  console.log("Selected category: ", selectedCategory);
+  if (categoryArticlesLoading || categoryLoading) return <Loader />;
+
+  console.log(categoryArticles);
+  console.log(singleCategory);
 
   return (
     <Box>
@@ -31,12 +36,12 @@ const SingleCategory = () => {
         <Box p="2rem">
           <Box>
             <Text fontSize="4xl" className="tagline">
-              {selectedCategory?.name}.
+              {singleCategory?.[0]?.title}.
             </Text>
           </Box>
 
           <Box>
-            <Text>{selectedCategory?.description}.</Text>
+            <Text>{singleCategory?.[0]?.description}.</Text>
           </Box>
         </Box>
 
@@ -45,7 +50,6 @@ const SingleCategory = () => {
             <Text>Articles</Text>
             <Text>{categoryArticles?.length}</Text>
           </Flex>
-          
         </Box>
       </Flex>
     </Box>
