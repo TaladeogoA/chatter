@@ -3,26 +3,25 @@ import {
   Box,
   Flex,
   Image,
-  Tag,
   Text,
   Skeleton,
   Divider,
 } from "@chakra-ui/react";
-import { CategoryContentProps } from "@/types";
+import { Article } from "@/types";
 import Link from "next/link";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import { parseDate } from "@/utils/dateUtils";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 
 interface ArticleCardProps {
-  article?: CategoryContentProps;
+  article?: Article;
 }
 
 const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   if (!article) {
     return <ArticleCardSkeleton />;
   }
-  const { slug, title, author, image, category, _createdAt } = article;
+  const { slug, title, author, image, categories, _createdAt } = article;
   const imageUrl = buildImageUrl(image).url();
   const { day, month, year } = parseDate(_createdAt);
 
@@ -75,12 +74,19 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Divider my=".5rem" size="5px" borderColor="black" />
 
         <Flex gap=" .5rem" alignItems="center">
-          <Link href={`/categories/${category?.title}`}>
-            <Text fontSize="sm" whiteSpace="nowrap">
-              {category?.title}
-            </Text>
-          </Link>
-          <>&#8226;</>
+          {categories?.map((category) => (
+            <>
+              <Link
+                href={`/categories/${category?.title}`}
+                key={category.title}
+              >
+                <Text fontSize="sm" whiteSpace="nowrap">
+                  {category?.title}
+                </Text>
+              </Link>
+              <>&#8226;</>
+            </>
+          ))}
           <Text fontSize="sm" whiteSpace="nowrap">
             6 mins read
           </Text>
@@ -88,7 +94,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
 
           <Link href={`/authors/${author}`}>
             <Text fontSize="sm" whiteSpace="nowrap">
-              {author?.name}
+              {author?.displayName}
             </Text>
           </Link>
         </Flex>

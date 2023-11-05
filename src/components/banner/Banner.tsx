@@ -2,7 +2,7 @@ import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { TrendingArticleCard } from "../trending-article-card/TrendingArticleCard";
 import { Scrollbar } from "react-scrollbars-custom";
 import { useGetTrendingPosts } from "@/services/posts";
-import { CategoryContentProps } from "@/types";
+import { Article } from "@/types";
 import { PropagateLoader } from "react-spinners";
 
 const Banner = () => {
@@ -69,7 +69,7 @@ const Banner = () => {
           }}
         >
           <Flex flexDir="column" h="100%" gap="2rem">
-            {topArticles?.map((article: CategoryContentProps) => (
+            {topArticles?.map((article: Article) => (
               <TrendingArticleCard key={article._id} article={article} />
             ))}
           </Flex>

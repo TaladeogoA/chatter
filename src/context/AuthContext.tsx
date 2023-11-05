@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import type { AuthContextType } from "../types";
 import {
   User,
@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { auth, provider } from "@/utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { createUser } from "@/services/users";
+import { createUser, getUser } from "@/services/users";
 
 interface AuthContextProps {
   children: React.ReactNode;
@@ -30,6 +30,7 @@ const AuthContext = createContext<AuthContextType>({
 
 const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   const [showAuthPopup, setShowLoginPopup] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   // functions to be exported
   const openAuthPopup = () => {
@@ -46,7 +47,6 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   ): Promise<void> => {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res.user);
 
       if (res) {
         await createUser({
@@ -66,7 +66,6 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   ): Promise<void> => {
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
-      console.log(res);
     } catch (error) {
       console.error("Error signing in with email and password:", error);
     }
@@ -74,11 +73,14 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
 
   const signInWithGoogle = async (): Promise<void> => {
     try {
-      const result: UserCredential = await signInWithPopup(auth, provider);
-      const user = result.user;
-      console.log(user);
-
-      console.log("User signed in");
+      const res: UserCredential = await signInWithPopup(auth, provider);
+      if (res) {
+        await createUser({
+          email: res.user.email || "",
+          uid: res.user.uid,
+          displayName: res.user.displayName ? res.user.displayName : undefined,
+        });
+      }
     } catch (error) {
       console.error("Error signing in with Google:", error);
     }
@@ -93,7 +95,17 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   };
 
   const [user, loading] = useAuthState(auth);
-  const currentUser: User | null = user || null;
+
+  const getUserFromSanity = async (uid: string) => {
+    const res = await getUser(uid);
+    setUserData(res);
+  };
+
+  useEffect(() => {
+    if (user) {
+      getUserFromSanity(user.uid);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -105,7 +117,7 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
         SignUpWithEmailAndPassword,
         SignInWithEmailAndPassword,
         signOutUser,
-        user: currentUser,
+        user: userData,
         loading,
       }}
     >

@@ -9,138 +9,44 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  Select,
   Text,
   Textarea,
 } from "@chakra-ui/react";
 import "react-quill/dist/quill.snow.css";
-import dynamic from "next/dynamic";
-import { htmlToBlocks } from "@sanity/block-tools";
-import { Schema } from "@sanity/schema";
+// import dynamic from "next/dynamic";
+// import { htmlToBlocks } from "@sanity/block-tools";
 import { useState } from "react";
 import { useGetAllCategories } from "@/services/category";
 import { AsyncPaginate } from "react-select-async-paginate";
+import { useForm } from "react-hook-form";
+// import { formats, modules, schema } from "@/config/quillConfig";
+import React, { memo } from "react";
+import DraftailEditorComponent from "@/components/editor/index";
 
 const NewStory = () => {
-  const [isPublishModalOpen, setIsPublishModalOpen] = useState(true);
+  // const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState(null);
+  // const [htmlContent, setHtmlContent] = useState(
+  //   "React quill is very buggy so this doesn't work yet. Will fix soon."
+  // );
+  // const [blockContent, setBlockContent] = useState<any>();
   const { data: categories, isLoading } = useGetAllCategories();
-  const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      ["link", "image"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-        { align: [] },
-      ],
-      [
-        {
-          color: [
-            "#000000",
-            "#e60000",
-            "#ff9900",
-            "#ffff00",
-            "#008a00",
-            "#0066cc",
-            "#9933ff",
-            "#ffffff",
-            "#facccc",
-            "#ffebcc",
-            "#ffffcc",
-            "#cce8cc",
-            "#cce0f5",
-            "#ebd6ff",
-            "#bbbbbb",
-            "#f06666",
-            "#ffc266",
-            "#ffff66",
-            "#66b966",
-            "#66a3e0",
-            "#c285ff",
-            "#888888",
-            "#a10000",
-            "#b26b00",
-            "#b2b200",
-            "#006100",
-            "#0047b2",
-            "#6b24b2",
-            "#444444",
-            "#5c0000",
-            "#663d00",
-            "#666600",
-            "#003700",
-            "#002966",
-            "#3d1466",
-            "custom-color",
-          ],
-        },
-      ],
-    ],
-  };
 
-  const formats = [
-    "header",
-    "height",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "color",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "align",
-    "size",
-  ];
+  // const blockContentType = schema
+  //   .get("post")
+  //   .fields.find((field: any) => field.name === "body").type;
 
-  const schema = Schema.compile({
-    name: "post",
-    types: [
-      {
-        type: "object",
-        name: "post",
-        fields: [
-          {
-            title: "Title",
-            type: "string",
-            name: "title",
-          },
-          {
-            title: "Body",
-            name: "body",
-            type: "array",
-            of: [{ type: "block" }],
-          },
-        ],
-      },
-    ],
-  });
+  // const handleContentChange = (content: any) => {
+  //   setHtmlContent(content);
 
-  const blockContentType = schema
-    .get("post")
-    .fields.find((field: any) => field.name === "body").type;
-
-  const handleContentChange = (
-    content: any,
-    delta: any,
-    source: any,
-    editor: any
-  ) => {
-    console.log("content", content);
-    const blocks = htmlToBlocks(content, blockContentType);
-    console.log("blocks", blocks);
-    // console.log(editor.getHTML()); // rich text
-    // console.log(editor.getText()); // plain text
-    // console.log(editor.getLength()); // number of characters
-  };
+  //   const blocks = htmlToBlocks(content, blockContentType);
+  //   console.log("blocks", blocks);
+  //   if (blocks) {
+  //     setBlockContent(blocks);
+  //   }
+  //   console.log("blockContent", blockContent);
+  // };
 
   const categoriesOptions = async () => {
     return {
@@ -152,22 +58,31 @@ const NewStory = () => {
     };
   };
 
-  // console.log("selectedCategories", selectedCategories);
+  const formHook = useForm({
+    defaultValues: {
+      title: "",
+      summary: "",
+      categories: [],
+    },
+  });
 
   return (
     <Box>
       <Navbar setIsPublishModalOpen={setIsPublishModalOpen} />
       <Box px="16">
-        <ReactQuill
+        <DraftailEditorComponent />
+        {/* <ReactQuill
           theme="snow"
           modules={modules}
           formats={formats}
           style={{
             height: "80vh",
           }}
+          value={htmlContent}
           onChange={handleContentChange}
           placeholder="Tell your story..."
-        />
+          key="editor"
+        /> */}
       </Box>
 
       {isPublishModalOpen && (
@@ -191,6 +106,7 @@ const NewStory = () => {
                   flexDirection: "column",
                   gap: "1rem",
                 }}
+                // onSubmit={handleSubmit(submit)}
               >
                 <FormControl>
                   <FormLabel>
@@ -231,6 +147,8 @@ const NewStory = () => {
                   color="white"
                   alignSelf="flex-end"
                   w="fit-content"
+                  type="submit"
+                  isDisabled
                 >
                   Publish Now
                 </Button>
@@ -243,4 +161,4 @@ const NewStory = () => {
   );
 };
 
-export default NewStory;
+export default memo(NewStory);

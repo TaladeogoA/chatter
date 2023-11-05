@@ -39,7 +39,7 @@ const EditorsPickCard: React.FC<EditorsPickCardProps> = ({ article }) => {
               <Flex>
                 {/* <Link href={`/authors/`}> */}
                 <Text whiteSpace="nowrap" mr=".5rem">
-                  {author?.name}
+                  {author?.displayName}
                 </Text>
                 {/* </Link> */}
                 <>&#8226;</>

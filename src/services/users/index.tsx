@@ -1,3 +1,5 @@
+import { client } from "../client";
+
 export const createUser = async ({
   email,
   uid,
@@ -24,7 +26,7 @@ export const createUser = async ({
 
   const mutations = [
     {
-      createOrReplace: userObj,
+      createIfNotExists: userObj,
     },
   ];
 
@@ -40,8 +42,27 @@ export const createUser = async ({
         body: JSON.stringify({ mutations }),
       }
     );
-    console.log(res);
+    return res;
   } catch (error) {
     console.error("Error creating user:", error);
+  }
+};
+
+export const getUser = async (uid: string) => {
+  try {
+    const res = await client.fetch(`
+      *[_type == "user" && _id == "${uid}"][0] {
+        _id,
+        _createdAt,
+        email,
+        displayName,
+        displayImage,
+        bio
+      }
+    
+    `);
+    return res;
+  } catch (error) {
+    console.error("Error getting user:", error);
   }
 };

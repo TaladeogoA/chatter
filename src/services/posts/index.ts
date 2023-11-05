@@ -26,7 +26,7 @@ export const useGetEditorsPicks = () => {
     async () => {
       const res = await client.fetch(
         `*[_type == "post" && isEditorsPick == true]{
-  title, author->{name}, slug, brief, likesCount,
+  title, author->{displayName}, slug, brief, likesCount,
     sharesCount, viewCount, image, category->{title}
   }`
       );
@@ -71,7 +71,7 @@ export const useGetIndividualPost = (slug: string) => {
 export const useGetTrendingPosts = () => {
   const { data, error, isLoading } = useQuery("trending-posts", async () => {
     const res = await client.fetch(
-      `*[_type == "post"] | order(relevanceScore desc)[0...2]{title, author->{name}, _id, _createdAt, slug, image, category->{title}}`
+      `*[_type == "post"] | order(relevanceScore desc)[0...2]{title, author->{displayName}, _id, _createdAt, slug, image, categories[]->{title}}`
     );
     return res;
   });

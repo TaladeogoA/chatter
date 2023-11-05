@@ -1,7 +1,13 @@
 import { Timestamp } from "firebase/firestore";
 import type { ReactNode } from "react";
 import { User as FirebaseAuthUser } from "firebase/auth";
-import { ImageAsset, Slug, TypedObject } from "@sanity/types";
+import {
+  ImageAsset,
+  PortableTextBlock,
+  Reference,
+  Slug,
+  TypedObject,
+} from "@sanity/types";
 
 type Children = {
   children: ReactNode;
@@ -29,9 +35,10 @@ interface User {
 }
 
 interface Article {
+  _id: string;
   slug: Slug;
   author: {
-    name: string;
+    displayName: string;
   };
   brief: string;
   image: ImageAsset;
@@ -39,9 +46,12 @@ interface Article {
   sharesCount: number;
   title: string;
   viewCount: number;
-  category: {
+  category?: {
     title: string;
   };
+  categories?: {
+    title: string;
+  }[];
   body: TypedObject | TypedObject[];
   _createdAt: string;
 }
@@ -89,6 +99,14 @@ interface Category {
   description: string;
 }
 
+interface NewStoryProps {
+  title: string;
+  body: PortableTextBlock[];
+  author: Reference;
+  categories: Reference[];
+  brief: string;
+}
+
 export type {
   Children,
   User,
@@ -98,4 +116,5 @@ export type {
   Category,
   AuthContextType,
   UserContextType,
+  NewStoryProps,
 };
