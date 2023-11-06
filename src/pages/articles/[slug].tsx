@@ -24,6 +24,7 @@ const SingleArticle = () => {
     return <p>Post not found</p>;
   }
   const { title, body, author, category, image, _createdAt } = postData;
+  const imageUrl = image ? buildImageUrl(image).url() : "";
 
   return (
     <Box>
@@ -35,7 +36,7 @@ const SingleArticle = () => {
 
         <Box h="70vh" mx="auto">
           <Image
-            src={buildImageUrl(image).url() || HeroImg}
+            src={imageUrl || HeroImg}
             alt="hero"
             width={100}
             height={100}
@@ -51,7 +52,7 @@ const SingleArticle = () => {
         <Flex mt="1rem" justifyContent="space-between">
           <Flex gap="1rem">
             <Text fontSize="sm" fontWeight="light">
-              Published by {author?.name}
+              Published by {author?.displayName}
             </Text>
             <Text fontSize="sm" fontWeight="light">
               {daysSinceDate(_createdAt)} | {category?.title}

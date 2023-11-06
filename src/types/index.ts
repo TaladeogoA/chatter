@@ -83,7 +83,7 @@ interface AuthContextType {
   SignUpWithEmailAndPassword: (email: string, password: string) => void;
   SignInWithEmailAndPassword: (email: string, password: string) => void;
   signOutUser: () => void;
-  user: FirebaseAuthUser | null;
+  user: any;
   loading: boolean;
 }
 
@@ -102,9 +102,10 @@ interface Category {
 interface NewStoryProps {
   title: string;
   body: PortableTextBlock[];
-  author: Reference;
-  categories: Reference[];
+  authorId: string;
+  categories: any[];
   brief: string;
+  slug: string;
 }
 
 export type {

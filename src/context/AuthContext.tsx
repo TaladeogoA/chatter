@@ -89,6 +89,7 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   const signOutUser = async (): Promise<void> => {
     try {
       await signOut(auth);
+      setUserData(null);
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -105,7 +106,7 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
     if (user) {
       getUserFromSanity(user.uid);
     }
-  }, []);
+  }, [user]);
 
   return (
     <AuthContext.Provider

@@ -1,31 +1,16 @@
-// @ts-nocheck
+// @ts-ignore
 import { DraftailEditor, BLOCK_TYPE, INLINE_STYLE } from "draftail";
-
-import { convertToHTML } from "draft-convert";
-import { RawDraftContentState, convertFromRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import "draftail/dist/draftail.css";
-import { schema } from "@/config/quillConfig";
-import { htmlToBlocks } from "@sanity/block-tools";
+import { RawDraftContentState } from "draft-js";
 
-const DraftailEditorComponent = () => {
-  const initial = JSON.parse(sessionStorage.getItem("content") || "null");
-
-  const blockContentType = schema
-    .get("post")
-    .fields.find((field: any) => field.name === "body").type;
-
-  const toHTML = (raw: any) =>
-    raw ? convertToHTML({})(convertFromRaw(raw)) : "";
-
-  const onSave = (content: RawDraftContentState | null) => {
-    sessionStorage.setItem("content", JSON.stringify(content));
-    const html = toHTML(content);
-    console.log("html", html);
-    const blocks = htmlToBlocks(html, blockContentType);
-    console.log("blocks", blocks);
-  };
-
+const DraftailEditorComponent = ({
+  initial,
+  onSave,
+}: {
+  initial: RawDraftContentState | null;
+  onSave: (content: RawDraftContentState | null) => void;
+}) => {
   return (
     <DraftailEditor
       rawContentState={initial || null}

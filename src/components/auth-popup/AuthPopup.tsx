@@ -23,6 +23,7 @@ import { TbChevronsLeft } from "react-icons/tb";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import toast from "react-hot-toast";
 
 interface AuthPopupProps {
   isOpen: boolean;
@@ -62,16 +63,16 @@ const AuthPopup: React.FC<AuthPopupProps> = ({
     email: string;
     password: string;
   }> = async (data: any) => {
-    console.log(data);
     try {
       if (isLogin) {
-        console.log("login");
         await SignInWithEmailAndPassword(data.email, data.password);
+        toast.success("Logged in successfully");
       } else {
-        console.log("signup");
         await SignUpWithEmailAndPassword(data.email, data.password);
+        toast.success("Signed up successfully");
       }
     } catch (error) {
+      toast.error(error.message);
       console.error("Error signing up with email and password:", error);
     }
   };

@@ -22,14 +22,16 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
     return <ArticleCardSkeleton />;
   }
   const { slug, title, author, image, categories, _createdAt } = article;
-  const imageUrl = buildImageUrl(image).url();
+  const imageUrl = image ? buildImageUrl(image).url() : "";
   const { day, month, year } = parseDate(_createdAt);
 
   return (
     <Link href={`/articles/${slug?.current}`} passHref>
       <Flex w="80%" mx="auto" flexDir="column" h="33%">
         <Box position="relative" h="40%">
-          <Image src={imageUrl} alt="" w="100%" h="100%" objectFit="cover" />
+          {image && (
+            <Image src={imageUrl} alt="" w="100%" h="100%" objectFit="cover" />
+          )}
           <Flex
             justifyContent="center"
             alignItems="center"
@@ -74,19 +76,16 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Divider my=".5rem" size="5px" borderColor="black" />
 
         <Flex gap=" .5rem" alignItems="center">
-          {categories?.map((category) => (
-            <>
-              <Link
-                href={`/categories/${category?.title}`}
-                key={category.title}
-              >
-                <Text fontSize="sm" whiteSpace="nowrap">
-                  {category?.title}
-                </Text>
-              </Link>
-              <>&#8226;</>
-            </>
-          ))}
+          <Link
+            href={`/categories/${categories?.[0]?.title}`}
+            key={categories?.[0]?.title}
+          >
+            <Text fontSize="sm" whiteSpace="nowrap">
+              {categories?.[0]?.title}
+            </Text>
+          </Link>
+          <>&#8226;</>
+
           <Text fontSize="sm" whiteSpace="nowrap">
             6 mins read
           </Text>

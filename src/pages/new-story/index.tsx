@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Modal,
@@ -13,47 +14,51 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import "react-quill/dist/quill.snow.css";
-// import dynamic from "next/dynamic";
-// import { htmlToBlocks } from "@sanity/block-tools";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useGetAllCategories } from "@/services/category";
-import { AsyncPaginate } from "react-select-async-paginate";
-import { useForm } from "react-hook-form";
-// import { formats, modules, schema } from "@/config/quillConfig";
+import { Controller, useForm } from "react-hook-form";
 import React, { memo } from "react";
 import DraftailEditorComponent from "@/components/editor/index";
+// @ts-ignore
+import { convertToHTML } from "draft-convert";
+import { RawDraftContentState, convertFromRaw } from "draft-js";
+import { schema } from "@/config/quillConfig";
+import { htmlToBlocks } from "@sanity/block-tools";
+import AsyncSelect from "@/components/async-select";
+import { AuthContext } from "@/context/AuthContext";
+import { postNewStory } from "@/services/new-story";
+import slugify from "slugify";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 const NewStory = () => {
-  // const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState(null);
-  // const [htmlContent, setHtmlContent] = useState(
-  //   "React quill is very buggy so this doesn't work yet. Will fix soon."
-  // );
-  // const [blockContent, setBlockContent] = useState<any>();
-  const { data: categories, isLoading } = useGetAllCategories();
+  const { data: categoriesData, isLoading } = useGetAllCategories();
+  const { user } = useContext(AuthContext);
+  const initial = JSON.parse(sessionStorage.getItem("content") || "null");
+  const router = useRouter();
 
-  // const blockContentType = schema
-  //   .get("post")
-  //   .fields.find((field: any) => field.name === "body").type;
+  const blockContentType = schema
+    .get("post")
+    .fields.find((field: any) => field.name === "body").type;
 
-  // const handleContentChange = (content: any) => {
-  //   setHtmlContent(content);
+  const toHTML = (raw: any) =>
+    raw ? convertToHTML({})(convertFromRaw(raw)) : "";
 
-  //   const blocks = htmlToBlocks(content, blockContentType);
-  //   console.log("blocks", blocks);
-  //   if (blocks) {
-  //     setBlockContent(blocks);
-  //   }
-  //   console.log("blockContent", blockContent);
-  // };
+  const onSave = (content: RawDraftContentState | null) => {
+    sessionStorage.setItem("content", JSON.stringify(content));
+    const html = toHTML(content);
+    const blocks = htmlToBlocks(html, blockContentType);
+    formHook.setValue("body", blocks);
+  };
 
-  const categoriesOptions = async () => {
+  const categoriesOptions = (searchTerm?: string) => {
+    const categories = categoriesData.map((category: any) => ({
+      label: category.title,
+      value: category._id,
+    }));
     return {
-      options: categories?.map((category: { _id: string; title: string }) => ({
-        value: category._id,
-        label: category.title,
-      })),
+      options: categories,
       hasMore: false,
     };
   };
@@ -61,28 +66,54 @@ const NewStory = () => {
   const formHook = useForm({
     defaultValues: {
       title: "",
-      summary: "",
+      brief: "",
       categories: [],
+      body: [],
     },
   });
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = formHook;
+
+  const submit = async (data: any) => {
+    console.log(data);
+    const slug = slugify(data.title, {
+      lower: true,
+      remove: /[*+~.()'"!:@]/g,
+    });
+    if (!user) {
+      toast.error("You need to be logged in to publish a story");
+      return;
+    }
+    if (data.body.length === 0) {
+      toast.error("You need to write something to publish a story");
+      return;
+    }
+    const res = await postNewStory({
+      title: data.title,
+      body: data.body,
+      authorId: user._id,
+      categories: data.categories,
+      brief: data.brief,
+      slug: slug,
+    });
+    if (res.ok) {
+      toast.success("Story published successfully");
+      router.push(`/articles/${slug}`);
+    } else {
+      toast.error("Failed to publish story");
+    }
+  };
 
   return (
     <Box>
       <Navbar setIsPublishModalOpen={setIsPublishModalOpen} />
       <Box px="16">
-        <DraftailEditorComponent />
-        {/* <ReactQuill
-          theme="snow"
-          modules={modules}
-          formats={formats}
-          style={{
-            height: "80vh",
-          }}
-          value={htmlContent}
-          onChange={handleContentChange}
-          placeholder="Tell your story..."
-          key="editor"
-        /> */}
+        <DraftailEditorComponent initial={initial} onSave={onSave} />
       </Box>
 
       {isPublishModalOpen && (
@@ -106,14 +137,22 @@ const NewStory = () => {
                   flexDirection: "column",
                   gap: "1rem",
                 }}
-                // onSubmit={handleSubmit(submit)}
+                onSubmit={handleSubmit(submit)}
               >
                 <FormControl>
                   <FormLabel>
                     Give your story a catchy and descriptive title. It&apos;s
                     the first thing readers will see.
                   </FormLabel>
-                  <Input placeholder="Enter a captivating title for your story..." />
+                  <Input
+                    placeholder="Enter a captivating title for your story..."
+                    {...register("title", {
+                      required: "This field is required",
+                    })}
+                  />
+                  <FormHelperText color="red.500">
+                    {errors.title?.message}
+                  </FormHelperText>
                 </FormControl>
 
                 <FormControl mt="1rem">
@@ -121,7 +160,16 @@ const NewStory = () => {
                     Write a brief summary of your story. This gives readers a
                     glimpse of what to expect.
                   </FormLabel>
-                  <Textarea placeholder="Provide a brief description of your story..." />
+                  <Textarea
+                    placeholder="Provide a brief description of your story..."
+                    {...register("brief", {
+                      required: "This field is required",
+                    })}
+                  />
+
+                  <FormHelperText color="red.500">
+                    {errors.brief?.message}
+                  </FormHelperText>
                 </FormControl>
 
                 <FormControl mt="1rem">
@@ -130,15 +178,23 @@ const NewStory = () => {
                     Categories help readers discover content that interests
                     them.
                   </FormLabel>
-                  <AsyncPaginate
-                    loadOptions={categoriesOptions}
-                    isMulti
-                    closeMenuOnSelect={false}
-                    // @ts-ignore
-                    onChange={setSelectedCategories}
-                    value={selectedCategories}
-                    isLoading={isLoading}
+                  <Controller
+                    name="categories"
+                    control={control}
+                    render={({ field }) => (
+                      <AsyncSelect
+                        placeholder="Select categories..."
+                        loadOptions={categoriesOptions}
+                        isMulti
+                        isLoading={isLoading}
+                        closeOnSelect={false}
+                        {...field}
+                      />
+                    )}
                   />
+                  <FormHelperText color="red.500">
+                    {errors.categories?.message}
+                  </FormHelperText>
                 </FormControl>
 
                 <Button
@@ -148,7 +204,6 @@ const NewStory = () => {
                   alignSelf="flex-end"
                   w="fit-content"
                   type="submit"
-                  isDisabled
                 >
                   Publish Now
                 </Button>

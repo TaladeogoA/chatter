@@ -19,6 +19,7 @@ import AuthPopup from "../auth-popup/AuthPopup";
 import { CiEdit } from "react-icons/ci";
 import { GoChevronDown } from "react-icons/go";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 const Navbar = ({
   setIsPublishModalOpen,
@@ -35,8 +36,10 @@ const Navbar = ({
     try {
       await signOutUser();
       console.log("User signed out");
+      toast.success("User signed out");
     } catch (error) {
       console.error("Error signing out:", error);
+      toast.error("Error signing out");
     }
   };
 
@@ -122,7 +125,7 @@ const Navbar = ({
       </Flex>
     );
   }
-  console.log(user);
+  // console.log(user);
 
   return (
     <Flex

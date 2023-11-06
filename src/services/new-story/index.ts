@@ -3,18 +3,31 @@ import { NewStoryProps } from "@/types";
 export const postNewStory = async ({
   title,
   body,
-  author,
+  authorId,
   categories,
   brief,
+  slug,
 }: NewStoryProps) => {
   const mutations = [
     {
       create: {
         title: title,
+        slug: {
+          _type: "slug",
+          current: slug,
+        },
         body: body,
-        author: author,
-        categories: categories,
+        author: {
+          _type: "reference",
+          _ref: authorId,
+        },
+        categories: categories.map((category) => ({
+          _type: "reference",
+          _ref: category.value,
+          _key: category.value,
+        })),
         brief: brief,
+        _type: "post",
       },
     },
   ];
@@ -26,12 +39,13 @@ export const postNewStory = async ({
         method: "post",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${process.env.SANITY_TOKEN}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_TOKEN}`,
         },
         body: JSON.stringify({ mutations }),
       }
     );
-    console.log(res);
+    sessionStorage.removeItem("content");
+    return res;
   } catch (error) {
     console.error("Error creating user:", error);
   }
