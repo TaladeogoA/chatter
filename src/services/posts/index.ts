@@ -27,7 +27,7 @@ export const useGetEditorsPicks = () => {
       const res = await client.fetch(
         `*[_type == "post" && isEditorsPick == true]{
   title, author->{displayName}, slug, brief, likesCount,
-    sharesCount, viewCount, image, category->{title}
+    sharesCount, viewCount, image, categories[]->{title}
   }`
       );
       return res;
@@ -50,7 +50,7 @@ export const useGetIndividualPost = (slug: string) => {
     async () => {
       const res = await client.fetch(
         `*[_type == "post" && slug.current == "${slug}"][0]{
-  title, author->{name}, slug, brief, likesCount, viewCount, sharesCount, body, image, _createdAt, category->{title}
+  title, author->{name}, slug, brief, likesCount, viewCount, sharesCount, body, image, _createdAt, categories->{title}
         }`,
         { slug }
       );

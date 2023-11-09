@@ -60,12 +60,13 @@ interface CategoryContentProps {
   _id: string;
   slug: Slug;
   title: string;
-  category: {
+  categories: {
     title: string;
     description: string;
-  };
+    _id: string;
+  }[];
   author: {
-    name: string;
+    displayName: string;
   };
   _createdAt: string;
   image: ImageAsset;
@@ -106,6 +107,7 @@ interface NewStoryProps {
   categories: any[];
   brief: string;
   slug: string;
+  headerImageAssetId?: string;
 }
 
 export type {

@@ -33,6 +33,8 @@ import toast from "react-hot-toast";
 
 const NewStory = () => {
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
+  // const [headerImage, setHeaderImage] = useState<File | null>(null);
+  // const [isWrongFileType, setIsWrongFileType] = useState(false);
   const { data: categoriesData, isLoading } = useGetAllCategories();
   const { user } = useContext(AuthContext);
   const initial = JSON.parse(sessionStorage.getItem("content") || "null");
@@ -79,6 +81,21 @@ const NewStory = () => {
     formState: { errors },
   } = formHook;
 
+  // const onUpload = (e: any) => {
+  //   const file = e.target.files[0];
+
+  //   if (!file) {
+  //     return;
+  //   }
+
+  //   if (!file.type.includes("image")) {
+  //     setIsWrongFileType(true);
+  //     return;
+  //   }
+
+  //   setHeaderImage(file);
+  // };
+
   const submit = async (data: any) => {
     console.log(data);
     const slug = slugify(data.title, {
@@ -93,18 +110,39 @@ const NewStory = () => {
       toast.error("You need to write something to publish a story");
       return;
     }
-    const res = await postNewStory({
-      title: data.title,
-      body: data.body,
-      authorId: user._id,
-      categories: data.categories,
-      brief: data.brief,
-      slug: slug,
-    });
-    if (res.ok) {
-      toast.success("Story published successfully");
-      router.push(`/articles/${slug}`);
-    } else {
+
+    try {
+      // let headerImageAssetId = undefined;
+
+      // if (headerImage) {
+      //   headerImageAssetId = await uploadImage(headerImage);
+      // }
+
+      // if (headerImage) {
+      //   const { _id } = await sanityClientWithToken.assets.upload(
+      //     "image",
+      //     headerImage
+      //   );
+      //   headerImageAssetId = _id;
+      // }
+
+      const res = await postNewStory({
+        title: data.title,
+        body: data.body,
+        authorId: user._id,
+        categories: data.categories,
+        brief: data.brief,
+        slug: slug,
+        // headerImageAssetId: headerImageAssetId,
+      });
+      if (res.ok) {
+        toast.success("Story published successfully");
+        router.push(`/articles/${slug}`);
+      } else {
+        toast.error("Failed to publish story");
+      }
+    } catch (error) {
+      console.error("Error publishing story:", error);
       toast.error("Failed to publish story");
     }
   };
@@ -196,6 +234,21 @@ const NewStory = () => {
                     {errors.categories?.message}
                   </FormHelperText>
                 </FormControl>
+
+                {/* <FormControl mt="1rem">
+                  <FormLabel>Header Image</FormLabel>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      e.preventDefault();
+                      onUpload(e);
+                    }}
+                  />
+                  <FormHelperText color="red.500">
+                  
+                  </FormHelperText>
+                </FormControl> */}
 
                 <Button
                   mt="2rem"

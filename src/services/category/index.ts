@@ -27,9 +27,9 @@ export const useCategoryArticles = (categoryId: string) => {
     ["category-articles", categoryId],
     async () => {
       const res = await client.fetch(
-        `*[_type == "post" && category._ref == "${categoryId}"]{
-                title, author->{name}, slug, brief, likesCount,
-                sharesCount, viewCount, image, category->{title, description }, _id, _createdAt
+        `*[_type == "post" && references('${categoryId}')]{
+                title, author->{displayName}, slug, brief, likesCount,
+                sharesCount, viewCount, categories[]->{title, description, _id }, _id, _createdAt
             }`
       );
       return res;

@@ -1,3 +1,5 @@
+import { client } from "@/services/client";
+
 export function calculateRelevance(post: {
   viewCount: number;
   likesCount: number;
@@ -22,3 +24,17 @@ export function calculateRelevance(post: {
 
   return relevanceScore;
 }
+
+// export const uploadImage = async (image: File) => {
+//   try {
+//     // Upload the image asset to your CMS (Sanity in this case)
+//     const asset = await client.assets.upload("image", image, {
+//       contentType: image.type,
+//       filename: image.name,
+//     });
+//     return asset._id;
+//   } catch (error) {
+//     console.error("Image upload failed:", error);
+//     throw error;
+//   }
+// };

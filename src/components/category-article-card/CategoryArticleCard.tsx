@@ -7,7 +7,7 @@ import React from "react";
 const CategoryArticleCard: React.FC<{ article: CategoryContentProps }> = ({
   article,
 }) => {
-  const { title, author, category, slug, _createdAt } = article;
+  const { title, author, categories, slug, _createdAt } = article;
 
   return (
     <Box>
@@ -22,15 +22,20 @@ const CategoryArticleCard: React.FC<{ article: CategoryContentProps }> = ({
       <Flex justifyContent="space-between" fontSize="sm">
         <Flex>
           <Link href={`/authors/`}>
-            <Text mr=".5rem">{author?.name}</Text>
+            <Text mr=".5rem">{author?.displayName}</Text>
           </Link>
           <>&#8226;</>
           <Text ml=".5rem">6 mins read</Text>
           <>&#8226;</>
 
-          <Link href={`/categories/`}>
-            <Text ml=".5rem">{category?.title}</Text>
-          </Link>
+          {categories?.map((category) => (
+            <Box key={category._id}>
+              <Link href={`/categories/${category._id}`}>
+                <Text ml=".5rem">{category.title}</Text>
+              </Link>
+              <>&#8226;</>
+            </Box>
+          ))}
         </Flex>
 
         <Text>{daysSinceDate(_createdAt)}</Text>

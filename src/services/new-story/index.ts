@@ -7,7 +7,8 @@ export const postNewStory = async ({
   categories,
   brief,
   slug,
-}: NewStoryProps) => {
+}: // headerImageAssetId,
+NewStoryProps) => {
   const mutations = [
     {
       create: {
@@ -28,6 +29,17 @@ export const postNewStory = async ({
         })),
         brief: brief,
         _type: "post",
+        // ...(headerImageAssetId
+        //   ? {
+        //       image: {
+        //         _type: "image",
+        //         asset: {
+        //           _type: "reference",
+        //           _ref: headerImageAssetId,
+        //         },
+        //       },
+        //     }
+        //   : {}),
       },
     },
   ];
@@ -47,6 +59,6 @@ export const postNewStory = async ({
     sessionStorage.removeItem("content");
     return res;
   } catch (error) {
-    console.error("Error creating user:", error);
+    console.error("Error creating story:", error);
   }
 };

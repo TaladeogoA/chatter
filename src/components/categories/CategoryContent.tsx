@@ -12,7 +12,6 @@ const CategoryContent: React.FC<{
   categoryDescription: string;
 }> = ({ categoryId, categoryName, categoryDescription }) => {
   const { data, isLoading, error } = useCategoryArticles(categoryId);
-
   if (isLoading || !data) return <PropagateLoader color="#000" />;
   if (error) return <div>failed to load</div>;
 

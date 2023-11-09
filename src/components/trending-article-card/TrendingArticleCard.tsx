@@ -76,14 +76,10 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Divider my=".5rem" size="5px" borderColor="black" />
 
         <Flex gap=" .5rem" alignItems="center">
-          <Link
-            href={`/categories/${categories?.[0]?.title}`}
-            key={categories?.[0]?.title}
-          >
-            <Text fontSize="sm" whiteSpace="nowrap">
-              {categories?.[0]?.title}
-            </Text>
-          </Link>
+          <Text fontSize="sm" whiteSpace="nowrap">
+            {categories?.[0]?.title}
+          </Text>
+
           <>&#8226;</>
 
           <Text fontSize="sm" whiteSpace="nowrap">
@@ -91,11 +87,9 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           </Text>
           <>&#8226;</>
 
-          <Link href={`/authors/${author}`}>
-            <Text fontSize="sm" whiteSpace="nowrap">
-              {author?.displayName}
-            </Text>
-          </Link>
+          <Text fontSize="sm" whiteSpace="nowrap">
+            {author?.displayName}
+          </Text>
         </Flex>
       </Flex>
     </Link>

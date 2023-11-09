@@ -31,6 +31,7 @@ const DraftailEditorComponent = ({
         { type: INLINE_STYLE.ITALIC },
         { type: INLINE_STYLE.UNDERLINE },
       ]}
+      style={{ minHeight: "80vh" }}
     />
   );
 };
