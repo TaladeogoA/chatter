@@ -71,7 +71,7 @@ export const useGetIndividualPost = (slug: string) => {
 export const useGetTrendingPosts = () => {
   const { data, error, isLoading } = useQuery("trending-posts", async () => {
     const res = await client.fetch(
-      `*[_type == "post"] | order(relevanceScore desc)[0...2]{title, author->{displayName}, _id, _createdAt, slug, image, categories[]->{title}}`
+      `*[_type == "post"] | order(relevanceScore desc)[0...3]{title, author->{displayName}, _id, _createdAt, slug, image, categories[]->{title}}`
     );
     return res;
   });

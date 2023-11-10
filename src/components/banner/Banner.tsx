@@ -21,12 +21,12 @@ const Banner = () => {
       alignItems="start"
       gap="2rem"
     >
-      <Flex h="100%" flexDir="column" w="50%">
+      <Flex h="100%" flexDir="column" w="50%" mt="6rem">
         <Heading
           as="h1"
           fontSize="7xl"
           fontWeight="bold"
-          my="2rem"
+          my="4rem"
           color="black"
           className="toledo"
         >

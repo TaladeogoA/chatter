@@ -125,7 +125,7 @@ const Navbar = ({
       </Flex>
     );
   }
-  // console.log(user);
+  console.log(user);
 
   return (
     <Flex
@@ -143,8 +143,6 @@ const Navbar = ({
           <Icon h="3rem" w="8rem" as={ChatterLogo} />
         </Box>
       </Link>
-
-      <Input placeholder="Search" w="40%" h="2rem" />
 
       <Flex gap="2rem" alignItems="center">
         {isNewStory ? (

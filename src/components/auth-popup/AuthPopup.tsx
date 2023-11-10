@@ -24,6 +24,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 interface AuthPopupProps {
   isOpen: boolean;
@@ -45,6 +46,8 @@ const AuthPopup: React.FC<AuthPopupProps> = ({
   } = useContext(AuthContext);
   const [emailAuthClicked, setEmailAuthClicked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const formHook = useForm({
     defaultValues: {
@@ -65,13 +68,18 @@ const AuthPopup: React.FC<AuthPopupProps> = ({
   }> = async (data: any) => {
     try {
       if (isLogin) {
+        setIsLoading(true);
         await SignInWithEmailAndPassword(data.email, data.password);
         toast.success("Logged in successfully");
+        setIsLoading(false);
       } else {
+        setIsLoading(true);
         await SignUpWithEmailAndPassword(data.email, data.password);
         toast.success("Signed up successfully");
+        setIsLoading(false);
+        router.push("/complete-setup");
       }
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
       console.error("Error signing up with email and password:", error);
     }
@@ -211,6 +219,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({
                     w="100%"
                     mx="auto"
                     type="submit"
+                    isLoading={isLoading}
                   >
                     {isLogin ? "Log In" : "Sign Up"}
                   </Button>

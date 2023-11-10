@@ -25,16 +25,18 @@ const CategoryArticleCard: React.FC<{ article: CategoryContentProps }> = ({
             <Text mr=".5rem">{author?.displayName}</Text>
           </Link>
           <>&#8226;</>
-          <Text ml=".5rem">6 mins read</Text>
+          <Text mx=".5rem">6 mins read</Text>
           <>&#8226;</>
 
           {categories?.map((category) => (
-            <Box key={category._id}>
-              <Link href={`/categories/${category._id}`}>
-                <Text ml=".5rem">{category.title}</Text>
-              </Link>
+            <Flex key={category._id}>
+              <Box>
+                <Link href={`/categories/${category._id}`}>
+                  <Text ml=".5rem">{category.title}</Text>
+                </Link>
+              </Box>
               <>&#8226;</>
-            </Box>
+            </Flex>
           ))}
         </Flex>
 

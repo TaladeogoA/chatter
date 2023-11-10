@@ -27,7 +27,18 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
 
   return (
     <Link href={`/articles/${slug?.current}`} passHref>
-      <Flex w="80%" mx="auto" flexDir="column" h="33%">
+      <Flex
+        w="80%"
+        mx="auto"
+        flexDir="column"
+        h="33%"
+        _hover={{
+          "& svg": {
+            transform: "rotate(75deg)",
+            transition: "all .3s ease-in-out",
+          },
+        }}
+      >
         <Box position="relative" h="40%">
           {image && (
             <Image src={imageUrl} alt="" w="100%" h="100%" objectFit="cover" />
@@ -48,6 +59,10 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
               h={10}
               color="white"
               transform="rotate(45deg)"
+              _hover={{
+                transform: "rotate(75deg) scale(1.1)",
+                transition: "all .3s ease-in-out",
+              }}
             />
           </Flex>
         </Box>
