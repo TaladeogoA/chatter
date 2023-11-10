@@ -1,4 +1,4 @@
-import { useCategoryArticles } from "@/services/category";
+import { useGetCategoryArticles } from "@/services/home-page";
 import { CategoryContentProps } from "@/types";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
@@ -11,7 +11,7 @@ const CategoryContent: React.FC<{
   categoryName: string;
   categoryDescription: string;
 }> = ({ categoryId, categoryName, categoryDescription }) => {
-  const { data, isLoading, error } = useCategoryArticles(categoryId);
+  const { data, isLoading, error } = useGetCategoryArticles(categoryId);
   if (isLoading || !data) return <PropagateLoader color="#000" />;
   if (error) return <div>failed to load</div>;
 
@@ -26,6 +26,9 @@ const CategoryContent: React.FC<{
             color="black"
             as="button"
             className="toledo"
+            _hover={{
+              textDecoration: "underline",
+            }}
           >
             {categoryName}
           </Text>

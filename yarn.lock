@@ -7225,6 +7225,11 @@
   dependencies:
     "picomatch" "^2.2.1"
 
+"reading-time-estimator@^1.9.0":
+  "integrity" "sha512-fVuTlAfcYXE9A4KrTOq0Ao4vn9vJxYVFpATjS6KFA5xCK5RTmq6q74ICrO7ykF3Mg2XTgL9mBrwADgXQgEolIw=="
+  "resolved" "https://registry.npmjs.org/reading-time-estimator/-/reading-time-estimator-1.9.0.tgz"
+  "version" "1.9.0"
+
 "refractor@^3.6.0":
   "integrity" "sha512-MY9W41IOWxxk31o+YvFCNyNzdkc9M20NoZK5vq6jkv4I/uh2zkWcfudj0Q1fovjUQJrNewS9NMzeTtqPf+n5EA=="
   "resolved" "https://registry.npmjs.org/refractor/-/refractor-3.6.0.tgz"

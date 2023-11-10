@@ -1,5 +1,6 @@
 import { CategoryContentProps } from "@/types";
 import { daysSinceDate } from "@/utils/dateUtils";
+import { calculateReadingTime } from "@/utils/textUtils";
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
@@ -7,7 +8,8 @@ import React from "react";
 const CategoryArticleCard: React.FC<{ article: CategoryContentProps }> = ({
   article,
 }) => {
-  const { title, author, categories, slug, _createdAt } = article;
+  const { title, author, categories, slug, _createdAt, body } = article;
+  const readingTime = calculateReadingTime(body);
 
   return (
     <Box>
@@ -25,7 +27,7 @@ const CategoryArticleCard: React.FC<{ article: CategoryContentProps }> = ({
             <Text mr=".5rem">{author?.displayName}</Text>
           </Link>
           <>&#8226;</>
-          <Text mx=".5rem">6 mins read</Text>
+          <Text mx=".5rem">{readingTime.text}</Text>
           <>&#8226;</>
 
           {categories?.map((category) => (

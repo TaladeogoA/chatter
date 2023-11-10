@@ -12,6 +12,7 @@ import Link from "next/link";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import { parseDate } from "@/utils/dateUtils";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
+import { calculateReadingTime } from "@/utils/textUtils";
 
 interface ArticleCardProps {
   article?: Article;
@@ -21,9 +22,10 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   if (!article) {
     return <ArticleCardSkeleton />;
   }
-  const { slug, title, author, image, categories, _createdAt } = article;
+  const { slug, title, author, image, categories, _createdAt, body } = article;
   const imageUrl = image ? buildImageUrl(image).url() : "";
   const { day, month, year } = parseDate(_createdAt);
+  const readingTime = calculateReadingTime(body);
 
   return (
     <Link href={`/articles/${slug?.current}`} passHref>
@@ -98,7 +100,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           <>&#8226;</>
 
           <Text fontSize="sm" whiteSpace="nowrap">
-            6 mins read
+            {readingTime.text}
           </Text>
           <>&#8226;</>
 

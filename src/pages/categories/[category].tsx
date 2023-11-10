@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar/Navbar";
-import { useCategoryArticles, useGetSingleCategory } from "@/services/category";
+import { useGetSingleCategory } from "@/services/category";
+import { useGetCategoryArticles } from "@/services/home-page";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Loader from "../../../loading";
@@ -16,7 +17,7 @@ const SingleCategory = () => {
     data: categoryArticles,
     isLoading: categoryArticlesLoading,
     error: categoryArticlesError,
-  } = useCategoryArticles(category as string);
+  } = useGetCategoryArticles(category as string);
 
   if (categoryArticlesLoading || categoryLoading) return <Loader />;
 

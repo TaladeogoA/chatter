@@ -70,6 +70,7 @@ interface CategoryContentProps {
   };
   _createdAt: string;
   image: ImageAsset;
+  body: TypedObject | TypedObject[];
 }
 
 interface ChatterContextProps {

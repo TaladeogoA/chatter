@@ -1,5 +1,6 @@
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { Article } from "@/types";
+import { calculateReadingTime } from "@/utils/textUtils";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
@@ -9,8 +10,9 @@ interface EditorsPickCardProps {
 }
 
 const EditorsPickCard: React.FC<EditorsPickCardProps> = ({ article }) => {
-  const { slug, title, author, image, category } = article;
+  const { slug, title, author, image, category, body } = article;
   const imageUrl = buildImageUrl(image).url();
+  const readingTime = calculateReadingTime(body);
 
   return (
     <Link href={`/articles/${slug?.current}`} passHref>
@@ -44,7 +46,7 @@ const EditorsPickCard: React.FC<EditorsPickCardProps> = ({ article }) => {
                 {/* </Link> */}
                 <>&#8226;</>
                 <Text whiteSpace="nowrap" mx=".5rem">
-                  6 mins read
+                  {readingTime.text}
                 </Text>
                 <>&#8226;</>
 

@@ -4,31 +4,22 @@ import EditorsPickCard from "../editors-pick-card/EditorsPickCard";
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-import { PropagateLoader } from "react-spinners";
 import { Article } from "@/types";
-import { useGetEditorsPicks } from "@/services/posts";
 
-const EditorsPick = () => {
+const EditorsPick = ({ data }: { data: Article[] }) => {
   const splideRef = useRef(null);
-  const { data, error, isLoading } = useGetEditorsPicks();
-
   const nextSlide = () => {
     if (splideRef.current) {
       // @ts-ignore
       splideRef.current.go("+1");
     }
   };
-
   const prevSlide = () => {
     if (splideRef.current) {
       // @ts-ignore
       splideRef.current.go("-1");
     }
   };
-
-  if (isLoading) return <PropagateLoader color="#000" />;
-
-  if (error) return <div>failed to load</div>;
 
   return (
     <Box mx="6rem" my="4rem">

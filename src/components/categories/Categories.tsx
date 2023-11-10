@@ -1,7 +1,5 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { Scrollbar } from "react-scrollbars-custom";
-import { PropagateLoader } from "react-spinners";
-import { useGetAllCategories } from "@/services/category";
 import CategoryContent from "./CategoryContent";
 
 interface CategoryType {
@@ -10,12 +8,7 @@ interface CategoryType {
   _id: string;
 }
 
-const Categories = () => {
-  const { data: categories, error, isLoading } = useGetAllCategories();
-
-  if (isLoading) return <PropagateLoader color="#000" />;
-  if (error) return <div>failed to load</div>;
-
+const Categories = ({ categories }: { categories: CategoryType[] }) => {
   return (
     <Box px="6rem" mt="4rem" w="100%" as="section">
       <Tabs colorScheme="blackAlpha" h="100%">

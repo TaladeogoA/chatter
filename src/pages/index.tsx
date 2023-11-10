@@ -5,16 +5,21 @@ import Categories from "@/components/categories/Categories";
 import EditorsPick from "@/components/editors-pick/EditorsPick";
 import Footer from "@/components/footer/Footer";
 import Loader from "../../loading";
-import { useGetEditorsPicks, useGetTrendingPosts } from "@/services/posts";
-import { useGetAllCategories } from "@/services/category";
+import { useGetHomePageData } from "@/services/home-page";
 
 const Home = () => {
-  const { isLoading: isTrendingLoading } = useGetTrendingPosts();
-  const { isLoading: isCategoriesLoading } = useGetAllCategories();
-  const { isLoading } = useGetEditorsPicks();
+  const {
+    trendingPosts,
+    categories,
+    editorsPicks,
+    trendingPostsLoading,
+    categoriesLoading,
+    editorsPicksLoading,
+  } = useGetHomePageData();
+
   return (
     <>
-      {isLoading || isTrendingLoading || isCategoriesLoading ? (
+      {trendingPostsLoading || categoriesLoading || editorsPicksLoading ? (
         <Loader />
       ) : (
         <Box
@@ -25,9 +30,9 @@ const Home = () => {
           w="100%"
         >
           <Navbar />
-          <Banner />
-          <Categories />
-          <EditorsPick />
+          <Banner topArticles={trendingPosts} />
+          <Categories categories={categories} />
+          <EditorsPick data={editorsPicks} />
           <Footer />
         </Box>
       )}

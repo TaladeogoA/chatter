@@ -1,17 +1,9 @@
 import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { TrendingArticleCard } from "../trending-article-card/TrendingArticleCard";
 import { Scrollbar } from "react-scrollbars-custom";
-import { useGetTrendingPosts } from "@/services/posts";
 import { Article } from "@/types";
-import { PropagateLoader } from "react-spinners";
 
-const Banner = () => {
-  const { data: topArticles, isLoading, error } = useGetTrendingPosts();
-
-  if (isLoading) return <PropagateLoader color="#000" />;
-
-  if (error) return <div>failed to load</div>;
-
+const Banner = ({ topArticles }: { topArticles: Article[] }) => {
   return (
     <Flex
       as="header"
