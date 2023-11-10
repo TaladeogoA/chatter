@@ -50,7 +50,7 @@ export const useGetIndividualPost = (slug: string) => {
     async () => {
       const res = await client.fetch(
         `*[_type == "post" && slug.current == "${slug}"][0]{
-  title, author->{name}, slug, brief, likesCount, viewCount, sharesCount, body, image, _createdAt, categories->{title}
+  title, author->{displayName}, slug, brief, likesCount, viewCount, sharesCount, body, image, _createdAt, categories[]->{title}
         }`,
         { slug }
       );

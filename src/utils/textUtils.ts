@@ -12,6 +12,5 @@ export const calculateReadingTime = (
     .join("");
 
   const result = readingTime(mainText, wordsPerMinute);
-  console.log(result);
   return result;
 };
