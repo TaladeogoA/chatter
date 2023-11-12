@@ -5,13 +5,18 @@ import ChatterLogo from "@/assets/icons/ChatterLogoBlack";
 import { completeSetup } from "@/services/users";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import Loader from "../../../loading";
 
 const CompleteSetup = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
   const [isLoading, setIsLoading] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const router = useRouter();
+
+  if (!user) {
+    return <Loader />;
+  }
+  // console.log(user);
 
   return (
     <Box>

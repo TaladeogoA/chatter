@@ -11,6 +11,7 @@ const Footer = () => {
       p="4"
       gap="4rem"
       alignItems="flex-start"
+      className="footer"
     >
       <Box>
         <Link href="/">

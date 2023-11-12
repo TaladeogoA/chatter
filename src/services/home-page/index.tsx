@@ -82,10 +82,19 @@ export const useGetCategoryArticles = (categoryId: string) => {
     ["category-articles", categoryId],
     async () => {
       const res = await client.fetch(
-        `*[_type == "post" && references('${categoryId}')]{
-                title, author->{displayName}, slug, body, brief, likesCount,
-                sharesCount, viewCount, categories[]->{title, description, _id }, _id, _createdAt
-            }`
+        `*[_type == "post" && references('${categoryId}')] | order(_createdAt desc) {
+    title,
+    author->{displayName},
+    slug,
+    body,
+    brief,
+    likesCount,
+    sharesCount,
+    viewCount,
+    categories[]->{title, description, _id},
+    _id,
+    _createdAt
+  }[0...3]`
       );
       return res;
     },

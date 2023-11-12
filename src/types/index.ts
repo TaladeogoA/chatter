@@ -111,6 +111,12 @@ interface NewStoryProps {
   headerImageAssetId?: string;
 }
 
+type Heading = {
+  level: number;
+  text: string;
+  id: string;
+};
+
 export type {
   Children,
   User,
@@ -121,4 +127,5 @@ export type {
   AuthContextType,
   UserContextType,
   NewStoryProps,
+  Heading,
 };

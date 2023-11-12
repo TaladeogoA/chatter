@@ -74,6 +74,7 @@ export const completeSetup = async ({
   displayName: string;
   id: string;
 }) => {
+  console.log(displayName, id);
   const mutations = [
     {
       patch: {

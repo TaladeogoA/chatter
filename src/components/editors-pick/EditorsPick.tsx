@@ -45,6 +45,7 @@ const EditorsPick = ({ data }: { data: Article[] }) => {
             h="4rem"
             onClick={prevSlide}
             cursor="pointer"
+            borderRadius=".2rem"
           >
             <ArrowBackIcon w="2rem" h="2rem" color="white" />
           </Flex>
@@ -57,6 +58,7 @@ const EditorsPick = ({ data }: { data: Article[] }) => {
             h="4rem"
             onClick={nextSlide}
             cursor="pointer"
+            borderRadius=".2rem"
           >
             <ArrowForwardIcon w="2rem" h="2rem" color="white" />
           </Flex>

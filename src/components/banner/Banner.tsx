@@ -18,7 +18,6 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
           as="h1"
           fontSize="7xl"
           fontWeight="bold"
-          my="4rem"
           color="black"
           className="toledo"
         >
@@ -36,7 +35,7 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
               borderBottom: "1px solid black",
             }}
           />
-          <Button px="2rem" bgColor="black" color="white">
+          <Button px="1rem" bgColor="black" color="white" borderRadius=".2rem">
             Search
           </Button>
         </Flex>

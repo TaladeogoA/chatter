@@ -27,6 +27,7 @@ h5,
 h6 {
   margin: 0;
   padding: 0;
+  color: #000;
 }
 
 .DraftEditor-editorContainer,
@@ -96,4 +97,9 @@ h6 {
 
 .DraftEditor-editorContainer {
   height: 80vh;
+}
+
+.footer,
+.article-meta > div > * {
+  color: #fff;
 }

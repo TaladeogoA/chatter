@@ -256,6 +256,7 @@ const NewStory = () => {
                   color="white"
                   alignSelf="flex-end"
                   w="fit-content"
+                  borderRadius=".2rem"
                   type="submit"
                 >
                   Publish Now

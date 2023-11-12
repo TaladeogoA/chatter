@@ -88,6 +88,7 @@ const Navbar = ({
             bg="transparent"
             fontWeight="normal"
             p="0"
+            borderRadius=".2rem"
             _hover={{
               cursor: "pointer",
             }}
@@ -101,6 +102,7 @@ const Navbar = ({
             px="1rem"
             py=".2rem"
             fontSize="md"
+            borderRadius=".2rem"
             _hover={{
               cursor: "pointer",
             }}
@@ -149,6 +151,7 @@ const Navbar = ({
           <Button
             bg="black"
             color="white"
+            borderRadius=".2rem"
             onClick={
               setIsPublishModalOpen
                 ? () => setIsPublishModalOpen(true)

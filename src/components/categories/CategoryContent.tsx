@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 import CategoryArticleCard from "../category-article-card/CategoryArticleCard";
 import { PropagateLoader } from "react-spinners";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 const CategoryContent: React.FC<{
   categoryId: string;
@@ -45,6 +46,24 @@ const CategoryContent: React.FC<{
             />
           );
         })}
+        <Link href={`/categories/${categoryId}`}>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            gap=".5rem"
+            textDecor="underline"
+            _hover={{
+              textDecoration: "none",
+            }}
+          >
+            <Text textAlign="center">See more</Text>
+            <MdKeyboardDoubleArrowRight
+              style={{
+                marginTop: "0.2rem",
+              }}
+            />
+          </Flex>
+        </Link>
       </Flex>
     </Flex>
   );
