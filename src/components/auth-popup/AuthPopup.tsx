@@ -71,6 +71,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({
         setIsLoading(true);
         await SignInWithEmailAndPassword(data.email, data.password);
         toast.success("Logged in successfully");
+        onClose();
         setIsLoading(false);
       } else {
         setIsLoading(true);

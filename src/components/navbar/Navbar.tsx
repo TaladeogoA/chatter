@@ -37,6 +37,7 @@ const Navbar = ({
       await signOutUser();
       console.log("User signed out");
       toast.success("User signed out");
+      router.push("/");
     } catch (error) {
       console.error("Error signing out:", error);
       toast.error("Error signing out");
@@ -127,7 +128,7 @@ const Navbar = ({
       </Flex>
     );
   }
-  // console.log(user);
+  console.log(user);
 
   return (
     <Flex

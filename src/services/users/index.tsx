@@ -57,7 +57,12 @@ export const getUser = async (uid: string) => {
         email,
         displayName,
         displayImage,
-        bio
+        bio,
+        following[]->{_id, displayName},
+        followers[]->{_id, displayName},
+        likes[]->{_id, title, _createdAt, body, brief, slug},
+        slug,
+        posts[]->{_id, title, _createdAt, body, brief, slug}
       }
     
     `);

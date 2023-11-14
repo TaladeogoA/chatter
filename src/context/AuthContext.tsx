@@ -15,7 +15,6 @@ import { createUser, getUser } from "@/services/users";
 interface AuthContextProps {
   children: React.ReactNode;
 }
-
 const AuthContext = createContext<AuthContextType>({
   showAuthPopup: false,
   openAuthPopup: () => {},
@@ -31,15 +30,8 @@ const AuthContext = createContext<AuthContextType>({
 const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
   const [showAuthPopup, setShowLoginPopup] = useState(false);
   const [userData, setUserData] = useState(null);
-
-  // functions to be exported
-  const openAuthPopup = () => {
-    setShowLoginPopup(true);
-  };
-
-  const closeAuthPopup = () => {
-    setShowLoginPopup(false);
-  };
+  const openAuthPopup = () => setShowLoginPopup(true);
+  const closeAuthPopup = () => setShowLoginPopup(false);
 
   const SignUpWithEmailAndPassword = async (
     email: string,
