@@ -20,6 +20,7 @@ import { CiEdit } from "react-icons/ci";
 import { GoChevronDown } from "react-icons/go";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
+import { buildImageUrl } from "@/services/sanityImageBuilder";
 
 const Navbar = ({
   setIsPublishModalOpen,
@@ -128,7 +129,10 @@ const Navbar = ({
       </Flex>
     );
   }
-  console.log(user);
+  // console.log(user);
+  const imageUrl = user?.displayImage
+    ? buildImageUrl(user?.displayImage).url()
+    : "";
 
   return (
     <Flex
@@ -190,11 +194,7 @@ const Navbar = ({
               bgColor: "transparent",
             }}
           >
-            <Avatar
-              name={user?.displayName || ""}
-              src={user?.photoURL || ""}
-              size="sm"
-            />
+            <Avatar name={user?.displayName || ""} src={imageUrl} size="sm" />
           </MenuButton>
           <MenuList>
             <Link href={`/profile/${user?.displayName}`}>

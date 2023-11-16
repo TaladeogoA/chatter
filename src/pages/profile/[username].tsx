@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import {
   Avatar,
   Box,
+  Divider,
   Flex,
   Tab,
   TabList,
@@ -24,12 +25,11 @@ const ProfilePage = () => {
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const { user } = useContext(AuthContext);
   if (!user) return <Loader />; // handle user auth session expiring
+  // console.log(user);
   const {
     displayName,
     displayImage,
     bio,
-    email,
-    _createdAt,
     _id,
     followers,
     following,
@@ -40,7 +40,23 @@ const ProfilePage = () => {
   const imageUrl = displayImage ? buildImageUrl(displayImage).url() : "";
 
   return (
-    <Box>
+    <Box
+      maxH="100vh"
+      w="100%"
+      overflowY="auto"
+      sx={{
+        "::-webkit-scrollbar": {
+          width: "10px",
+        },
+        "::-webkit-scrollbar-thumb": {
+          background: "gray",
+          borderRadius: "6px",
+        },
+        "::-webkit-scrollbar-thumb:hover": {
+          background: "darkgray",
+        },
+      }}
+    >
       <Navbar />
 
       <Box as="section" w="50%" mx="auto" mt="4rem">
@@ -82,7 +98,7 @@ const ProfilePage = () => {
             Edit Profile
           </Text>
         </Flex>
-        <Tabs mt="2rem" colorScheme="blackAlpha">
+        <Tabs my="2rem" colorScheme="blackAlpha">
           <TabList
             display="flex"
             justifyContent="space-evenly"
@@ -91,28 +107,48 @@ const ProfilePage = () => {
           >
             <Tab w="100%">Posts</Tab>
             <Tab w="100%">Likes</Tab>
-            <Tab w="100%">Reads</Tab>
           </TabList>
 
           <TabPanels>
-            <TabPanel mt="1rem">
-              {posts?.map((post: Article) => (
-                <UserProfileCard
-                  key={post._id}
-                  article={post}
-                  authorName={displayName}
-                />
-              ))}
-            </TabPanel>
-            <TabPanel mt="1rem">
-              <Text>
-                {likes ? (
-                  likes.map((like: Article) => (
+            <TabPanel mt="1rem" display="flex" flexDir="column" p="0">
+              {posts ? (
+                posts?.map((post: Article, index: number) => (
+                  <>
                     <UserProfileCard
-                      key={like._id}
-                      article={like}
+                      key={post._id}
+                      article={post}
                       authorName={displayName}
                     />
+                    {index !== posts.length - 1 && (
+                      <Divider borderColor="blackAlpha.400" />
+                    )}
+                  </>
+                ))
+              ) : (
+                <Flex flexDir="column" w="60%" mx="auto" gap=".5rem" mt="2rem">
+                  <Text textAlign="center" fontWeight="semibold">
+                    No posts yet.
+                  </Text>
+                  <Text textAlign="center">
+                    Your posts will show up here. Write an article to see them.
+                  </Text>
+                </Flex>
+              )}
+            </TabPanel>
+            <TabPanel mt="1rem" display="flex" flexDir="column" p="0">
+              <Text>
+                {likes ? (
+                  likes.map((like: Article, index: number) => (
+                    <>
+                      <UserProfileCard
+                        key={like._id}
+                        article={like}
+                        authorName={displayName}
+                      />
+                      {index !== likes.length - 1 && (
+                        <Divider borderColor="blackAlpha.400" />
+                      )}
+                    </>
                   ))
                 ) : (
                   <Flex
@@ -132,9 +168,6 @@ const ProfilePage = () => {
                 )}
               </Text>
             </TabPanel>
-            <TabPanel mt="1rem">
-              <Text>Reads</Text>
-            </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
@@ -145,6 +178,7 @@ const ProfilePage = () => {
           setOpenEditProfile={setOpenEditProfile}
           displayName={displayName}
           bio={bio}
+          userId={_id}
         />
       )}
     </Box>

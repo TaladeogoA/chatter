@@ -14,22 +14,30 @@ const UserProfileCard: FC<UserProfileCardProps> = ({ article, authorName }) => {
   const { title, _createdAt, brief, body, slug } = article;
   const readingTime = calculateReadingTime(body);
   return (
-    <Flex justifyContent="space-between">
-      <Box w="85%">
-        <Link href={`/articles/${slug?.current}`}>
-          <Text fontWeight="semibold" fontSize="xl" mb=".5rem">
+    <Link href={`/articles/${slug?.current}`}>
+      <Flex
+        justifyContent="space-between"
+        p="1rem"
+        _hover={{
+          bgColor: "#F2F2F2",
+          cursor: "pointer",
+        }}
+      >
+        <Box w="83%">
+          <Text fontWeight="semibold" fontSize="xl">
             {title}
           </Text>
-        </Link>
-        <Text>{brief.substring(0, 70)}...</Text>
-        <Flex>
-          <Text mr=".5rem">{authorName}</Text>
-          <>&#8226;</>
-          <Text ml=".5rem">{readingTime?.text}</Text>
-        </Flex>
-      </Box>
-      <Text>{daysSinceDate(_createdAt)}</Text>
-    </Flex>
+
+          <Text my=".2rem">{brief.substring(0, 70)}...</Text>
+          <Flex>
+            <Text mr=".5rem">{authorName}</Text>
+            <>&#8226;</>
+            <Text ml=".5rem">{readingTime?.text}</Text>
+          </Flex>
+        </Box>
+        <Text>{daysSinceDate(_createdAt)}</Text>
+      </Flex>
+    </Link>
   );
 };
 

@@ -26,8 +26,21 @@ const Home = () => {
           bgRepeat="no-repeat"
           bgSize="cover"
           bgPosition="center"
-          h="100vh"
+          maxH="100vh"
           w="100%"
+          overflowY="auto"
+          sx={{
+            "::-webkit-scrollbar": {
+              width: "10px",
+            },
+            "::-webkit-scrollbar-thumb": {
+              background: "gray",
+              borderRadius: "6px",
+            },
+            "::-webkit-scrollbar-thumb:hover": {
+              background: "darkgray",
+            },
+          }}
         >
           <Navbar />
           <Banner topArticles={trendingPosts} />

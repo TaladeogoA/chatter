@@ -1,7 +1,6 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import type { AuthContextType } from "../types";
 import {
-  User,
   UserCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -10,7 +9,7 @@ import {
 } from "firebase/auth";
 import { auth, provider } from "@/utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { createUser, getUser } from "@/services/users";
+import { createUser, useGetUser } from "@/services/users";
 
 interface AuthContextProps {
   children: React.ReactNode;
@@ -89,16 +88,11 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
 
   const [user, loading] = useAuthState(auth);
 
-  const getUserFromSanity = async (uid: string) => {
-    const res = await getUser(uid);
-    setUserData(res);
-  };
+  const { data } = useGetUser(user?.uid);
 
   useEffect(() => {
-    if (user) {
-      getUserFromSanity(user.uid);
-    }
-  }, [user]);
+    setUserData(data);
+  }, [data]);
 
   return (
     <AuthContext.Provider

@@ -1,6 +1,6 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { Scrollbar } from "react-scrollbars-custom";
 import CategoryContent from "./CategoryContent";
+import Scrollbar from "react-scrollbars-custom";
 
 interface CategoryType {
   description: string;

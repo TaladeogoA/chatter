@@ -1,6 +1,5 @@
 import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { TrendingArticleCard } from "../trending-article-card/TrendingArticleCard";
-import { Scrollbar } from "react-scrollbars-custom";
 import { Article } from "@/types";
 
 const Banner = ({ topArticles }: { topArticles: Article[] }) => {
@@ -51,20 +50,28 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
         >
           Trending on Chatter
         </Text>
-        <Scrollbar
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-            gap: "2rem",
+
+        <Flex
+          flexDir="column"
+          overflowY="auto"
+          maxH="70vh"
+          sx={{
+            "::-webkit-scrollbar": {
+              width: "7px",
+            },
+            "::-webkit-scrollbar-thumb": {
+              background: "gray",
+              borderRadius: "6px",
+            },
+            "::-webkit-scrollbar-thumb:hover": {
+              background: "darkgray",
+            },
           }}
         >
-          <Flex flexDir="column" h="100%" gap="2rem">
-            {topArticles?.map((article: Article) => (
-              <TrendingArticleCard key={article._id} article={article} />
-            ))}
-          </Flex>
-        </Scrollbar>
+          {topArticles?.map((article: Article) => (
+            <TrendingArticleCard key={article._id} article={article} />
+          ))}
+        </Flex>
       </Flex>
     </Flex>
   );

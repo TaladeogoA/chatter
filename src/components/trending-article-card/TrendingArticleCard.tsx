@@ -33,7 +33,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         w="80%"
         mx="auto"
         flexDir="column"
-        h="33%"
+        h="60vh"
         _hover={{
           "& svg": {
             transform: "rotate(75deg)",
@@ -41,7 +41,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           },
         }}
       >
-        <Box position="relative" h="40%">
+        <Box position="relative" h="60%">
           {image && (
             <Image src={imageUrl} alt="" w="100%" h="100%" objectFit="cover" />
           )}
@@ -72,7 +72,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Flex alignItems="flex-end" justifyContent="space-between" gap="2rem">
           <Text
             as="h3"
-            fontSize="2xl"
+            fontSize="xl"
             fontWeight="semibold"
             mt=".5rem"
             textTransform="capitalize"
