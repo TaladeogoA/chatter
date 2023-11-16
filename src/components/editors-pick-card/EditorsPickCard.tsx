@@ -50,11 +50,9 @@ const EditorsPickCard: React.FC<EditorsPickCardProps> = ({ article }) => {
                 </Text>
                 <>&#8226;</>
 
-                <Link href={`/categories/`}>
-                  <Text whiteSpace="nowrap" mx=".5rem">
-                    {category?.title}
-                  </Text>
-                </Link>
+                <Text whiteSpace="nowrap" mx=".5rem">
+                  {category?.title}
+                </Text>
               </Flex>
             </Flex>
           </Box>

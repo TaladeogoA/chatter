@@ -12,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Navbar from "@/components/navbar/Navbar";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import EditProfile from "./components/edit-profile";
 import Loader from "../../../loading";
@@ -24,8 +24,7 @@ const ProfilePage = () => {
   const router = useRouter();
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const { user } = useContext(AuthContext);
-  if (!user) return <Loader />; // handle user auth session expiring
-  // console.log(user);
+  if (!user) return <Loader />;
   const {
     displayName,
     displayImage,
@@ -36,7 +35,6 @@ const ProfilePage = () => {
     likes,
     posts,
   } = user;
-
   const imageUrl = displayImage ? buildImageUrl(displayImage).url() : "";
 
   return (
@@ -113,16 +111,12 @@ const ProfilePage = () => {
             <TabPanel mt="1rem" display="flex" flexDir="column" p="0">
               {posts ? (
                 posts?.map((post: Article, index: number) => (
-                  <>
-                    <UserProfileCard
-                      key={post._id}
-                      article={post}
-                      authorName={displayName}
-                    />
+                  <React.Fragment key={post._id}>
+                    <UserProfileCard article={post} authorName={displayName} />
                     {index !== posts.length - 1 && (
                       <Divider borderColor="blackAlpha.400" />
                     )}
-                  </>
+                  </React.Fragment>
                 ))
               ) : (
                 <Flex flexDir="column" w="60%" mx="auto" gap=".5rem" mt="2rem">
@@ -136,37 +130,29 @@ const ProfilePage = () => {
               )}
             </TabPanel>
             <TabPanel mt="1rem" display="flex" flexDir="column" p="0">
-              <Text>
-                {likes ? (
-                  likes.map((like: Article, index: number) => (
-                    <>
-                      <UserProfileCard
-                        key={like._id}
-                        article={like}
-                        authorName={displayName}
-                      />
-                      {index !== likes.length - 1 && (
-                        <Divider borderColor="blackAlpha.400" />
-                      )}
-                    </>
-                  ))
-                ) : (
-                  <Flex
-                    flexDir="column"
-                    w="60%"
-                    mx="auto"
-                    gap=".5rem"
-                    mt="2rem"
-                  >
-                    <Text textAlign="center" fontWeight="semibold">
-                      No likes yet.
-                    </Text>
-                    <Text textAlign="center">
-                      Your likes will show up here. Like articles to see them.
-                    </Text>
-                  </Flex>
-                )}
-              </Text>
+              {likes ? (
+                likes.map((like: Article, index: number) => (
+                  <React.Fragment key={like._id}>
+                    <UserProfileCard
+                      key={like._id}
+                      article={like}
+                      authorName={displayName}
+                    />
+                    {index !== likes.length - 1 && (
+                      <Divider borderColor="blackAlpha.400" />
+                    )}
+                  </React.Fragment>
+                ))
+              ) : (
+                <Flex flexDir="column" w="60%" mx="auto" gap=".5rem" mt="2rem">
+                  <Text textAlign="center" fontWeight="semibold">
+                    No likes yet.
+                  </Text>
+                  <Text textAlign="center">
+                    Your likes will show up here. Like articles to see them.
+                  </Text>
+                </Flex>
+              )}
             </TabPanel>
           </TabPanels>
         </Tabs>
