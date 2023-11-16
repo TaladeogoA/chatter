@@ -7,6 +7,7 @@ import theme from "../utils/themes";
 import "../styles/carousel.scss";
 import "../styles/scrollbar.scss";
 import "../styles/_global.scss";
+import { UserProvider } from "@/context/UserContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -15,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Component {...pageProps} />
+          <UserProvider>
+            <Component {...pageProps} />
+          </UserProvider>
           <Toaster />
         </AuthProvider>
       </QueryClientProvider>

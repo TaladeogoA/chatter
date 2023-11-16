@@ -14,14 +14,15 @@ import {
 import Navbar from "@/components/navbar/Navbar";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
-import EditProfile from "./components/edit-profile";
-import Loader from "../../../loading";
+import EditProfile from "../components/edit-profile";
+import Loader from "../../../../loading";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { Article } from "@/types";
 import UserProfileCard from "@/components/user-profile-card";
 
 const ProfilePage = () => {
   const router = useRouter();
+  const { username } = router.query;
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const { user } = useContext(AuthContext);
   if (!user) return <Loader />;
@@ -57,7 +58,7 @@ const ProfilePage = () => {
     >
       <Navbar />
 
-      <Box as="section" w="50%" mx="auto" mt="4rem">
+      <Box as="section" w="50%" mx="auto" mt="2rem">
         <Flex w="100%" alignItems="flex-end" justifyContent="space-between">
           <Box>
             <Avatar
@@ -74,13 +75,21 @@ const ProfilePage = () => {
             <Text>{bio ? bio : "No bio yet."}</Text>
 
             <Flex>
-              <Text>
+              <Text
+                _hover={{ textDecoration: "underline", cursor: "pointer" }}
+                onClick={() => router.push(`/profile/${username}/following`)}
+              >
                 <Text as="span" fontWeight="bold">
                   {following ? following.length : 0}
                 </Text>{" "}
                 following
               </Text>
-              <Text mx=".5rem">
+
+              <Text
+                mx=".5rem"
+                _hover={{ textDecoration: "underline", cursor: "pointer" }}
+                onClick={() => router.push(`/profile/${username}/followers`)}
+              >
                 <Text as="span" fontWeight="bold">
                   {followers ? followers.length : 0}
                 </Text>{" "}

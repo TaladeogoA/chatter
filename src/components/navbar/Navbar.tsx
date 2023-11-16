@@ -138,20 +138,32 @@ const Navbar = ({
     <Flex
       as="nav"
       h="5rem"
-      py=".5rem"
+      px="3rem"
       w="100%"
-      justifyContent="space-between"
       alignItems="center"
       gap="2rem"
       bg="transparent"
     >
-      <Link href="/">
-        <Box ml="4rem">
-          <Icon h="3rem" w="8rem" as={ChatterLogo} />
-        </Box>
-      </Link>
+      <Flex w="33%" alignItems="center" gap="2rem">
+        <Link href="/">
+          <Box textAlign="center">
+            <Icon h="3rem" w="8rem" as={ChatterLogo} />
+          </Box>
+        </Link>
+      </Flex>
 
-      <Flex gap="2rem" alignItems="center">
+      <Box w="33%">
+        {router.pathname !== "/" && (
+          <Input
+            placeholder="Search"
+            borderRadius=".2rem"
+            focusBorderColor="none"
+            fontWeight="semibold"
+          />
+        )}
+      </Box>
+
+      <Flex gap="2rem" alignItems="center" w="33%" justifyContent="flex-end">
         {isNewStory ? (
           <Button
             bg="black"
@@ -179,10 +191,8 @@ const Navbar = ({
             </Flex>
           </Link>
         )}
-
         <Menu>
           <MenuButton
-            mr="4rem"
             bgColor="transparent"
             p="0"
             as={Button}

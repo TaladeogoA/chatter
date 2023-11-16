@@ -1,10 +1,8 @@
 import { Timestamp } from "firebase/firestore";
 import type { ReactNode } from "react";
-import { User as FirebaseAuthUser } from "firebase/auth";
 import {
   ImageAsset,
   PortableTextBlock,
-  Reference,
   Slug,
   TypedObject,
 } from "@sanity/types";
@@ -77,6 +75,11 @@ interface ChatterContextProps {
   users: User[];
 }
 
+interface UserContextType {
+  followers: Follower[];
+  following: Follower[];
+}
+
 interface AuthContextType {
   showAuthPopup: boolean;
   openAuthPopup: () => void;
@@ -89,10 +92,10 @@ interface AuthContextType {
   loading: boolean;
 }
 
-interface UserContextType {
-  userData: UserData | null;
-  setUserData: (userData: UserData | null) => void;
-}
+// interface UserContextType {
+//   userData: UserData | null;
+//   setUserData: (userData: UserData | null) => void;
+// }
 
 interface Category {
   relatedCategories: any;
@@ -117,6 +120,13 @@ type Heading = {
   id: string;
 };
 
+interface Follower {
+  _id: string;
+  bio: string;
+  displayImage: ImageAsset;
+  displayName: string;
+}
+
 export type {
   Children,
   User,
@@ -128,4 +138,5 @@ export type {
   UserContextType,
   NewStoryProps,
   Heading,
+  Follower,
 };

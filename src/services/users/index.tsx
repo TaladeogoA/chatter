@@ -62,8 +62,8 @@ export const useGetUser = (uid?: string) => {
         displayName,
         displayImage,
         bio,
-        following[]->{_id, displayName},
-        followers[]->{_id, displayName},
+        following[]->{_id, displayName, bio},
+        followers[]->{_id, displayName, bio},
         likes[]->{_id, title, _createdAt, body, brief, slug},
         slug,
         posts[]->{_id, title, _createdAt, body, brief, slug}
@@ -162,4 +162,18 @@ export const useEditUserDetails = () => {
       },
     }
   );
+};
+
+export const getFollowersAndFollowing = async (uid?: string) => {
+  try {
+    const res = await client.fetch(`
+      *[_type == "user" && _id == "${uid}"][0] {
+        following[]->{_id, displayName, bio, displayImage},
+        followers[]->{_id, displayName, bio, displayImage}
+      }
+    `);
+    return res;
+  } catch (error) {
+    console.error("Error getting followers and following:", error);
+  }
 };
