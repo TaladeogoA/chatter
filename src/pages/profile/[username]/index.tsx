@@ -121,7 +121,7 @@ const ProfilePage = () => {
               {posts ? (
                 posts?.map((post: Article, index: number) => (
                   <React.Fragment key={post._id}>
-                    <UserProfileCard article={post} authorName={displayName} />
+                    <UserProfileCard article={post} />
                     {index !== posts.length - 1 && (
                       <Divider borderColor="blackAlpha.400" />
                     )}
@@ -142,11 +142,7 @@ const ProfilePage = () => {
               {likes ? (
                 likes.map((like: Article, index: number) => (
                   <React.Fragment key={like._id}>
-                    <UserProfileCard
-                      key={like._id}
-                      article={like}
-                      authorName={displayName}
-                    />
+                    <UserProfileCard key={like._id} article={like} />
                     {index !== likes.length - 1 && (
                       <Divider borderColor="blackAlpha.400" />
                     )}

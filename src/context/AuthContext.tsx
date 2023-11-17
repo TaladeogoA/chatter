@@ -23,7 +23,7 @@ const AuthContext = createContext<AuthContextType>({
   SignInWithEmailAndPassword: () => {},
   signOutUser: () => {},
   user: null,
-  loading: false,
+  userLoading: false,
 });
 
 const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
@@ -88,7 +88,7 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
 
   const [user, loading] = useAuthState(auth);
 
-  const { data } = useGetUser(user?.uid);
+  const { data, isLoading } = useGetUser(user?.uid);
 
   useEffect(() => {
     setUserData(data);
@@ -105,7 +105,7 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
         SignInWithEmailAndPassword,
         signOutUser,
         user: userData,
-        loading,
+        userLoading: loading || isLoading,
       }}
     >
       {children}

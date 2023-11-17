@@ -7,11 +7,10 @@ import React, { FC } from "react";
 
 interface UserProfileCardProps {
   article: Article;
-  authorName: string;
 }
 
-const UserProfileCard: FC<UserProfileCardProps> = ({ article, authorName }) => {
-  const { title, _createdAt, brief, body, slug } = article;
+const UserProfileCard: FC<UserProfileCardProps> = ({ article }) => {
+  const { title, _createdAt, brief, body, slug, author } = article;
   const readingTime = calculateReadingTime(body);
   return (
     <Link href={`/articles/${slug?.current}`}>
@@ -30,7 +29,7 @@ const UserProfileCard: FC<UserProfileCardProps> = ({ article, authorName }) => {
 
           <Text my=".2rem">{brief.substring(0, 70)}...</Text>
           <Flex>
-            <Text mr=".5rem">{authorName}</Text>
+            <Text mr=".5rem">{author?.displayName}</Text>
             <>&#8226;</>
             <Text ml=".5rem">{readingTime?.text}</Text>
           </Flex>
