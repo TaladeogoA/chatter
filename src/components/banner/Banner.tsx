@@ -53,7 +53,6 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
               onClick={(e) => {
                 e.preventDefault();
                 setSearchQuery(term);
-                setTerm("");
                 router.push("/search/[term]", `/search/${term}`);
               }}
             >

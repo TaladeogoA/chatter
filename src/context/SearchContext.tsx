@@ -15,7 +15,6 @@ const SearchContext = createContext<SearchContextType>({
 const SearchProvider: FC<SearchContextProps> = ({ children }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  console.log(searchQuery);
   const { data, error, isLoading } = useSearchPosts({ query: searchQuery });
 
   useEffect(() => {

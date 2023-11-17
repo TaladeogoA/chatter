@@ -17,9 +17,7 @@ import { useContext, Fragment } from "react";
 const SearchPage = () => {
   const router = useRouter();
   const { term } = router.query;
-  console.log(term);
   const { searchResults } = useContext(SearchContext);
-  console.log(searchResults);
 
   return (
     <Box

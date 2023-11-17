@@ -37,7 +37,7 @@ const Navbar = ({
   const { showAuthPopup, openAuthPopup, closeAuthPopup, user, signOutUser } =
     useContext(AuthContext);
   const [term, setTerm] = useState("");
-  const { setSearchQuery } = useContext(SearchContext);
+  const { setSearchQuery, searchQuery } = useContext(SearchContext);
 
   const handleSearchEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -88,7 +88,7 @@ const Navbar = ({
                 borderRadius=".2rem"
                 focusBorderColor="none"
                 fontWeight="semibold"
-                value={term}
+                value={searchQuery}
                 onChange={(e) => setTerm(e.target.value)}
                 onKeyDown={handleSearchEnter}
               />
@@ -185,6 +185,7 @@ const Navbar = ({
               borderRadius=".2rem"
               focusBorderColor="none"
               fontWeight="semibold"
+              value={searchQuery}
               onChange={(e) => setTerm(e.target.value)}
               onKeyDown={handleSearchEnter}
             />
