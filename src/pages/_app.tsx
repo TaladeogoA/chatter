@@ -8,6 +8,7 @@ import "../styles/carousel.scss";
 import "../styles/scrollbar.scss";
 import "../styles/_global.scss";
 import { UserProvider } from "@/context/UserContext";
+import { SearchProvider } from "@/context/SearchContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -17,7 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <UserProvider>
-            <Component {...pageProps} />
+            <SearchProvider>
+              <Component {...pageProps} />
+            </SearchProvider>
           </UserProvider>
           <Toaster />
         </AuthProvider>

@@ -1,17 +1,15 @@
 import { useQuery } from "react-query";
 import { client } from "../client";
 
-export const useGetAllPosts = () => {
-  const { data, error, isLoading } = useQuery(
-    "posts",
-    async () => {
-      const res = await client.fetch(`*[_type == "post"]`);
-      return res;
-    },
-    {
-      staleTime: 60000,
-    }
-  );
+export const useSearchPosts = ({ query }: { query: string }) => {
+  const { data, error, isLoading } = useQuery(["posts", query], async () => {
+    const res = await client.fetch(
+      `*[_type == "post" && (title match "${query}" || brief match "${query}")]{
+          slug, title, author->{displayName}, image, categories[]->{title}, _createdAt, body, brief
+        }`
+    );
+    return res;
+  });
 
   if (error) {
     throw new Error("Failed to fetch posts. Please try again later.");

@@ -10,6 +10,8 @@ import {
   MenuList,
   MenuItem,
   Avatar,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import ChatterLogo from "@/assets/icons/ChatterLogoBlack";
 import { useContext, useState } from "react";
@@ -21,6 +23,8 @@ import { GoChevronDown } from "react-icons/go";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
+import { SearchContext } from "@/context/SearchContext";
+import { CiSearch } from "react-icons/ci";
 
 const Navbar = ({
   setIsPublishModalOpen,
@@ -32,6 +36,15 @@ const Navbar = ({
   const [isLogin, setIsLogin] = useState(false);
   const { showAuthPopup, openAuthPopup, closeAuthPopup, user, signOutUser } =
     useContext(AuthContext);
+  const [term, setTerm] = useState("");
+  const { setSearchQuery } = useContext(SearchContext);
+
+  const handleSearchEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      setSearchQuery(term);
+      router.push("/search/[term]", `/search/${term}`);
+    }
+  };
 
   const handleSignOut = async () => {
     try {
@@ -50,37 +63,46 @@ const Navbar = ({
       <Flex
         as="nav"
         h="5rem"
-        py=".5rem"
+        px="3rem"
         w="100%"
-        justifyContent="space-between"
         alignItems="center"
+        gap="2rem"
         bg="transparent"
-        color="white"
       >
-        <Link href="/">
-          <Box ml="4rem">
-            <Icon h="3rem" w="8rem" as={ChatterLogo} />
-          </Box>
-        </Link>
+        <Flex w="33%" alignItems="center" gap="2rem">
+          <Link href="/">
+            <Box textAlign="center">
+              <Icon h="3rem" w="8rem" as={ChatterLogo} />
+            </Box>
+          </Link>
+        </Flex>
+
+        <Box w="33%">
+          {router.pathname !== "/" && (
+            <InputGroup>
+              <InputLeftElement>
+                <CiSearch />
+              </InputLeftElement>
+              <Input
+                placeholder="Search"
+                borderRadius=".2rem"
+                focusBorderColor="none"
+                fontWeight="semibold"
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+                onKeyDown={handleSearchEnter}
+              />
+            </InputGroup>
+          )}
+        </Box>
 
         <Flex
-          mr="4rem"
-          justifyContent="space-between"
+          w="33%"
+          justifyContent="flex-end"
           alignItems="center"
-          gap="2rem"
+          gap="1.5rem"
           color="black"
         >
-          <Text
-            fontSize="md"
-            _hover={{
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-          >
-            Explore
-          </Text>
-          <Text fontSize="md">Start Writing</Text>
-
           <Button
             onClick={() => {
               setIsLogin(true);
@@ -92,6 +114,7 @@ const Navbar = ({
             p="0"
             borderRadius=".2rem"
             _hover={{
+              textDecoration: "underline",
               cursor: "pointer",
             }}
           >
@@ -100,9 +123,8 @@ const Navbar = ({
 
           <Button
             bg="black"
+            h="2.5rem"
             color="white"
-            px="1rem"
-            py=".2rem"
             fontSize="md"
             borderRadius=".2rem"
             _hover={{
@@ -154,12 +176,19 @@ const Navbar = ({
 
       <Box w="33%">
         {router.pathname !== "/" && (
-          <Input
-            placeholder="Search"
-            borderRadius=".2rem"
-            focusBorderColor="none"
-            fontWeight="semibold"
-          />
+          <InputGroup>
+            <InputLeftElement>
+              <CiSearch />
+            </InputLeftElement>
+            <Input
+              placeholder="Search"
+              borderRadius=".2rem"
+              focusBorderColor="none"
+              fontWeight="semibold"
+              onChange={(e) => setTerm(e.target.value)}
+              onKeyDown={handleSearchEnter}
+            />
+          </InputGroup>
         )}
       </Box>
 

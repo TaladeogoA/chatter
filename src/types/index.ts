@@ -89,13 +89,14 @@ interface AuthContextType {
   SignInWithEmailAndPassword: (email: string, password: string) => void;
   signOutUser: () => void;
   user: any;
-  loading: boolean;
+  userLoading: boolean;
 }
 
-// interface UserContextType {
-//   userData: UserData | null;
-//   setUserData: (userData: UserData | null) => void;
-// }
+interface SearchContextType {
+  searchResults: any[];
+  searchQuery: string;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+}
 
 interface Category {
   relatedCategories: any;
@@ -139,4 +140,5 @@ export type {
   NewStoryProps,
   Heading,
   Follower,
+  SearchContextType,
 };
