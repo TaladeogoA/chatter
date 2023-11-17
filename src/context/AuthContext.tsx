@@ -9,49 +9,42 @@ import {
 } from "firebase/auth";
 import { auth, provider } from "@/utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { createUser, getUser } from "@/services/users";
+import { createUser, useGetUser } from "@/services/users";
 
 interface AuthContextProps {
   children: React.ReactNode;
 }
 const AuthContext = createContext<AuthContextType>({
+  showAuthPopup: false,
+  openAuthPopup: () => {},
+  closeAuthPopup: () => {},
   signInWithGoogle: () => {},
   SignUpWithEmailAndPassword: () => {},
   SignInWithEmailAndPassword: () => {},
   signOutUser: () => {},
   user: null,
-  openLogin: false,
-  openSignup: false,
-  setOpenLogin: () => {},
-  setOpenSignup: () => {},
+  userLoading: false,
 });
 
 const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
+  const [showAuthPopup, setShowLoginPopup] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [openLogin, setOpenLogin] = useState(false);
-  const [openSignup, setOpenSignup] = useState(false);
+  const openAuthPopup = () => setShowLoginPopup(true);
+  const closeAuthPopup = () => setShowLoginPopup(false);
 
   const SignUpWithEmailAndPassword = async (
     email: string,
     password: string
   ): Promise<void> => {
     try {
-      const firebaseRes = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      if (firebaseRes) {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+
+      if (res) {
         await createUser({
-          email: firebaseRes.user.email || "",
-          uid: firebaseRes.user.uid,
-          displayName: firebaseRes.user.displayName
-            ? firebaseRes.user.displayName
-            : undefined,
+          email,
+          uid: res.user.uid,
+          displayName: res.user.displayName ? res.user.displayName : undefined,
         });
-        const res = await getUser(firebaseRes.user.uid);
-        setUserData(res);
-        console.log(userData);
       }
     } catch (error) {
       console.error("Error signing up with email and password:", error);
@@ -93,33 +86,26 @@ const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
     }
   };
 
-  const getUserData = async (uid: string): Promise<void> => {
-    try {
-      const res = await getUser(uid);
-      setUserData(res);
-    } catch (error) {
-      console.error("Error getting user data:", error);
-    }
-  };
+  const [user, loading] = useAuthState(auth);
+
+  const { data, isLoading } = useGetUser(user?.uid);
 
   useEffect(() => {
-    if (auth.currentUser) {
-      getUserData(auth.currentUser.uid);
-    }
-  }, []);
+    setUserData(data);
+  }, [data]);
 
   return (
     <AuthContext.Provider
       value={{
+        showAuthPopup,
+        openAuthPopup,
+        closeAuthPopup,
         signInWithGoogle,
         SignUpWithEmailAndPassword,
         SignInWithEmailAndPassword,
         signOutUser,
         user: userData,
-        openLogin,
-        openSignup,
-        setOpenLogin,
-        setOpenSignup,
+        userLoading: loading || isLoading,
       }}
     >
       {children}

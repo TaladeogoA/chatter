@@ -17,7 +17,7 @@ import ChatterLogo from "@/assets/icons/ChatterLogoBlack";
 import { useContext, useState } from "react";
 import Link from "next/link";
 import { AuthContext } from "@/context/AuthContext";
-// import AuthPopup from "../auth-popup/AuthPopup";
+import AuthPopup from "../auth-popup/AuthPopup";
 import { CiEdit } from "react-icons/ci";
 import { GoChevronDown } from "react-icons/go";
 import { useRouter } from "next/router";
@@ -25,7 +25,6 @@ import { toast } from "react-hot-toast";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { SearchContext } from "@/context/SearchContext";
 import { CiSearch } from "react-icons/ci";
-import SignUpPopup from "../sign-up";
 
 const Navbar = ({
   setIsPublishModalOpen,
@@ -33,16 +32,11 @@ const Navbar = ({
   setIsPublishModalOpen?: (arg0: boolean) => void;
 }) => {
   const router = useRouter();
-  const [term, setTerm] = useState("");
   const isNewStory = router.pathname === "/new-story" ? true : false;
-  const {
-    user,
-    signOutUser,
-    setOpenSignup,
-    setOpenLogin,
-    openSignup,
-    openLogin,
-  } = useContext(AuthContext);
+  const [isLogin, setIsLogin] = useState(false);
+  const { showAuthPopup, openAuthPopup, closeAuthPopup, user, signOutUser } =
+    useContext(AuthContext);
+  const [term, setTerm] = useState("");
   const { setSearchQuery, searchQuery } = useContext(SearchContext);
 
   const handleSearchEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -111,7 +105,8 @@ const Navbar = ({
         >
           <Button
             onClick={() => {
-              setOpenLogin(true);
+              setIsLogin(true);
+              openAuthPopup();
             }}
             fontSize="md"
             bg="transparent"
@@ -137,23 +132,26 @@ const Navbar = ({
             }}
             className="toledo"
             onClick={() => {
-              setOpenSignup(true);
+              setIsLogin(false);
+              openAuthPopup();
             }}
           >
             Sign Up
           </Button>
         </Flex>
 
-        {openSignup && (
-          <SignUpPopup
-            isOpen={openSignup}
-            onClose={() => setOpenSignup(false)}
+        {showAuthPopup && (
+          <AuthPopup
+            isOpen={showAuthPopup}
+            isLogin={isLogin}
+            onClose={closeAuthPopup}
+            setIsLogin={setIsLogin}
           />
         )}
       </Flex>
     );
   }
-  console.log(user);
+  // console.log(user);
   const imageUrl = user?.displayImage
     ? buildImageUrl(user?.displayImage).url()
     : "";
