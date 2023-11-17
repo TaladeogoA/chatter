@@ -2,7 +2,7 @@ import { AuthContext } from "@/context/AuthContext";
 import { Box, Button, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import ChatterLogo from "@/assets/icons/ChatterLogoBlack";
-import { completeSetup } from "@/services/users";
+import { useCompleteSetup } from "@/services/users";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import Loader from "../../../loading";
@@ -12,11 +12,7 @@ const CompleteSetup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const router = useRouter();
-
-  if (!user) {
-    return <Loader />;
-  }
-  // console.log(user);
+  const completeSetupMutation = useCompleteSetup();
 
   return (
     <Box>
@@ -44,7 +40,7 @@ const CompleteSetup = () => {
               e.preventDefault();
               try {
                 setIsLoading(true);
-                await completeSetup({
+                await completeSetupMutation.mutateAsync({
                   id: user?._id,
                   displayName,
                 });

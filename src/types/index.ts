@@ -81,15 +81,15 @@ interface UserContextType {
 }
 
 interface AuthContextType {
-  showAuthPopup: boolean;
-  openAuthPopup: () => void;
-  closeAuthPopup: () => void;
   signInWithGoogle: () => void;
   SignUpWithEmailAndPassword: (email: string, password: string) => void;
   SignInWithEmailAndPassword: (email: string, password: string) => void;
   signOutUser: () => void;
   user: any;
-  userLoading: boolean;
+  openLogin: boolean;
+  openSignup: boolean;
+  setOpenLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSignup: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface SearchContextType {

@@ -78,46 +78,76 @@ export const useGetUser = (uid?: string) => {
   );
 };
 
-export const completeSetup = async ({
-  displayName,
-  id,
-}: {
-  displayName: string;
-  id: string;
-}) => {
-  console.log(displayName, id);
-  const mutations = [
-    {
-      patch: {
-        id: id,
-        set: {
-          displayName: displayName,
-        },
-      },
-    },
-  ];
+export const getUser = async (uid?: string) => {
+  if (!uid) {
+    return;
+  }
 
   try {
-    const res = await fetch(
-      `https://x9n5g34c.api.sanity.io/v2021-10-21/data/mutate/production`,
-      {
-        method: "post",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_TOKEN}`,
-        },
-        body: JSON.stringify({ mutations }),
+    const res = await client.fetch(`
+      *[_type == "user" && _id == "${uid}"][0] {
+        _id,
+        _createdAt,
+        email,
+        displayName,
+        displayImage,
+        bio,
+        following[]->{_id, displayName, bio},
+        followers[]->{_id, displayName, bio},
+        likes[]->{_id, title, _createdAt, body, brief, slug},
+        slug,
+        posts[]->{_id, title, _createdAt, body, brief, slug}
       }
-    );
+    `);
+
     return res;
   } catch (error) {
-    console.error("Error completing setup:", error);
+    console.error("Error fetching user data:", error);
   }
+};
+
+export const useCompleteSetup = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    ["completeSetup"],
+    async ({ displayName, id }: { displayName: string; id: string }) => {
+      const mutations = [
+        {
+          patch: {
+            id: id,
+            set: {
+              displayName: displayName,
+            },
+          },
+        },
+      ];
+      const res = await fetch(
+        `https://x9n5g34c.api.sanity.io/v2021-10-21/data/mutate/production`,
+        {
+          method: "post",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_TOKEN}`,
+          },
+          body: JSON.stringify({ mutations }),
+        }
+      );
+      console.log("res", res);
+      return res;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["user"],
+        });
+      },
+    }
+  );
 };
 
 export const useEditUserDetails = () => {
   const queryClient = useQueryClient();
-  console.log(queryClient);
 
   return useMutation(
     ["editUser"],
