@@ -8,15 +8,15 @@ import toast from "react-hot-toast";
 import Loader from "../../../loading";
 
 const CompleteSetup = () => {
-  const { user } = useContext(AuthContext);
+  const { user, userLoading } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const router = useRouter();
 
-  if (!user) {
+  if (userLoading) {
     return <Loader />;
   }
-  // console.log(user);
+  console.log(user);
 
   return (
     <Box>

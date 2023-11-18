@@ -59,8 +59,8 @@ const ProfilePage = () => {
       <Navbar />
 
       <Box as="section" w="50%" mx="auto" mt="2rem">
-        <Flex w="100%" alignItems="flex-end" justifyContent="space-between">
-          <Box>
+        <Flex w="100%" alignItems="center" justifyContent="space-between">
+          <Box w="70%">
             <Avatar
               size="xl"
               name={displayName}
@@ -71,7 +71,7 @@ const ProfilePage = () => {
               {displayName}
             </Text>
 
-            <Text>{bio ? bio : "No bio yet."}</Text>
+            <Text mb=".5rem">{bio ? bio : "No bio yet."}</Text>
 
             <Flex>
               <Text
@@ -104,7 +104,7 @@ const ProfilePage = () => {
             Edit Profile
           </Text>
         </Flex>
-        <Tabs my="2rem" colorScheme="blackAlpha">
+        <Tabs my="1rem" colorScheme="blackAlpha">
           <TabList
             display="flex"
             justifyContent="space-evenly"

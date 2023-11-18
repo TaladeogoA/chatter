@@ -96,6 +96,7 @@ interface SearchContextType {
   searchResults: any[];
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  userResults: any[];
 }
 
 interface Category {

@@ -121,12 +121,16 @@ const EditProfile: FC<EditProfileProps> = ({
                 _hover={{
                   borderBottom: "1px solid black",
                 }}
-                {...register("bio", {
-                  maxLength: 160,
-                })}
+                {...register("bio")}
               />
               <FormHelperText fontWeight="hairline">
-                Appears on your Profile and next to your stories.
+                {errors.bio?.message ? (
+                  <Text as="span" color="red.500">
+                    {errors.bio?.message}
+                  </Text>
+                ) : (
+                  "Tell us about yourself in 160 characters or fewer."
+                )}
               </FormHelperText>
             </FormControl>
             <Flex gap="1rem" justifyContent="flex-end" my="2rem">
