@@ -117,7 +117,6 @@ export const completeSetup = async ({
 
 export const useEditUserDetails = () => {
   const queryClient = useQueryClient();
-  console.log(queryClient);
 
   return useMutation(
     ["editUser"],
@@ -176,4 +175,87 @@ export const getFollowersAndFollowing = async (uid?: string) => {
   } catch (error) {
     console.error("Error getting followers and following:", error);
   }
+};
+
+export const useFollowUser = () => {
+  const queryClient = useQueryClient();
+
+  const mutationFn = async ({
+    userToFollowId,
+    userId,
+  }: {
+    userToFollowId: string;
+    userId: string;
+  }) => {
+    const mutations = [
+      {
+        patch: {
+          id: userId,
+          set: {
+            following: [
+              {
+                _type: "reference",
+                _ref: userToFollowId,
+                _key: userToFollowId,
+              },
+              ...(await getFollowersAndFollowing(userId)).following.map(
+                (user: any) => ({
+                  _type: "reference",
+                  _ref: user._id,
+                  _key: user._id,
+                })
+              ),
+            ],
+          },
+        },
+      },
+      {
+        patch: {
+          id: userToFollowId,
+          set: {
+            followers: [
+              {
+                _type: "reference",
+                _ref: userId,
+                _key: userId,
+              },
+              ...(await getFollowersAndFollowing(userToFollowId)).followers.map(
+                (user: any) => ({
+                  _type: "reference",
+                  _ref: user._id,
+                  _key: user._id,
+                })
+              ),
+            ],
+          },
+        },
+      },
+    ];
+
+    try {
+      const res = await fetch(
+        `https://x9n5g34c.api.sanity.io/v2021-10-21/data/mutate/production`,
+        {
+          method: "post",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_TOKEN}`,
+          },
+          body: JSON.stringify({ mutations }),
+        }
+      );
+      return res;
+    } catch (error) {
+      console.error("Error following user:", error);
+    }
+  };
+
+  return useMutation(["followUser"], mutationFn, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["user", "following"],
+      });
+      getFollowersAndFollowing();
+    },
+  });
 };
