@@ -36,7 +36,7 @@ const ProfilePage = () => {
     likes,
     posts,
   } = user;
-  const imageUrl = displayImage ? buildImageUrl(displayImage).url() : "";
+  const imageUrl = displayImage ? buildImageUrl(displayImage).url() : undefined;
 
   return (
     <Box
@@ -65,7 +65,6 @@ const ProfilePage = () => {
               size="xl"
               name={displayName}
               src={imageUrl}
-              bgColor="white"
               border={imageUrl === "" ? "1px solid black" : "none"}
             />
             <Text as="h2" fontSize="2xl" fontWeight="bold" mt=".5rem">

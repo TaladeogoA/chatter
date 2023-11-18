@@ -18,6 +18,23 @@ export const useSearchPosts = ({ query }: { query: string }) => {
   return { data, error, isLoading };
 };
 
+export const useSearchUsers = ({ query }: { query: string }) => {
+  const { data, error, isLoading } = useQuery(["users", query], async () => {
+    const res = await client.fetch(
+      `*[_type == "user" && (displayName match "${query}")]{
+           displayName, displayImage, _id, bio
+        }`
+    );
+    return res;
+  });
+
+  if (error) {
+    throw new Error("Failed to fetch users. Please try again later.");
+  }
+
+  return { data, error, isLoading };
+};
+
 export const useGetEditorsPicks = () => {
   const { data, error, isLoading } = useQuery(
     "editors-picks",

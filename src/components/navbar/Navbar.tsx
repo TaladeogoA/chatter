@@ -85,10 +85,15 @@ const Navbar = ({
               </InputLeftElement>
               <Input
                 placeholder="Search"
-                borderRadius=".2rem"
-                focusBorderColor="none"
                 fontWeight="semibold"
-                value={searchQuery}
+                border="none"
+                borderBottom="1px solid black"
+                borderRadius="none"
+                focusBorderColor="none"
+                _hover={{
+                  borderBottom: "1px solid black",
+                }}
+                value={term}
                 onChange={(e) => setTerm(e.target.value)}
                 onKeyDown={handleSearchEnter}
               />
@@ -182,10 +187,15 @@ const Navbar = ({
             </InputLeftElement>
             <Input
               placeholder="Search"
-              borderRadius=".2rem"
-              focusBorderColor="none"
               fontWeight="semibold"
-              value={searchQuery}
+              border="none"
+              borderBottom="1px solid black"
+              borderRadius="none"
+              focusBorderColor="none"
+              _hover={{
+                borderBottom: "1px solid black",
+              }}
+              value={term}
               onChange={(e) => setTerm(e.target.value)}
               onKeyDown={handleSearchEnter}
             />

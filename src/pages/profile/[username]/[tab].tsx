@@ -43,7 +43,7 @@ const FollowingFollowers: FC = () => {
       }}
     >
       <Navbar />
-      <Box w="60%" mx="auto">
+      <Box w="50%" mx="auto">
         <Flex alignItems="center" mb="1rem" justifyContent="flex-start">
           <Box
             p=".5rem"
@@ -72,7 +72,7 @@ const FollowingFollowers: FC = () => {
             <Tab>Followers</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel w="100%" mt="1rem">
               {following.length === 0 ? (
                 <Flex flexDir="column" w="60%" mx="auto" gap=".5rem" mt="2rem">
                   <Text textAlign="center" fontWeight="semibold">
@@ -93,8 +93,8 @@ const FollowingFollowers: FC = () => {
                 ))
               )}
             </TabPanel>
-            <TabPanel>
-              {following.length === 0 ? (
+            <TabPanel w="100%" mt="1rem">
+              {followers.length === 0 ? (
                 <Flex flexDir="column" w="60%" mx="auto" gap=".5rem" mt="2rem">
                   <Text textAlign="center" fontWeight="semibold">
                     You don&apos;t have any followers yet.

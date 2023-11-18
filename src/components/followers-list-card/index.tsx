@@ -1,5 +1,5 @@
 import { buildImageUrl } from "@/services/sanityImageBuilder";
-import { Avatar, Badge, Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import { ImageAsset } from "@sanity/types";
 import { FC } from "react";
 
@@ -15,11 +15,11 @@ const FollowersCard: FC<FollowersCardProps> = (user) => {
 
   const { displayName, bio, displayImage } = user;
 
-  const imageUrl = displayImage ? buildImageUrl(displayImage).url() : "";
+  const imageUrl = displayImage ? buildImageUrl(displayImage).url() : undefined;
 
   return (
-    <Box>
-      <Flex>
+    <Box w="80%" mx="auto">
+      <Flex alignItems="center">
         <Avatar
           size="md"
           name={displayName}
@@ -27,24 +27,11 @@ const FollowersCard: FC<FollowersCardProps> = (user) => {
           mr=".5rem"
           bg="black"
         />
-        <Flex alignItems="center" gap=".5rem">
+        <Flex alignItems="flex-start" flexDir="column">
           <Text fontSize="lg" fontWeight="semibold">
             {displayName}
           </Text>
-          <Badge
-            h="max-content"
-            w="max-content"
-            py=".5"
-            px="1"
-            borderRadius=".2rem"
-            mt=".5rem"
-            textTransform="none"
-            fontSize="xs"
-            fontWeight="semibold"
-            bg="#F2F2F2"
-          >
-            Follows you
-          </Badge>
+          <Text>{bio && bio.substring(0, 20)}</Text>
         </Flex>
         <Button
           ml="auto"
@@ -62,9 +49,6 @@ const FollowersCard: FC<FollowersCardProps> = (user) => {
           Follow
         </Button>
       </Flex>
-      <Text mx="3.5rem" mt="-1rem">
-        {bio}
-      </Text>
     </Box>
   );
 };
