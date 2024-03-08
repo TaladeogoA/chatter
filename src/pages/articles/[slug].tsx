@@ -33,7 +33,7 @@ const SingleArticle = () => {
     loadImage();
   }, [data]);
 
-  if (isLoading || !imageLoaded) return <Loader />;
+  if (isLoading) return <Loader />;
 
   const postData: Article | null = data;
   if (!postData || error) {
