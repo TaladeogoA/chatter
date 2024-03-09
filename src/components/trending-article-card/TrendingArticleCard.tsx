@@ -6,11 +6,9 @@ import {
   Text,
   Skeleton,
   Divider,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { Article } from "@/types";
 import Link from "next/link";
-import { ArrowUpIcon } from "@chakra-ui/icons";
 import { parseDate } from "@/utils/dateUtils";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { calculateReadingTime } from "@/utils/textUtils";
@@ -20,7 +18,6 @@ interface ArticleCardProps {
 }
 
 const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
-  const [isBelow480] = useMediaQuery("(max-width: 480px)");
   if (!article) {
     return <ArticleCardSkeleton />;
   }
@@ -144,4 +141,4 @@ const ArticleCardSkeleton: React.FC = () => {
   );
 };
 
-export { TrendingArticleCard, ArticleCardSkeleton };
+export default TrendingArticleCard;

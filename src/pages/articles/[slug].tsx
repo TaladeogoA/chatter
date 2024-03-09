@@ -46,23 +46,23 @@ const SingleArticle = () => {
 
   const portableTextComponents = {
     block: {
-      h2: (props) => (
+      h2: (props: any) => (
         // console.log(props),
         <h2 id={`heading-${props.node._key}`} className="heading">
           {props.children}
         </h2>
       ),
-      h3: (props) => (
+      h3: (props: any) => (
         <h3 id={`heading-${props.node._key}`} className="heading">
           {props.children}
         </h3>
       ),
-      h4: (props) => (
+      h4: (props: any) => (
         <h4 id={`heading-${props.node._key}`} className="heading">
           {props.children}
         </h4>
       ),
-      h5: (props) => (
+      h5: (props: any) => (
         <h5 id={`heading-${props.node._key}`} className="heading">
           {props.children}
         </h5>

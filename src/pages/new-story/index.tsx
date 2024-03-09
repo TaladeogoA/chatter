@@ -51,6 +51,7 @@ const NewStory = () => {
     sessionStorage.setItem("content", JSON.stringify(content));
     const html = toHTML(content);
     const blocks = htmlToBlocks(html, blockContentType);
+    // @ts-ignore
     formHook.setValue("body", blocks);
   };
 
@@ -135,7 +136,8 @@ const NewStory = () => {
         slug: slug,
         // headerImageAssetId: headerImageAssetId,
       });
-      if (res.ok) {
+
+      if (res?.ok) {
         toast.success("Story published successfully");
         router.push(`/articles/${slug}`);
       } else {

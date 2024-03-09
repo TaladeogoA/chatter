@@ -1,9 +1,9 @@
 import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
-import { TrendingArticleCard } from "../trending-article-card/TrendingArticleCard";
 import { Article } from "@/types";
 import { useContext, useState } from "react";
 import { SearchContext } from "@/context/SearchContext";
 import { useRouter } from "next/router";
+import TrendingArticleCard from "../trending-article-card/TrendingArticleCard";
 
 const Banner = ({ topArticles }: { topArticles: Article[] }) => {
   const [term, setTerm] = useState("");

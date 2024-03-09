@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import ArticleCard from "../trending-article-card/TrendingArticleCard";
-import CustomTag from "../custom-tag/CustomTag";
+// import CustomTag from "../custom-tag/CustomTag";
 import AuthorCard from "../author-card/AuthorCard";
 
 interface Topic {
@@ -26,7 +26,7 @@ const AuthSideBar = () => {
 
       <Text>These topics may interest you</Text>
 
-      <Box>
+      {/* <Box>
         {topics.map((topic) => {
           return (
             <CustomTag
@@ -37,7 +37,7 @@ const AuthSideBar = () => {
             />
           );
         })}
-      </Box>
+      </Box> */}
 
       <Text>Top Articles</Text>
     </Box>

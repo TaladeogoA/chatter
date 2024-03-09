@@ -6,9 +6,12 @@ export const calculateReadingTime = (
   blockContent: TypedObject | TypedObject[],
   wordsPerMinute = 200
 ) => {
+  //@ts-ignore
   const mainText = blockContent
-    .filter((block) => block._type === "block" && block.style === "normal")
-    .map((block) => block.children.map((child: any) => child.text).join(""))
+    .filter((block: any) => block._type === "block" && block.style === "normal")
+    .map((block: any) =>
+      block.children.map((child: any) => child.text).join("")
+    )
     .join("");
 
   const result = readingTime(mainText, wordsPerMinute);
