@@ -37,8 +37,19 @@ const NewStory = () => {
   // const [isWrongFileType, setIsWrongFileType] = useState(false);
   const { data: categoriesData, isLoading } = useGetAllCategories();
   const { user } = useContext(AuthContext);
-  const initial = JSON.parse(sessionStorage.getItem("content") || "null");
   const router = useRouter();
+  const formHook = useForm({
+    defaultValues: {
+      title: "",
+      brief: "",
+      categories: [],
+      body: [],
+    },
+  });
+  if (typeof sessionStorage === "undefined") {
+    return null;
+  }
+  const initial = JSON.parse(sessionStorage.getItem("content") || "null");
 
   const blockContentType = schema
     .get("post")
@@ -65,15 +76,6 @@ const NewStory = () => {
       hasMore: false,
     };
   };
-
-  const formHook = useForm({
-    defaultValues: {
-      title: "",
-      brief: "",
-      categories: [],
-      body: [],
-    },
-  });
 
   const {
     control,
