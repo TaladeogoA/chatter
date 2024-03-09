@@ -14,24 +14,55 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
     <Flex
       as="header"
       h="calc(100% - 10rem)"
-      px="6rem"
+      px={{
+        base: "1rem",
+        md: "3rem",
+        lg: "6rem",
+      }}
       my="1rem"
       alignItems="start"
+      flexDir={{ base: "column", lg: "row" }}
       gap="2rem"
     >
-      <Flex h="100%" flexDir="column" w="50%" mt="6rem">
+      <Flex
+        h="100%"
+        flexDir="column"
+        w={{
+          base: "100%",
+          lg: "45%",
+        }}
+        mt={{
+          base: "2rem",
+          lg: "6rem",
+        }}
+      >
         <Heading
           as="h1"
-          fontSize="7xl"
+          fontSize={{
+            base: "4xl",
+            sm: "5xl",
+            lg: "7xl",
+          }}
           fontWeight="bold"
           color="black"
           className="toledo"
+          textAlign={{ base: "center", lg: "left" }}
         >
           Welcome to the Place Words Come Alive.
         </Heading>
 
         <form>
-          <Flex gap="1rem" pr="2rem" mt="3rem">
+          <Flex
+            gap="1rem"
+            pr={{
+              base: "0",
+              sm: "2rem",
+            }}
+            mt={{
+              base: "1rem",
+              sm: "3rem",
+            }}
+          >
             <Input
               placeholder="Search for articles"
               border="none"
@@ -61,14 +92,26 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
           </Flex>
         </form>
       </Flex>
-      <Flex flexDir="column" w="50%" h="100%">
+      <Flex
+        flexDir="column"
+        w={{
+          base: "100%",
+          lg: "55%",
+        }}
+        h="100%"
+      >
         <Text
           fontWeight="extrabold"
-          fontSize="4xl"
+          fontSize={{
+            base: "2xl",
+            sm: "3xl",
+            lg: "4xl",
+          }}
           my="1rem"
           w="80%"
           mx="auto"
           className="toledo"
+          textAlign={{ base: "center", lg: "left" }}
         >
           Trending on Chatter
         </Text>

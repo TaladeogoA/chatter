@@ -63,9 +63,13 @@ const Navbar = ({
       <Flex
         as="nav"
         h="5rem"
-        px="3rem"
+        px={{
+          base: "1rem",
+          sm: "3rem",
+        }}
         w="100%"
         alignItems="center"
+        justifyContent="space-between"
         gap="2rem"
         bg="transparent"
       >
@@ -77,8 +81,8 @@ const Navbar = ({
           </Link>
         </Flex>
 
-        <Box w="33%">
-          {router.pathname !== "/" && (
+        {router.pathname !== "/" && (
+          <Box w="33%">
             <InputGroup>
               <InputLeftElement>
                 <CiSearch />
@@ -98,8 +102,8 @@ const Navbar = ({
                 onKeyDown={handleSearchEnter}
               />
             </InputGroup>
-          )}
-        </Box>
+          </Box>
+        )}
 
         <Flex
           w="33%"

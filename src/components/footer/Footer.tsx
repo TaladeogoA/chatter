@@ -10,8 +10,19 @@ const Footer = () => {
       color="white"
       p="4"
       gap="4rem"
-      alignItems="flex-start"
+      alignItems={{
+        base: "center",
+        md: "flex-start",
+      }}
       className="footer"
+      flexDir={{
+        base: "column",
+        md: "row",
+      }}
+      textAlign={{
+        base: "center",
+        md: "left",
+      }}
     >
       <Box>
         <Link href="/">

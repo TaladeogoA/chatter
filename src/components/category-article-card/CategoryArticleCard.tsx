@@ -12,9 +12,15 @@ const CategoryArticleCard: React.FC<{ article: CategoryContentProps }> = ({
   const readingTime = calculateReadingTime(body);
 
   return (
-    <Box>
+    <Box maxW="100%">
       <Link href={`/articles/${slug?.current}`}>
-        <Text fontWeight="semibold" fontSize="2xl">
+        <Text
+          fontWeight="semibold"
+          fontSize={{
+            base: "lg",
+            lg: "2xl",
+          }}
+        >
           {title}
         </Text>
       </Link>
@@ -22,7 +28,7 @@ const CategoryArticleCard: React.FC<{ article: CategoryContentProps }> = ({
       <Divider my=".5rem" size="5px" borderColor="black" />
 
       <Flex justifyContent="space-between" fontSize="sm">
-        <Flex>
+        <Flex wrap="wrap">
           <Link href={`/authors/`}>
             <Text mr=".5rem">{author?.displayName}</Text>
           </Link>

@@ -6,6 +6,7 @@ import {
   Text,
   Skeleton,
   Divider,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { Article } from "@/types";
 import Link from "next/link";
@@ -19,6 +20,7 @@ interface ArticleCardProps {
 }
 
 const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
+  const [isBelow480] = useMediaQuery("(max-width: 480px)");
   if (!article) {
     return <ArticleCardSkeleton />;
   }
@@ -30,10 +32,10 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   return (
     <Link href={`/articles/${slug?.current}`} passHref>
       <Flex
-        w="80%"
-        mx="auto"
+        mr="1rem"
         flexDir="column"
-        h="60vh"
+        h="50vh"
+        overflowX="hidden"
         _hover={{
           "& svg": {
             transform: "rotate(75deg)",
@@ -41,38 +43,26 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           },
         }}
       >
-        <Box position="relative" h="60%">
+        <Box h="50%">
           {image && (
             <Image src={imageUrl} alt="" w="100%" h="100%" objectFit="cover" />
           )}
-          <Flex
-            justifyContent="center"
-            alignItems="center"
-            bgColor="black"
-            w="5rem"
-            h="5rem"
-            borderRadius="full"
-            position="absolute"
-            top="40%"
-            right="-10%"
-          >
-            <ArrowUpIcon
-              w={10}
-              h={10}
-              color="white"
-              transform="rotate(45deg)"
-              _hover={{
-                transform: "rotate(75deg) scale(1.1)",
-                transition: "all .3s ease-in-out",
-              }}
-            />
-          </Flex>
         </Box>
 
-        <Flex alignItems="flex-end" justifyContent="space-between" gap="2rem">
+        <Flex
+          alignItems="flex-end"
+          justifyContent="space-between"
+          gap={{
+            base: "1rem",
+            md: "2rem",
+          }}
+        >
           <Text
             as="h3"
-            fontSize="xl"
+            fontSize={{
+              base: "md",
+              lg: "lg",
+            }}
             fontWeight="semibold"
             mt=".5rem"
             textTransform="capitalize"
@@ -81,10 +71,24 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
             {title}
           </Text>
           <Flex flexDir="column" fontWeight="bold" alignItems="flex-end">
-            <Text align="right" fontSize="4xl">
+            <Text
+              align="right"
+              fontSize={{
+                base: "lg",
+                md: "xl",
+              }}
+            >
               {day}
             </Text>
-            <Text align="right" w="100%" whiteSpace="nowrap">
+            <Text
+              align="right"
+              w="100%"
+              whiteSpace="nowrap"
+              fontSize={{
+                base: "sm",
+                md: "md",
+              }}
+            >
               {month} {year}
             </Text>
           </Flex>
@@ -92,7 +96,11 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
 
         <Divider my=".5rem" size="5px" borderColor="black" />
 
-        <Flex gap=" .5rem" alignItems="center">
+        <Flex
+          gap=" .5rem"
+          alignItems="center"
+          // wrap="wrap"
+        >
           <Text fontSize="sm" whiteSpace="nowrap">
             {categories?.[0]?.title}
           </Text>
@@ -105,7 +113,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           <>&#8226;</>
 
           <Text fontSize="sm" whiteSpace="nowrap">
-            {author?.displayName}
+            {author?.displayName.slice(0, 12) + "..."}
           </Text>
         </Flex>
       </Flex>
