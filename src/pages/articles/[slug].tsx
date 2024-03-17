@@ -1,18 +1,18 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import Image from "next/image";
-import { AiOutlineTwitter } from "react-icons/ai";
-import { BiLogoFacebookCircle, BiSolidShareAlt } from "react-icons/bi";
 import { Article } from "@/types";
-import { daysSinceDate } from "@/utils/dateUtils";
-import Navbar from "@/components/navbar/Navbar";
-import { useGetIndividualPost } from "@/services/posts";
-import { buildImageUrl } from "@/services/sanityImageBuilder";
-import { PortableText } from "@portabletext/react";
 import Loader from "../../../loading";
-import TableOfContent from "@/components/table-of-content";
-import Footer from "@/components/footer/Footer";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Navbar from "@/components/navbar/Navbar";
+import Footer from "@/components/footer/Footer";
+import { AiOutlineTwitter } from "react-icons/ai";
+import { daysSinceDate } from "@/utils/dateUtils";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { PortableText } from "@portabletext/react";
+import { useGetIndividualPost } from "@/services/posts";
+import TableOfContent from "@/components/table-of-content";
+import { buildImageUrl } from "@/services/sanityImageBuilder";
+import { BiLogoFacebookCircle, BiSolidShareAlt } from "react-icons/bi";
 
 const SingleArticle = () => {
   const router = useRouter();

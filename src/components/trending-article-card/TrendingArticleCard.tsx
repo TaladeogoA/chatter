@@ -31,8 +31,8 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
       <Flex
         mr="1rem"
         flexDir="column"
-        h="50vh"
         overflowX="hidden"
+        h="100%"
         _hover={{
           "& svg": {
             transform: "rotate(75deg)",
@@ -40,7 +40,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           },
         }}
       >
-        <Box h="50%">
+        <Box maxH="50%">
           {image && (
             <Image src={imageUrl} alt="" w="100%" h="100%" objectFit="cover" />
           )}

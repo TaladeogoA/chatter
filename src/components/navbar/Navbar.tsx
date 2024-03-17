@@ -25,6 +25,7 @@ import { toast } from "react-hot-toast";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { SearchContext } from "@/context/SearchContext";
 import { CiSearch } from "react-icons/ci";
+import LoginPopup from "../login-popup";
 
 const Navbar = ({
   setIsPublishModalOpen,
@@ -57,6 +58,8 @@ const Navbar = ({
       toast.error("Error signing out");
     }
   };
+
+  const [openLoginPopup, setOpenLoginPopup] = useState(false);
 
   if (!user) {
     return (
@@ -114,8 +117,9 @@ const Navbar = ({
         >
           <Button
             onClick={() => {
-              setIsLogin(true);
-              openAuthPopup();
+              // setIsLogin(true);
+              // openAuthPopup();
+              setOpenLoginPopup(true);
             }}
             fontSize="md"
             bg="transparent"
@@ -155,6 +159,13 @@ const Navbar = ({
             isLogin={isLogin}
             onClose={closeAuthPopup}
             setIsLogin={setIsLogin}
+          />
+        )}
+
+        {openLoginPopup && (
+          <LoginPopup
+            openLoginPopup={openLoginPopup}
+            onClose={() => setOpenLoginPopup(false)}
           />
         )}
       </Flex>
