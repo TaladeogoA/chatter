@@ -73,20 +73,33 @@ const SingleArticle = () => {
   return (
     <Box>
       <Navbar />
-      <Box as="article" mx="auto" w="80%" mt="3rem">
-        <Text as="h1" fontSize="4xl" fontWeight="bold" mb="1rem">
+      <Box as="article" m={{ base: "1.5rem", md: "3rem" }}>
+        <Text
+          as="h1"
+          fontSize={{ base: "2rem", md: "3rem" }}
+          fontWeight="bold"
+          mb="1rem"
+          textAlign={{ base: "center", md: "left" }}
+        >
           {title}
         </Text>
 
         {imageUrl && (
-          <Box h="70vh" mx="auto">
+          <Box
+            h={{
+              base: "10rem",
+              md: "20rem",
+            }}
+            mx="auto"
+            display={imageLoaded ? "block" : "none"}
+          >
             <Image
               src={imageUrl}
               alt="hero"
               width={100}
               height={100}
               style={{
-                borderRadius: "10px",
+                borderRadius: "5px",
                 objectFit: "cover",
                 width: "100%",
                 height: "100%",
@@ -98,33 +111,52 @@ const SingleArticle = () => {
         <Flex
           mt="1rem"
           justifyContent="space-between"
+          alignItems="center"
+          flexWrap="wrap"
           bg="black"
           color="white"
           p="5"
           borderRadius=".2rem"
           className="article-meta"
         >
-          <Flex gap="1rem">
+          <Flex gap="1rem" alignItems="center" flexWrap="wrap">
             <Text fontSize="md" fontWeight="light">
               Published by {author?.displayName} |
             </Text>
             <Text fontSize="md" fontWeight="light">
-              {daysSinceDate(_createdAt)} | {categories?.[0]?.title}
+              {daysSinceDate(_createdAt)} |
             </Text>
-          </Flex>
-
-          <Flex gap=".5rem">
-            <AiOutlineTwitter size="1.2rem" />
-            <BiLogoFacebookCircle size="1.2rem" />
-            <BiSolidShareAlt size="1.2rem" />
+            <Text fontSize="md" fontWeight="light">
+              {categories?.[0]?.title}
+            </Text>
+            <Flex gap=".5rem">
+              <AiOutlineTwitter size="1.2rem" />
+              <BiLogoFacebookCircle size="1.2rem" />
+              <BiSolidShareAlt size="1.2rem" />
+            </Flex>
           </Flex>
         </Flex>
 
-        <Flex mt="3rem" gap="2rem">
-          <Box w="27%" alignSelf="flex-start" position="sticky" top="10">
+        <Flex
+          mt="3rem"
+          gap="2rem"
+          flexDir={{
+            base: "column",
+            md: "row",
+          }}
+        >
+          <Box
+            w={{ base: "100%", md: "27%" }}
+            alignSelf="flex-start"
+            position={{
+              base: "unset",
+              md: "sticky",
+            }}
+            top="10"
+          >
             <TableOfContent body={body} />
           </Box>
-          <Box className="article-body" w="70%">
+          <Box className="article-body" w={{ base: "100%", md: "70%" }}>
             <PortableText value={body} components={portableTextComponents} />
           </Box>
         </Flex>
