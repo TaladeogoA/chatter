@@ -68,54 +68,83 @@ const Navbar = ({
         h="5rem"
         px={{
           base: "1rem",
-          sm: "3rem",
+          lg: "3rem",
         }}
         w="100%"
         alignItems="center"
         justifyContent="space-between"
-        gap="2rem"
+        gap="1rem"
         bg="transparent"
       >
-        <Flex w="33%" alignItems="center" gap="2rem">
+        <Flex w="8rem" alignItems="center" gap="2rem">
           <Link href="/">
             <Box textAlign="center">
-              <Icon h="3rem" w="8rem" as={ChatterLogo} />
+              <Icon h="3rem" w="7rem" as={ChatterLogo} />
             </Box>
           </Link>
         </Flex>
 
         {router.pathname !== "/" && (
-          <Box w="33%">
-            <InputGroup>
-              <InputLeftElement>
-                <CiSearch />
-              </InputLeftElement>
-              <Input
-                placeholder="Search"
-                fontWeight="semibold"
-                border="none"
-                borderBottom="1px solid black"
-                borderRadius="none"
-                focusBorderColor="none"
-                _hover={{
-                  borderBottom: "1px solid black",
+          <>
+            <Box
+              w="60%"
+              display={{
+                base: "none",
+                sm: "block",
+              }}
+            >
+              <InputGroup>
+                <InputLeftElement>
+                  <CiSearch />
+                </InputLeftElement>
+                <Input
+                  placeholder="Search"
+                  fontWeight="semibold"
+                  border="none"
+                  borderBottom="1px solid black"
+                  borderRadius="none"
+                  focusBorderColor="none"
+                  _hover={{
+                    borderBottom: "1px solid black",
+                  }}
+                  value={term}
+                  onChange={(e) => setTerm(e.target.value)}
+                  onKeyDown={handleSearchEnter}
+                />
+              </InputGroup>
+            </Box>
+            <Flex
+              h="100%"
+              display={{ base: "flex", sm: "none" }}
+              alignItems="center"
+              ml="auto"
+            >
+              <Icon
+                h="1.5rem"
+                w="1.5rem"
+                color="gray"
+                as={CiSearch}
+                onClick={() => {
+                  // setSearchQuery(term);
+                  // router.push("/search/[term]", `/search/${term}`);
                 }}
-                value={term}
-                onChange={(e) => setTerm(e.target.value)}
-                onKeyDown={handleSearchEnter}
               />
-            </InputGroup>
-          </Box>
+            </Flex>
+          </>
         )}
 
         <Flex
-          w="33%"
+          w={router.pathname !== "/" ? "max-content" : "auto"}
           justifyContent="flex-end"
           alignItems="center"
-          gap="1.5rem"
+          gap="1rem"
           color="black"
         >
           <Button
+            display={{
+              base: "none",
+              sm: "block",
+            }}
             onClick={() => {
               // setIsLogin(true);
               // openAuthPopup();
@@ -124,8 +153,8 @@ const Navbar = ({
             fontSize="md"
             bg="transparent"
             fontWeight="normal"
-            p="0"
             borderRadius=".2rem"
+            w="max-content"
             _hover={{
               textDecoration: "underline",
               cursor: "pointer",
@@ -133,23 +162,24 @@ const Navbar = ({
           >
             <Text>Log In</Text>
           </Button>
-
           <Button
             bg="black"
-            h="2.5rem"
+            w="max-content"
+            p="1rem"
             color="white"
             fontSize="md"
             borderRadius=".2rem"
+            className="toledo"
             _hover={{
               cursor: "pointer",
             }}
-            className="toledo"
             onClick={() => {
               setIsLogin(false);
               openAuthPopup();
             }}
           >
             Sign Up
+            {/* <Text className="toledo">Sign Up</Text> */}
           </Button>
         </Flex>
 

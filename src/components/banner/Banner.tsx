@@ -17,9 +17,9 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
       px={{
         base: "1rem",
         md: "3rem",
-        lg: "6rem",
+        lg: "4rem",
       }}
-      my="1rem"
+      mt="2rem"
       alignItems="start"
       flexDir={{ base: "column", lg: "row" }}
       gap="2rem"
@@ -30,10 +30,6 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
         w={{
           base: "100%",
           lg: "45%",
-        }}
-        mt={{
-          base: "2rem",
-          lg: "6rem",
         }}
       >
         <Heading
@@ -56,7 +52,7 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
             gap="1rem"
             pr={{
               base: "0",
-              sm: "2rem",
+              md: "1rem",
             }}
             mt={{
               base: "1rem",
@@ -119,7 +115,7 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
         <Flex
           flexDir="column"
           overflowY="auto"
-          maxH="70vh"
+          maxH={{ base: "unset", lg: "60vh" }}
           sx={{
             "::-webkit-scrollbar": {
               width: "7px",

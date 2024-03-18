@@ -27,12 +27,18 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   const readingTime = calculateReadingTime(body);
 
   return (
-    <Link href={`/articles/${slug?.current}`} passHref>
+    <Link
+      href={`/articles/${slug?.current}`}
+      passHref
+      style={{
+        height: "max-content",
+      }}
+    >
       <Flex
         mr="1rem"
         flexDir="column"
         overflowX="hidden"
-        h="100%"
+        h="20rem"
         _hover={{
           "& svg": {
             transform: "rotate(75deg)",
@@ -40,7 +46,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           },
         }}
       >
-        <Box maxH="50%">
+        <Box h="50%">
           {image && (
             <Image src={imageUrl} alt="" w="100%" h="100%" objectFit="cover" />
           )}
@@ -110,7 +116,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           <>&#8226;</>
 
           <Text fontSize="sm" whiteSpace="nowrap">
-            {author?.displayName.slice(0, 12) + "..."}
+            {author?.displayName.slice(0, 15) + "..."}
           </Text>
         </Flex>
       </Flex>
