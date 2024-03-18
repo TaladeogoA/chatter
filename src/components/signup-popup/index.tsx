@@ -1,4 +1,4 @@
-import { useEmailSignIn } from "@/services/auth";
+import { useEmailSignUp } from "@/services/auth";
 import {
   Box,
   Button,
@@ -16,6 +16,7 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -27,12 +28,13 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { TbChevronsLeft } from "react-icons/tb";
 
-interface LoginPopupProps {
-  openLoginPopup: boolean;
+interface SignUpPopupProps {
+  openSignupPopup: boolean;
   onClose: () => void;
 }
 
-const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
+const SignUpPopup: FC<SignUpPopupProps> = ({ openSignupPopup, onClose }) => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [emailAuthClicked, setEmailAuthClicked] = useState(false);
 
@@ -49,23 +51,25 @@ const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
     formState: { errors },
   } = formHook;
 
-  const { mutateAsync, isLoading } = useEmailSignIn();
+  const { mutateAsync, isLoading } = useEmailSignUp();
 
   const submit: SubmitHandler<{
     email: string;
     password: string;
   }> = async (data: any) => {
-    try {
-      await mutateAsync(data);
-      onClose();
-      toast.success("Logged in successfully");
-    } catch (error) {
-      toast.error((error as Error).message);
-    }
+    console.log(data);
+    // try {
+    //   await mutateAsync(data);
+    //   toast.success("Signed up successfully");
+    //   router.push("/complete-setup");
+    // } catch (error: any) {
+    //   toast.error(error.message);
+    //   console.error("Error signing up with email and password:", error);
+    // }
   };
 
   return (
-    <Modal isOpen={openLoginPopup} onClose={onClose} size="xl">
+    <Modal isOpen={openSignupPopup} onClose={onClose} size="xl">
       <ModalOverlay
         bg="blackAlpha.300"
         backdropFilter="blur(10px) hue-rotate(90deg)"
@@ -79,7 +83,7 @@ const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
             mt="2rem"
             className="toledo"
           >
-            Welcome Back.
+            Join Chatter.
           </ModalHeader>
         )}
         <ModalCloseButton />
@@ -93,10 +97,10 @@ const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
             <>
               <Box mt="3rem">
                 <Text className="toledo" fontSize="3xl" textAlign="center">
-                  Log In
+                  Sign Up
                 </Text>
                 <Text textAlign="center">
-                  Enter your email and password to login
+                  Enter your email and password to sign up.
                 </Text>
               </Box>
               <FormControl>
@@ -193,7 +197,7 @@ const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
                     w="100%"
                     mx="auto"
                     type="submit"
-                    isLoading={isLoading}
+                    // isLoading={isLoading}
                   >
                     Log In
                   </Button>
@@ -217,7 +221,7 @@ const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
                 }}
               >
                 <TbChevronsLeft />
-                Back to login options
+                Back to signup options
               </Button>
             </>
           ) : (
@@ -235,7 +239,7 @@ const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
                 }}
               >
                 <AiOutlineMail />
-                <Text marginInline="auto">Login with Email</Text>
+                <Text marginInline="auto">Sign up with Email</Text>
               </Button>
               <Button
                 bg="transparent"
@@ -248,13 +252,13 @@ const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
                 onClick={() => {}}
               >
                 <FcGoogle />
-                <Text marginInline="auto">Login with Google</Text>
+                <Text marginInline="auto">Sign up with Google</Text>
               </Button>
             </Flex>
           )}
 
           <Text textAlign="center" mb="4rem">
-            {"Don't have an account?"}
+            Already have an account?
             <Button
               bg="transparent"
               color="black"
@@ -267,7 +271,7 @@ const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
               }}
               onClick={() => {}}
             >
-              Sign Up
+              Log In
             </Button>
           </Text>
         </ModalBody>
@@ -276,4 +280,4 @@ const LoginPopup: FC<LoginPopupProps> = ({ openLoginPopup, onClose }) => {
   );
 };
 
-export default LoginPopup;
+export default SignUpPopup;

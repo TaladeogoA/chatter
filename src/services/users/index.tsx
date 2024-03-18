@@ -1,5 +1,8 @@
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { client } from "../client";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/utils/firebase";
+import { signOut } from "firebase/auth";
 
 export const createUser = async ({
   email,
@@ -49,13 +52,13 @@ export const createUser = async ({
   }
 };
 
-export const useGetUser = (uid?: string) => {
-  const shouldEnableQuery = !!uid;
+export const useGetUser = () => {
+  const [user] = useAuthState(auth);
   return useQuery(
-    ["user", uid],
+    ["user", user?.uid],
     async () => {
       const res = await client.fetch(`
-      *[_type == "user" && _id == "${uid}"][0] {
+      *[_type == "user" && _id == "${user?.uid}"][0] {
         _id,
         _createdAt,
         email,
@@ -73,7 +76,28 @@ export const useGetUser = (uid?: string) => {
       return res;
     },
     {
-      enabled: shouldEnableQuery,
+      enabled: !!user,
+    }
+  );
+};
+
+export const useSignOutUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async () => {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        console.error("Error signing out:", error);
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["user"],
+        });
+      },
     }
   );
 };

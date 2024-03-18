@@ -107,7 +107,7 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
           w="80%"
           mx="auto"
           className="toledo"
-          textAlign={{ base: "center", lg: "left" }}
+          textAlign="center"
         >
           Trending on Chatter
         </Text>

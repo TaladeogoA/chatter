@@ -16,8 +16,6 @@ import {
 import ChatterLogo from "@/assets/icons/ChatterLogoBlack";
 import { useContext, useState } from "react";
 import Link from "next/link";
-import { AuthContext } from "@/context/AuthContext";
-import AuthPopup from "../auth-popup/AuthPopup";
 import { CiEdit } from "react-icons/ci";
 import { GoChevronDown } from "react-icons/go";
 import { useRouter } from "next/router";
@@ -26,6 +24,8 @@ import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { SearchContext } from "@/context/SearchContext";
 import { CiSearch } from "react-icons/ci";
 import LoginPopup from "../login-popup";
+import SignUpPopup from "../signup-popup";
+import { useGetUser, useSignOutUser } from "@/services/users";
 
 const Navbar = ({
   setIsPublishModalOpen,
@@ -33,10 +33,12 @@ const Navbar = ({
   setIsPublishModalOpen?: (arg0: boolean) => void;
 }) => {
   const router = useRouter();
+  const [openLoginPopup, setOpenLoginPopup] = useState(false);
+  const [openSignupPopup, setOpenSignupPopup] = useState(false);
+  const { data: userInfo, isLoading } = useGetUser();
+  const { mutateAsync: signOutUser } = useSignOutUser();
+
   const isNewStory = router.pathname === "/new-story" ? true : false;
-  const [isLogin, setIsLogin] = useState(false);
-  const { showAuthPopup, openAuthPopup, closeAuthPopup, user, signOutUser } =
-    useContext(AuthContext);
   const [term, setTerm] = useState("");
   const { setSearchQuery, searchQuery } = useContext(SearchContext);
 
@@ -49,8 +51,7 @@ const Navbar = ({
 
   const handleSignOut = async () => {
     try {
-      await signOutUser();
-      console.log("User signed out");
+      signOutUser();
       toast.success("User signed out");
       router.push("/");
     } catch (error) {
@@ -59,9 +60,7 @@ const Navbar = ({
     }
   };
 
-  const [openLoginPopup, setOpenLoginPopup] = useState(false);
-
-  if (!user) {
+  if (!userInfo) {
     return (
       <Flex
         as="nav"
@@ -146,8 +145,6 @@ const Navbar = ({
               sm: "block",
             }}
             onClick={() => {
-              // setIsLogin(true);
-              // openAuthPopup();
               setOpenLoginPopup(true);
             }}
             fontSize="md"
@@ -174,23 +171,12 @@ const Navbar = ({
               cursor: "pointer",
             }}
             onClick={() => {
-              setIsLogin(false);
-              openAuthPopup();
+              setOpenSignupPopup(true);
             }}
           >
             Sign Up
-            {/* <Text className="toledo">Sign Up</Text> */}
           </Button>
         </Flex>
-
-        {showAuthPopup && (
-          <AuthPopup
-            isOpen={showAuthPopup}
-            isLogin={isLogin}
-            onClose={closeAuthPopup}
-            setIsLogin={setIsLogin}
-          />
-        )}
 
         {openLoginPopup && (
           <LoginPopup
@@ -198,12 +184,18 @@ const Navbar = ({
             onClose={() => setOpenLoginPopup(false)}
           />
         )}
+        {openSignupPopup && (
+          <SignUpPopup
+            openSignupPopup={openSignupPopup}
+            onClose={() => setOpenSignupPopup(false)}
+          />
+        )}
       </Flex>
     );
   }
-  // console.log(user);
-  const imageUrl = user?.displayImage
-    ? buildImageUrl(user?.displayImage).url()
+
+  const imageUrl = userInfo?.displayImage
+    ? buildImageUrl(userInfo?.displayImage).url()
     : "";
 
   return (
@@ -289,10 +281,14 @@ const Navbar = ({
               bgColor: "transparent",
             }}
           >
-            <Avatar name={user?.displayName || ""} src={imageUrl} size="sm" />
+            <Avatar
+              name={userInfo?.displayName || ""}
+              src={imageUrl}
+              size="sm"
+            />
           </MenuButton>
           <MenuList>
-            <Link href={`/profile/${user?.displayName}`}>
+            <Link href={`/profile/${userInfo?.displayName}`}>
               <MenuItem>Profile</MenuItem>
             </Link>
             <Link href="/settings">
