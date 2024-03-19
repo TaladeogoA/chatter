@@ -4,7 +4,7 @@ Chatter is a Medium-like application built to showcase my skills as a frontend d
 
 ## Technologies Used
 
-- Frontend: [Your frontend technology]
+- Frontend: Next.js
 - Backend: Sanity.io
 - Data Querying: GROQ
 
