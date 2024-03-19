@@ -1,6 +1,5 @@
-import { AuthContext } from "@/context/AuthContext";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
-import { useFollowUser } from "@/services/users";
+import { useFollowUser, useGetUser } from "@/services/users";
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import { ImageAsset } from "@sanity/types";
 import { FC, useContext } from "react";
@@ -16,8 +15,7 @@ const FollowersCard: FC<FollowersCardProps> = (user) => {
   const { displayName, bio, displayImage } = user;
   const imageUrl = displayImage ? buildImageUrl(displayImage).url() : undefined;
   const followUserMutation = useFollowUser();
-  const { user: loggedInUser } = useContext(AuthContext);
-  console.log("loggedInUser", loggedInUser);
+  const { data: loggedInUser, isLoading } = useGetUser();
   const isFollowing = loggedInUser?.following?.some(
     (follower: FollowersCardProps) => follower._id === user._id
   );

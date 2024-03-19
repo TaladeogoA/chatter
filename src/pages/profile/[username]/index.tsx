@@ -13,18 +13,18 @@ import {
 } from "@chakra-ui/react";
 import Navbar from "@/components/navbar/Navbar";
 import React, { useContext, useState } from "react";
-import { AuthContext } from "@/context/AuthContext";
 import EditProfile from "../components/edit-profile";
 import Loader from "../../../../loading";
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { Article } from "@/types";
 import UserProfileCard from "@/components/user-profile-card";
+import { useGetUser } from "@/services/users";
 
 const ProfilePage = () => {
   const router = useRouter();
   const { username } = router.query;
   const [openEditProfile, setOpenEditProfile] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { data: user, isLoading } = useGetUser();
   if (!user) return <Loader />;
   const {
     displayName,

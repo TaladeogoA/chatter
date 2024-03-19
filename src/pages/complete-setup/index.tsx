@@ -1,19 +1,17 @@
-import { AuthContext } from "@/context/AuthContext";
 import { Box, Button, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import ChatterLogo from "@/assets/icons/ChatterLogoBlack";
-import { completeSetup } from "@/services/users";
+import { completeSetup, useGetUser } from "@/services/users";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import Loader from "../../../loading";
 
 const CompleteSetup = () => {
-  const { user, userLoading } = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const { data: user, isLoading } = useGetUser();
   const [displayName, setDisplayName] = useState("");
   const router = useRouter();
 
-  if (userLoading) {
+  if (isLoading) {
     return <Loader />;
   }
   console.log(user);
@@ -43,12 +41,11 @@ const CompleteSetup = () => {
             onSubmit={async (e) => {
               e.preventDefault();
               try {
-                setIsLoading(true);
                 await completeSetup({
                   id: user?._id,
                   displayName,
                 });
-                setIsLoading(false);
+
                 toast.success("Setup complete!");
                 router.push("/");
               } catch (error) {

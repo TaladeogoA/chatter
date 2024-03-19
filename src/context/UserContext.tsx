@@ -1,7 +1,6 @@
 import { UserContextType } from "@/types";
 import { createContext, FC, useContext, useState, useEffect } from "react";
-import { AuthContext } from "@/context/AuthContext";
-import { getFollowersAndFollowing } from "@/services/users";
+import { getFollowersAndFollowing, useGetUser } from "@/services/users";
 
 interface UserContextProps {
   children: React.ReactNode;
@@ -13,7 +12,7 @@ const UserContext = createContext<UserContextType>({
 });
 
 const UserProvider: FC<UserContextProps> = ({ children }) => {
-  const { user } = useContext(AuthContext);
+  const { data: user, isLoading } = useGetUser();
   const [userData, setUserData] = useState<UserContextType>({
     followers: [],
     following: [],

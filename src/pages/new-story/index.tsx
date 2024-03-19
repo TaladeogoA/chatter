@@ -25,18 +25,18 @@ import { RawDraftContentState, convertFromRaw } from "draft-js";
 import { schema } from "@/config/quillConfig";
 import { htmlToBlocks } from "@sanity/block-tools";
 import AsyncSelect from "@/components/async-select";
-import { AuthContext } from "@/context/AuthContext";
 import { postNewStory } from "@/services/new-story";
 import slugify from "slugify";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import { useGetUser } from "@/services/users";
 
 const NewStory = () => {
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   // const [headerImage, setHeaderImage] = useState<File | null>(null);
   // const [isWrongFileType, setIsWrongFileType] = useState(false);
   const { data: categoriesData, isLoading } = useGetAllCategories();
-  const { user } = useContext(AuthContext);
+  const { data: user, isLoading: isUserLoading } = useGetUser();
   const router = useRouter();
   const formHook = useForm({
     defaultValues: {

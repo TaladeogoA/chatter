@@ -1,6 +1,5 @@
 import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-import { AuthProvider } from "@/context/AuthContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "react-hot-toast";
 import theme from "../utils/themes";
@@ -16,14 +15,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <UserProvider>
-            <SearchProvider>
-              <Component {...pageProps} />
-            </SearchProvider>
-          </UserProvider>
-          <Toaster />
-        </AuthProvider>
+        <UserProvider>
+          <SearchProvider>
+            <Component {...pageProps} />
+          </SearchProvider>
+        </UserProvider>
+        <Toaster />
       </QueryClientProvider>
     </ChakraProvider>
   );
