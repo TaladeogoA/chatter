@@ -1,4 +1,3 @@
-import { AuthContext } from "@/context/AuthContext";
 import {
   Box,
   Button,
@@ -39,11 +38,6 @@ const AuthPopup: React.FC<AuthPopupProps> = ({
   isLogin,
   setIsLogin,
 }) => {
-  const {
-    signInWithGoogle,
-    SignUpWithEmailAndPassword,
-    SignInWithEmailAndPassword,
-  } = useContext(AuthContext);
   const [emailAuthClicked, setEmailAuthClicked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,26 +59,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({
   const submit: SubmitHandler<{
     email: string;
     password: string;
-  }> = async (data: any) => {
-    try {
-      if (isLogin) {
-        setIsLoading(true);
-        await SignInWithEmailAndPassword(data.email, data.password);
-        toast.success("Logged in successfully");
-        onClose();
-        setIsLoading(false);
-      } else {
-        setIsLoading(true);
-        await SignUpWithEmailAndPassword(data.email, data.password);
-        toast.success("Signed up successfully");
-        setIsLoading(false);
-        router.push("/complete-setup");
-      }
-    } catch (error: any) {
-      toast.error(error.message);
-      console.error("Error signing up with email and password:", error);
-    }
-  };
+  }> = async (data: any) => {};
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -275,7 +250,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({
                         bg: "transparent",
                         cursor: "pointer",
                       }}
-                      onClick={signInWithGoogle}
+                      // onClick={signInWithGoogle}
                     >
                       <FcGoogle />
                       <Text marginInline="auto">Login with Google</Text>
@@ -306,7 +281,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({
                         bg: "transparent",
                         cursor: "pointer",
                       }}
-                      onClick={signInWithGoogle}
+                      // onClick={signInWithGoogle}
                     >
                       <FcGoogle />
                       <Text marginInline="auto">Sign up with Google</Text>
