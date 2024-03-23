@@ -1,3 +1,4 @@
+import CategoryArticleCard from "@/components/category-article-card/CategoryArticleCard";
 import FollowersCard from "@/components/followers-list-card";
 import Navbar from "@/components/navbar/Navbar";
 import UserProfileCard from "@/components/user-profile-card";
@@ -40,8 +41,17 @@ const SearchPage = () => {
       }}
     >
       <Navbar />
-      <Box as="section" w="50%" mx="auto" mt="2rem">
-        <Text fontWeight="semibold" fontSize="4xl">
+      <Box
+        as="section"
+        w={{ base: "90%", md: "60%", xl: "50%" }}
+        mx="auto"
+        mt="2rem"
+      >
+        <Text
+          fontWeight="semibold"
+          fontSize={{ base: "2xl", md: "4xl" }}
+          textAlign="center"
+        >
           <Text as="span" color="GrayText">
             Results for{" "}
           </Text>
@@ -69,28 +79,30 @@ const SearchPage = () => {
               >
                 {searchResults.length === 0 ? (
                   <>
-                    <Text fontSize="xl" color="gray.500">
-                      No results found for {term}
+                    <Text fontSize={{ base: "md", md: "xl" }} color="gray.500">
+                      No posts found for {term}
                     </Text>
-                    <Text fontSize="xl" color="gray.500" ml="1rem">
+                    <Text fontSize={{ base: "md", md: "xl" }} color="gray.500">
                       You can try the following:
                     </Text>
-                    <Text fontSize="xl" color="gray.500" ml="1rem">
+                    <Text fontSize={{ base: "md", md: "xl" }} color="gray.500">
                       - Check your spelling
                     </Text>
-                    <Text fontSize="xl" color="gray.500" ml="1rem">
+                    <Text fontSize={{ base: "md", md: "xl" }} color="gray.500">
                       - Try more general words
                     </Text>
                   </>
                 ) : (
-                  searchResults.map((result, index) => (
-                    <Fragment key={result._id}>
-                      <UserProfileCard article={result} />
-                      {index !== searchResults.length - 1 && (
-                        <Divider borderColor="blackAlpha.400" />
-                      )}
-                    </Fragment>
-                  ))
+                  <Flex
+                    flexDir="column"
+                    justify="center"
+                    align="center"
+                    gap="1rem"
+                  >
+                    {searchResults.map((result, index) => (
+                      <CategoryArticleCard article={result} key={result._id} />
+                    ))}
+                  </Flex>
                 )}
               </Flex>
             </TabPanel>
@@ -98,16 +110,16 @@ const SearchPage = () => {
               <Flex flexDir="column" justify="center" align="center" mt="1rem">
                 {userResults.length === 0 ? (
                   <>
-                    <Text fontSize="xl" color="gray.500">
-                      No results found for {term}
+                    <Text fontSize={{ base: "md", md: "xl" }} color="gray.500">
+                      No people found for {term}
                     </Text>
-                    <Text fontSize="xl" color="gray.500" ml="1rem">
+                    <Text fontSize={{ base: "md", md: "xl" }} color="gray.500">
                       You can try the following:
                     </Text>
-                    <Text fontSize="xl" color="gray.500" ml="1rem">
+                    <Text fontSize={{ base: "md", md: "xl" }} color="gray.500">
                       - Check your spelling
                     </Text>
-                    <Text fontSize="xl" color="gray.500" ml="1rem">
+                    <Text fontSize={{ base: "md", md: "xl" }} color="gray.500">
                       - Try more general words
                     </Text>
                   </>

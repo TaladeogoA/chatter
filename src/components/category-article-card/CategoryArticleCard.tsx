@@ -12,7 +12,7 @@ const CategoryArticleCard: React.FC<{ article: CategoryContentProps }> = ({
   const readingTime = calculateReadingTime(body);
 
   return (
-    <Box maxW="100%">
+    <Box maxW="100%" w="100%">
       <Link href={`/articles/${slug?.current}`}>
         <Text
           fontWeight="semibold"

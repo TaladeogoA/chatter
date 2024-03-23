@@ -84,7 +84,7 @@ const SingleArticle = () => {
           {title}
         </Text>
 
-        {imageUrl && (
+        {/* {imageUrl && (
           <Box
             h={{
               base: "10rem",
@@ -106,7 +106,7 @@ const SingleArticle = () => {
               }}
             />
           </Box>
-        )}
+        )} */}
 
         <Flex
           mt="1rem"
