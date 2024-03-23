@@ -6,8 +6,11 @@ import {
   TabPanels,
   Tabs,
   Text,
+  useBreakpoint,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import CategoryContent from "./CategoryContent";
+import { useEffect } from "react";
 
 interface CategoryType {
   description: string;
@@ -16,6 +19,8 @@ interface CategoryType {
 }
 
 const Categories = ({ categories }: { categories: CategoryType[] }) => {
+  const [isSmallScreen] = useMediaQuery("(max-width: 690px)");
+
   return (
     <Box
       px={{
@@ -44,8 +49,28 @@ const Categories = ({ categories }: { categories: CategoryType[] }) => {
       >
         Categories
       </Text>
-      <Tabs colorScheme="blackAlpha" orientation="vertical" variant="line">
-        <TabList w="30%">
+      <Tabs
+        colorScheme="blackAlpha"
+        orientation={isSmallScreen ? "horizontal" : "vertical"}
+        variant="line"
+      >
+        <TabList
+          w={isSmallScreen ? "100%" : "30%"}
+          overflowX="auto"
+          overflowY="hidden"
+          sx={{
+            "::-webkit-scrollbar": {
+              height: "7px",
+            },
+            "::-webkit-scrollbar-thumb": {
+              background: "gray",
+              borderRadius: "6px",
+            },
+            "::-webkit-scrollbar-thumb:hover": {
+              background: "darkgray",
+            },
+          }}
+        >
           {categories?.map((category: CategoryType) => (
             <Tab key={category._id} maxW="100%">
               <Text maxW="100%" textAlign="center">
