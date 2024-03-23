@@ -182,12 +182,14 @@ const Navbar = ({
           <LoginPopup
             openLoginPopup={openLoginPopup}
             onClose={() => setOpenLoginPopup(false)}
+            openSignupPopup={() => setOpenSignupPopup(true)}
           />
         )}
         {openSignupPopup && (
           <SignUpPopup
             openSignupPopup={openSignupPopup}
             onClose={() => setOpenSignupPopup(false)}
+            openLoginPopup={() => setOpenLoginPopup(true)}
           />
         )}
       </Flex>
