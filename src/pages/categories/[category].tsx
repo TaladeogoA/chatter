@@ -4,6 +4,8 @@ import { useGetCategoryArticles } from "@/services/home-page";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Loader from "../../../loading";
+import Image from "next/image";
+import ConstructionMe from "@/assets/images/Designer.png";
 
 const SingleCategory = () => {
   const router = useRouter();
@@ -46,12 +48,32 @@ const SingleCategory = () => {
           </Box>
         </Box>
 
-        <Box p="2rem">
+        {/* <Box p="2rem">
           <Flex alignItems="center" justifyContent="space-between">
             <Text>Articles</Text>
             <Text>{categoryArticles?.length}</Text>
           </Flex>
-        </Box>
+        </Box> */}
+      </Flex>
+      <Flex
+        flexDir="column"
+        alignItems="center"
+        justifyContent="center"
+        w="50%"
+        m="auto"
+        mt="3rem"
+        textAlign="center"
+      >
+        <Image
+          src={ConstructionMe}
+          alt="Under Construction"
+          width={200}
+          height={200}
+        />
+        <Text fontSize="xl" fontWeight="semibold" m="auto">
+          Looks like you&apos;ve stumbled into the digital equivalent of a
+          construction zone. I&apos;m working on it, I promise. 😊
+        </Text>
       </Flex>
     </Box>
   );
