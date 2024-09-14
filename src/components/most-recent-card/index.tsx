@@ -38,7 +38,7 @@ const MostRecentCard = ({ article }: { article: Article }) => {
           {categories && categories.length > 0 ? categories[0].title : ""}
         </Text>
         <Box>
-          <Heading fontSize="2rem" fontWeight="600" lineHeight="1.2">
+          <Heading fontSize="2rem" fontWeight="300" lineHeight="1.2">
             {title.length > 50 ? title.substring(0, 50) + "..." : title}
           </Heading>
           <Text fontSize="1rem" whiteSpace="nowrap">

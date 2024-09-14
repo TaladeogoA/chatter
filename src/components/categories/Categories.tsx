@@ -6,7 +6,7 @@ const Categories = ({ categories }: { categories: CategoryType[] }) => {
 
   return (
     <Box w="100%" as="section" mb="6rem" color="black">
-      <Heading fontSize="2rem" fontWeight="600" mb="1rem">
+      <Heading fontSize="2rem" fontWeight="300" mb="1rem">
         Categories
       </Heading>
       <Flex w="100%" gap="2rem" flexWrap="wrap">
@@ -25,7 +25,7 @@ const Categories = ({ categories }: { categories: CategoryType[] }) => {
             }}
             transition="all 0.3s"
           >
-            <Text maxW="100%" fontSize="1.5rem">
+            <Text maxW="100%" fontSize="1.2rem">
               {category.title}
             </Text>
           </Tag>

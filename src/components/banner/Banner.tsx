@@ -21,8 +21,7 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
             sm: "5xl",
             lg: "11rem",
           }}
-          fontWeight="400"
-          fontStyle="italic"
+          fontWeight="300"
           color="black"
           lineHeight="0.8"
         >
@@ -33,7 +32,7 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
         </Text>
       </Flex>
       <Flex w="100%" flexDir="column" h="100%">
-        <Heading fontSize="2rem" fontWeight="600" mb="1rem">
+        <Heading fontSize="2rem" fontWeight="300" mb="1rem">
           Top Chatter
         </Heading>
         <Flex w="100%" gap="2rem" h="100%" alignItems="stretch">

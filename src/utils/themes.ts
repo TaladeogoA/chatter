@@ -37,8 +37,8 @@ const theme = extendTheme({
     },
   },
   fonts: {
-    heading: '"Playfair", serif',
-    body: "Lato, sans-serif",
+    heading: '"Playfair Display", serif',
+    body: '"Lato", sans-serif',
   },
 });
 

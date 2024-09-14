@@ -6,7 +6,7 @@ import MostRecentCard from "../most-recent-card";
 const MostRecent = ({ data }: { data: Article[] }) => {
   return (
     <Flex flexDir="column" gap="1rem" mb="6rem">
-      <Heading fontSize="2rem" fontWeight="600" mb="1rem">
+      <Heading fontSize="2rem" fontWeight="300" mb="1rem">
         Top Chatter
       </Heading>
       <Flex flexWrap="wrap" gap="1rem">

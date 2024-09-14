@@ -42,7 +42,7 @@ const MainSpotlightCard: React.FC<Props> = ({ article }) => {
             {categories && categories.length > 0 ? categories[0].title : ""}
           </Text>
           <Box>
-            <Heading fontSize="3rem" fontWeight="600" lineHeight="1.2">
+            <Heading fontSize="3rem" fontWeight="300" lineHeight="1.2">
               {title}
             </Heading>
             <Text fontSize="1rem" whiteSpace="nowrap">
