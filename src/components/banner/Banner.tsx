@@ -24,7 +24,6 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
           fontWeight="400"
           fontStyle="italic"
           color="black"
-          className="playfair"
           lineHeight="0.8"
         >
           Chatter.
@@ -34,9 +33,9 @@ const Banner = ({ topArticles }: { topArticles: Article[] }) => {
         </Text>
       </Flex>
       <Flex w="100%" flexDir="column" h="100%">
-        <Text fontSize="2rem" fontWeight="600" className="playfair" mb="1rem">
+        <Heading fontSize="2rem" fontWeight="600" mb="1rem">
           Top Chatter
-        </Text>
+        </Heading>
         <Flex w="100%" gap="2rem" h="100%" alignItems="stretch">
           <Flex w="60%">
             <MainSpotlightCard article={topArticles[0]} />

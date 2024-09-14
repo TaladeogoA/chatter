@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   FormHelperText,
+  Heading,
   Input,
   InputGroup,
   InputRightElement,
@@ -68,9 +69,9 @@ const LoginPopup: FC<LoginPopupProps> = ({
       />
       <ModalContent h="80%">
         <ModalHeader mt="3rem">
-          <Text className="playfair" fontSize="3xl" textAlign="center">
+          <Heading fontSize="3xl" textAlign="center">
             Welcome Back.
-          </Text>
+          </Heading>
           <Text textAlign="center" fontWeight="normal" fontSize="medium">
             Enter your email and password to login
           </Text>

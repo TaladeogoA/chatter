@@ -2,7 +2,7 @@ import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { Article } from "@/types";
 import { parseDate } from "@/utils/dateUtils";
 import { calculateReadingTime } from "@/utils/textUtils";
-import { Box, Flex, Image, Tag, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Image, Tag, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 
@@ -42,14 +42,9 @@ const MainSpotlightCard: React.FC<Props> = ({ article }) => {
             {categories && categories.length > 0 ? categories[0].title : ""}
           </Text>
           <Box>
-            <Text
-              fontSize="3rem"
-              fontWeight="600"
-              className="playfair"
-              lineHeight="1.2"
-            >
+            <Heading fontSize="3rem" fontWeight="600" lineHeight="1.2">
               {title}
-            </Text>
+            </Heading>
             <Text fontSize="1rem" whiteSpace="nowrap">
               {`${month} ${day}, ${year}`}
             </Text>

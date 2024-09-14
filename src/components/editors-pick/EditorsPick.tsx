@@ -1,5 +1,12 @@
 import { useRef } from "react";
-import { Box, Flex, Text, VStack, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  VStack,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import EditorsPickCard from "../editors-pick-card/EditorsPickCard";
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
@@ -32,7 +39,7 @@ const EditorsPick = ({ data }: { data: Article[] }) => {
       as="section"
     >
       <Flex alignItems="center" justifyContent="center">
-        <Text
+        <Heading
           as="h1"
           fontSize={{
             base: "2xl",
@@ -42,11 +49,10 @@ const EditorsPick = ({ data }: { data: Article[] }) => {
           fontWeight="semibold"
           mt="2rem"
           mb="1rem"
-          className="playfair"
           color="black"
         >
           Editor&apos;s Pick
-        </Text>
+        </Heading>
 
         {isLargerThan1024 && (
           <Flex ml="auto" gap="1rem">

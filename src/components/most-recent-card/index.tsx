@@ -1,7 +1,7 @@
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { Article } from "@/types";
 import { parseDate } from "@/utils/dateUtils";
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import React from "react";
 
 const MostRecentCard = ({ article }: { article: Article }) => {
@@ -38,14 +38,9 @@ const MostRecentCard = ({ article }: { article: Article }) => {
           {categories && categories.length > 0 ? categories[0].title : ""}
         </Text>
         <Box>
-          <Text
-            fontSize="2rem"
-            fontWeight="600"
-            className="playfair"
-            lineHeight="1.2"
-          >
+          <Heading fontSize="2rem" fontWeight="600" lineHeight="1.2">
             {title.length > 50 ? title.substring(0, 50) + "..." : title}
-          </Text>
+          </Heading>
           <Text fontSize="1rem" whiteSpace="nowrap">
             {`${month} ${day}, ${year}`}
           </Text>

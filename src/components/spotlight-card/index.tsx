@@ -1,7 +1,7 @@
 import { buildImageUrl } from "@/services/sanityImageBuilder";
 import { Article } from "@/types";
 import { parseDate } from "@/utils/dateUtils";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 
 interface Props {
@@ -19,14 +19,9 @@ const SpotlightCard: React.FC<Props> = ({ article }) => {
         {categories && categories.length > 0 ? categories[0].title : ""}
       </Text>
       <Box>
-        <Text
-          fontSize="2rem"
-          fontWeight="600"
-          className="playfair"
-          lineHeight="1.2"
-        >
+        <Heading fontSize="2rem" fontWeight="600" lineHeight="1.2">
           {title}
-        </Text>
+        </Heading>
         <Text fontSize="1rem" whiteSpace="nowrap">
           {`${month} ${day}, ${year}`}
         </Text>

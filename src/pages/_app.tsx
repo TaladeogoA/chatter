@@ -9,6 +9,12 @@ import "../styles/_global.scss";
 import { UserProvider } from "@/context/UserContext";
 import { SearchProvider } from "@/context/SearchContext";
 import { Analytics } from "@vercel/analytics/react";
+import { Playfair_Display } from "next/font/google";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -18,7 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <UserProvider>
           <SearchProvider>
-            <Component {...pageProps} />
+            <div className={playfair.className}>
+              <Component {...pageProps} />
+            </div>
             <Analytics />
           </SearchProvider>
         </UserProvider>

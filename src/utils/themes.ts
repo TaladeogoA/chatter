@@ -37,7 +37,7 @@ const theme = extendTheme({
     },
   },
   fonts: {
-    heading: "Poppins, sans-serif",
+    heading: '"Playfair", serif',
     body: "Lato, sans-serif",
   },
 });

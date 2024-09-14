@@ -1,14 +1,14 @@
 import { CategoryType } from "@/types";
-import { Box, Flex, Tag, Text, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, Heading, Tag, Text, useMediaQuery } from "@chakra-ui/react";
 
 const Categories = ({ categories }: { categories: CategoryType[] }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 690px)");
 
   return (
     <Box w="100%" as="section" mb="6rem" color="black">
-      <Text fontSize="2rem" fontWeight="600" className="playfair" mb="1rem">
+      <Heading fontSize="2rem" fontWeight="600" mb="1rem">
         Categories
-      </Text>
+      </Heading>
       <Flex w="100%" gap="2rem" flexWrap="wrap">
         {categories?.map((category: CategoryType) => (
           <Tag
