@@ -97,3 +97,20 @@ export const useGetTrendingPosts = () => {
 
   return { data, error, isLoading };
 };
+
+export const useGetMostRecentPosts = () => {
+  const { data, error, isLoading } = useQuery("most-recent-posts", async () => {
+    const res = await client.fetch(
+      `*[_type == "post"] | order(_createdAt desc)[0...9]{title, author->{displayName}, _id, _createdAt, slug, image, categories[]->{title}}`
+    );
+    return res;
+  });
+
+  if (error) {
+    throw new Error(
+      "Failed to fetch most recent posts. Please try again later."
+    );
+  }
+
+  return { data, error, isLoading };
+};

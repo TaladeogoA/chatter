@@ -68,7 +68,7 @@ const LoginPopup: FC<LoginPopupProps> = ({
       />
       <ModalContent h="80%">
         <ModalHeader mt="3rem">
-          <Text className="toledo" fontSize="3xl" textAlign="center">
+          <Text className="playfair" fontSize="3xl" textAlign="center">
             Welcome Back.
           </Text>
           <Text textAlign="center" fontWeight="normal" fontSize="medium">

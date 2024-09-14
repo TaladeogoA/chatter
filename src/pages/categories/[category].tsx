@@ -23,11 +23,8 @@ const SingleCategory = () => {
 
   if (categoryArticlesLoading || categoryLoading) return <Loader />;
 
-  console.log(categoryArticles);
-  console.log(singleCategory);
-
   return (
-    <Box>
+    <Box mt="6rem">
       <Navbar />
       <Flex
         m="2rem"

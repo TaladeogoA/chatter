@@ -23,7 +23,7 @@ const CompleteSetup = () => {
           <Icon h="4rem" w="10rem" as={ChatterLogo} />
         </Box>
         <Flex flexDir="column" alignItems="center" mt="4rem" w="60%" mx="auto">
-          <Text fontSize="5xl" mb="1rem" className="toledo" color="black">
+          <Text fontSize="5xl" mb="1rem" className="playfair" color="black">
             Almost there!
           </Text>
           <Text fontSize="xl">

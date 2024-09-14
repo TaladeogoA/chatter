@@ -2,31 +2,32 @@ import { Box } from "@chakra-ui/react";
 import Navbar from "../components/navbar/Navbar";
 import Banner from "@/components/banner/Banner";
 import Categories from "@/components/categories/Categories";
-import EditorsPick from "@/components/editors-pick/EditorsPick";
 import Footer from "@/components/footer/Footer";
 import Loader from "../../loading";
 import { useGetHomePageData } from "@/services/home-page";
+import MostRecent from "@/components/most-recent";
 
 const Home = () => {
   const {
     trendingPosts,
     categories,
-    editorsPicks,
     trendingPostsLoading,
     categoriesLoading,
-    editorsPicksLoading,
+    mostRecentPosts,
+    mostRecentPostsLoading,
   } = useGetHomePageData();
 
   return (
     <>
-      {trendingPostsLoading || categoriesLoading || editorsPicksLoading ? (
+      {trendingPostsLoading || categoriesLoading || mostRecentPostsLoading ? (
         <Loader />
       ) : (
         <Box
-          bgRepeat="no-repeat"
-          bgSize="cover"
-          bgPosition="center"
-          maxH="100vh"
+          px={{
+            base: "1rem",
+            lg: "8rem",
+          }}
+          pb="2rem"
           w="100%"
           overflowY="auto"
           sx={{
@@ -41,11 +42,12 @@ const Home = () => {
               background: "darkgray",
             },
           }}
+          position="relative"
         >
           <Navbar />
           <Banner topArticles={trendingPosts} />
           <Categories categories={categories} />
-          <EditorsPick data={editorsPicks} />
+          <MostRecent data={mostRecentPosts} />
           <Footer />
         </Box>
       )}

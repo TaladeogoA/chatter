@@ -1,97 +1,36 @@
-import {
-  Box,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-  useBreakpoint,
-  useMediaQuery,
-} from "@chakra-ui/react";
-import CategoryContent from "./CategoryContent";
-import { useEffect } from "react";
-
-interface CategoryType {
-  description: string;
-  title: string;
-  _id: string;
-}
+import { CategoryType } from "@/types";
+import { Box, Flex, Tag, Text, useMediaQuery } from "@chakra-ui/react";
 
 const Categories = ({ categories }: { categories: CategoryType[] }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 690px)");
 
   return (
-    <Box
-      px={{
-        base: "1rem",
-        md: "3rem",
-        lg: "6rem",
-      }}
-      mt={{
-        base: "2rem",
-        lg: "4rem",
-      }}
-      w="100%"
-      as="section"
-    >
-      <Text
-        fontWeight="extrabold"
-        fontSize={{
-          base: "2xl",
-          sm: "3xl",
-          lg: "4xl",
-        }}
-        my="1rem"
-        w="100%"
-        className="toledo"
-        textAlign="center"
-      >
+    <Box w="100%" as="section" mb="6rem" color="black">
+      <Text fontSize="2rem" fontWeight="600" className="playfair" mb="1rem">
         Categories
       </Text>
-      <Tabs
-        colorScheme="blackAlpha"
-        orientation={isSmallScreen ? "horizontal" : "vertical"}
-        variant="line"
-      >
-        <TabList
-          w={isSmallScreen ? "100%" : "30%"}
-          overflowX="auto"
-          overflowY="hidden"
-          sx={{
-            "::-webkit-scrollbar": {
-              height: "7px",
-            },
-            "::-webkit-scrollbar-thumb": {
-              background: "gray",
-              borderRadius: "6px",
-            },
-            "::-webkit-scrollbar-thumb:hover": {
-              background: "darkgray",
-            },
-          }}
-        >
-          {categories?.map((category: CategoryType) => (
-            <Tab key={category._id} maxW="100%">
-              <Text maxW="100%" textAlign="center">
-                {category.title}
-              </Text>
-            </Tab>
-          ))}
-        </TabList>
-
-        <TabPanels>
-          {categories?.map((category: CategoryType) => (
-            <TabPanel key={category._id}>
-              <CategoryContent
-                categoryId={category._id}
-                categoryName={category.title}
-                categoryDescription={category.description}
-              />
-            </TabPanel>
-          ))}
-        </TabPanels>
-      </Tabs>
+      <Flex w="100%" gap="2rem" flexWrap="wrap">
+        {categories?.map((category: CategoryType) => (
+          <Tag
+            key={category._id}
+            as="a"
+            href={`/categories/${category._id}`}
+            bgColor="black"
+            color="white"
+            padding="1.5rem"
+            borderRadius="full"
+            _hover={{
+              bgColor: "lightgray",
+              color: "black",
+            }}
+            transition="all 0.3s"
+          >
+            <Text maxW="100%" fontSize="1.5rem">
+              {category.title}
+            </Text>
+          </Tag>
+        ))}
+      </Flex>
     </Box>
   );
 };

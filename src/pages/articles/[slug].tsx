@@ -71,7 +71,7 @@ const SingleArticle = () => {
   };
 
   return (
-    <Box>
+    <Box mt="6rem">
       <Navbar />
       <Box as="article" m={{ base: "1.5rem", md: "3rem" }}>
         <Text

@@ -1,137 +1,51 @@
-import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 import { Article } from "@/types";
-import { useContext, useState } from "react";
-import { SearchContext } from "@/context/SearchContext";
-import { useRouter } from "next/router";
-import TrendingArticleCard from "../trending-article-card/TrendingArticleCard";
+import MainSpotlightCard from "../main-spotlight-card";
+import SpotlightCard from "../spotlight-card";
 
 const Banner = ({ topArticles }: { topArticles: Article[] }) => {
-  const [term, setTerm] = useState("");
-  const router = useRouter();
-  const { setSearchQuery } = useContext(SearchContext);
-
   return (
     <Flex
-      as="header"
-      h="calc(100% - 10rem)"
-      px={{
-        base: "1rem",
-        md: "3rem",
-        lg: "4rem",
-      }}
-      mt="2rem"
+      as="section"
       alignItems="start"
-      flexDir={{ base: "column", lg: "row" }}
+      flexDir="column"
       gap="2rem"
+      position="relative"
+      my="6rem"
     >
-      <Flex
-        h="100%"
-        flexDir="column"
-        w={{
-          base: "100%",
-          lg: "45%",
-        }}
-      >
+      <Flex h="100%" flexDir="column" my="4.5rem">
         <Heading
           as="h1"
           fontSize={{
             base: "4xl",
             sm: "5xl",
-            lg: "7xl",
+            lg: "11rem",
           }}
-          fontWeight="bold"
+          fontWeight="400"
+          fontStyle="italic"
           color="black"
-          className="toledo"
-          textAlign={{ base: "center", lg: "left" }}
+          className="playfair"
+          lineHeight="0.8"
         >
-          Welcome to the Place Words Come Alive.
+          Chatter.
         </Heading>
-
-        <form>
-          <Flex
-            gap="1rem"
-            pr={{
-              base: "0",
-              md: "1rem",
-            }}
-            mt={{
-              base: "1rem",
-              sm: "3rem",
-            }}
-          >
-            <Input
-              placeholder="Search for articles"
-              border="none"
-              borderBottom="1px solid black"
-              borderRadius="none"
-              focusBorderColor="none"
-              _hover={{
-                borderBottom: "1px solid black",
-              }}
-              value={term}
-              onChange={(e) => setTerm(e.target.value)}
-            />
-            <Button
-              px="1rem"
-              bgColor="black"
-              color="white"
-              borderRadius=".2rem"
-              className="toledo"
-              onClick={(e) => {
-                e.preventDefault();
-                setSearchQuery(term);
-                router.push("/search/[term]", `/search/${term}`);
-              }}
-            >
-              Search
-            </Button>
-          </Flex>
-        </form>
-      </Flex>
-      <Flex
-        flexDir="column"
-        w={{
-          base: "100%",
-          lg: "55%",
-        }}
-        h="100%"
-      >
-        <Text
-          fontWeight="extrabold"
-          fontSize={{
-            base: "2xl",
-            sm: "3xl",
-            lg: "4xl",
-          }}
-          my="1rem"
-          w="80%"
-          mx="auto"
-          className="toledo"
-          textAlign="center"
-        >
-          Trending on Chatter
+        <Text fontSize="1.5rem" fontWeight="300">
+          Where words come alive.
         </Text>
-
-        <Flex
-          flexDir="column"
-          overflowY="auto"
-          maxH={{ base: "unset", lg: "60vh" }}
-          sx={{
-            "::-webkit-scrollbar": {
-              width: "7px",
-            },
-            "::-webkit-scrollbar-thumb": {
-              background: "gray",
-              borderRadius: "6px",
-            },
-            "::-webkit-scrollbar-thumb:hover": {
-              background: "darkgray",
-            },
-          }}
-        >
-          {topArticles?.map((article: Article) => (
-            <TrendingArticleCard key={article._id} article={article} />
-          ))}
+      </Flex>
+      <Flex w="100%" flexDir="column" h="100%">
+        <Text fontSize="2rem" fontWeight="600" className="playfair" mb="1rem">
+          Top Chatter
+        </Text>
+        <Flex w="100%" gap="2rem" h="100%" alignItems="stretch">
+          <Flex w="60%">
+            <MainSpotlightCard article={topArticles[0]} />
+          </Flex>
+          <Flex w="40%" flexDir="column" gap="1rem">
+            {topArticles.slice(1, 4).map((article) => (
+              <SpotlightCard key={article._id} article={article} />
+            ))}
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

@@ -129,6 +129,12 @@ interface Follower {
   displayName: string;
 }
 
+interface CategoryType {
+  description: string;
+  title: string;
+  _id: string;
+}
+
 export type {
   Children,
   User,
@@ -142,4 +148,5 @@ export type {
   Heading,
   Follower,
   SearchContextType,
+  CategoryType,
 };

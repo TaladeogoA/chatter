@@ -24,7 +24,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   const { slug, title, author, image, categories, _createdAt, body } = article;
   const imageUrl = image ? buildImageUrl(image).url() : "";
   const { day, month, year } = parseDate(_createdAt);
-  const readingTime = calculateReadingTime(body);
+  // const readingTime = calculateReadingTime(body);
 
   return (
     <Link
@@ -69,7 +69,7 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
             fontWeight="semibold"
             mt=".5rem"
             textTransform="capitalize"
-            // className="toledo"
+            // className="playfair"
           >
             {title}
           </Text>
@@ -110,9 +110,9 @@ const TrendingArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
 
           <>&#8226;</>
 
-          <Text fontSize="sm" whiteSpace="nowrap">
+          {/* <Text fontSize="sm" whiteSpace="nowrap">
             {readingTime.text}
-          </Text>
+          </Text> */}
           <>&#8226;</>
 
           <Text fontSize="sm" whiteSpace="nowrap">

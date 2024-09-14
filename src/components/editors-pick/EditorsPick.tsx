@@ -42,7 +42,7 @@ const EditorsPick = ({ data }: { data: Article[] }) => {
           fontWeight="semibold"
           mt="2rem"
           mb="1rem"
-          className="toledo"
+          className="playfair"
           color="black"
         >
           Editor&apos;s Pick

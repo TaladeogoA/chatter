@@ -11,7 +11,7 @@ export const useGetHomePageData = () => {
     "trending-posts",
     async () => {
       const res = await client.fetch(
-        `*[_type == "post"] | order(relevanceScore desc)[0...3]{title, author->{displayName}, body, _id, _createdAt, slug, image, categories[]->{title}}`
+        `*[_type == "post"] | order(relevanceScore desc)[0...4]{title, author->{displayName}, body, _id, _createdAt, slug, image, categories[]->{title}}`
       );
       return res;
     },
@@ -59,7 +59,30 @@ export const useGetHomePageData = () => {
     }
   );
 
-  if (editorsPicksError || categoriesError || trendingPostsError) {
+  // get most recent posts
+  const {
+    data: mostRecentPosts,
+    error: mostRecentPostsError,
+    isLoading: mostRecentPostsLoading,
+  } = useQuery(
+    "most-recent-posts",
+    async () => {
+      const res = await client.fetch(
+        `*[_type == "post"] | order(_createdAt desc)[0...9]{title, author->{displayName}, _id, _createdAt, slug, image, categories[]->{title}}`
+      );
+      return res;
+    },
+    {
+      staleTime: 60000,
+    }
+  );
+
+  if (
+    editorsPicksError ||
+    categoriesError ||
+    trendingPostsError ||
+    mostRecentPostsError
+  ) {
     throw new Error("Failed to fetch homepage data. Please try again later.");
   }
 
@@ -70,6 +93,8 @@ export const useGetHomePageData = () => {
     trendingPostsLoading,
     categoriesLoading,
     editorsPicksLoading,
+    mostRecentPosts,
+    mostRecentPostsLoading,
   };
 };
 
